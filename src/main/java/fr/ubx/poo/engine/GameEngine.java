@@ -34,7 +34,7 @@ public final class GameEngine {
     private final String windowTitle;
     private final Game game;
     private final Player player;
-    private final List<Sprite> sprites = new ArrayList<>();
+    private List<Sprite> sprites = new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
@@ -102,6 +102,7 @@ public final class GameEngine {
             gameLoop.stop();
             Platform.exit();
             System.exit(0);
+            game.end();
         }
         if (input.isMoveDown()) {
             player.requestMove(Direction.S);
@@ -139,9 +140,13 @@ public final class GameEngine {
 
 
     private void update(long now) {
+
         player.update(now);
         for (Monster m : monsters) {
             m.update(now);
+            if (m.getPosition().equals(game.getPlayer().getPosition()))
+                if(player.isPlayerVulnerable())
+                    player.lose1();
         }
         if (player.isAlive() == false) {
             gameLoop.stop();

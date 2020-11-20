@@ -23,7 +23,7 @@ public class Game {
     private final Player player;
     private final String worldPath;
     private ActionTimer timer = new ActionTimer();
-    public int initPlayerLives;
+    public int initPlayerLives = 2;
     ArrayList<Monster> monsters;
     public int stageNumber;
 
@@ -53,7 +53,7 @@ public class Game {
     }
     public void setMonsters(ArrayList<Monster> monsters) {
         this.monsters = monsters;
-        timer.startTimer(2, monsters);
+        timer.startTimer(1, monsters);
     }
     public void end() {
         timer.stopTimer();

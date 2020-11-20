@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.function.BiConsumer;
 
 public class World {
-    private final Map<Position, Decor> grid;
+    private Map<Position, Decor> grid;
     private final WorldEntity[][] raw;
     public final Dimension dimension;
 

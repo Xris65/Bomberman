@@ -4,24 +4,27 @@
 
 package fr.ubx.poo.model.go.character;
 
-import fr.ubx.poo.game.Direction;
-import fr.ubx.poo.game.Position;
-import fr.ubx.poo.game.World;
+import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Bonus;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Princess;
 import fr.ubx.poo.model.go.GameObject;
-import fr.ubx.poo.game.Game;
+import fr.ubx.poo.view.sprite.Sprite;
+
+import javax.lang.model.type.NullType;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Player extends GameObject implements Movable {
 
-    private boolean alive = true;
+    private final boolean alive = true;
     Direction direction;
     private boolean moveRequested = false;
-    private int lives = 1;
+    private int lives;
     private boolean winner;
+    private boolean isUnvulnerable = false;
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -31,6 +34,20 @@ public class Player extends GameObject implements Movable {
 
     public int getLives() {
         return lives;
+    }
+    public boolean isPlayerVulnerable(){
+        return !isUnvulnerable;
+    }
+    public void lose1(){
+        lives--;
+        isUnvulnerable = true;
+        TimerTask task = new TimerTask() {
+            public void run() {
+                isUnvulnerable = false;
+            }
+        };
+        Timer timer = new Timer("Timer");
+        timer.schedule(task, 1000);
     }
 
     public Direction getDirection() {
@@ -44,14 +61,17 @@ public class Player extends GameObject implements Movable {
         moveRequested = true;
     }
 
-    private boolean handleNewPosition(Entity d) {
+    private boolean handleNewPosition(Entity d,Position p) {
         if(d instanceof Princess) {
             this.winner = true;
             super.game.changeStage(2);
             return true;
         }
         if(d instanceof Monster) {
-            this.lives -= 1;
+            return true;
+        }
+        if(d instanceof Bonus) {
+            super.game.getWorld().clear(p);
             return true;
         }
 
@@ -62,10 +82,9 @@ public class Player extends GameObject implements Movable {
     public boolean canMove(Direction direction) {
         World w = super.game.getWorld();
         Position p = direction.nextPosition(super.getPosition());
-
         boolean inMap = ((p.x >= 0) && (p.x < w.dimension.width) && (p.y >= 0) && (p.y < w.dimension.height));
         Entity targetPosition = w.get(p);
-        boolean isWalkable = targetPosition == null || targetPosition instanceof Bonus || handleNewPosition(targetPosition);
+        boolean isWalkable = targetPosition == null || handleNewPosition(targetPosition,p);
 
         return inMap && isWalkable;
     }
@@ -89,7 +108,7 @@ public class Player extends GameObject implements Movable {
     }
 
     public boolean isAlive() {
-        return alive;
+        return lives > 0;
     }
 
 }
