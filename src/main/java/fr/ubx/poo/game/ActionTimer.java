@@ -7,19 +7,22 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ActionTimer {
-    Timer timer = new Timer();
-    public void startTimer(int seconds, ArrayList<Monster> monsters){
+    public static Timer timer = new Timer();
+    public static void startTimer(int seconds, ArrayList<Monster> monsters){
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 for (Monster m : monsters) {
+                    System.out.println("Request monster move");
                     m.requestMove();
                 }
             }
         }, 0, seconds*1000);
+        System.out.println("Timer started");
     }
 
-    public void stopTimer(){
+    public static void stopTimer(){
+        System.out.println("Timer stopped");
         timer.cancel();
     }
 

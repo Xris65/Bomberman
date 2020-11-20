@@ -22,7 +22,6 @@ public class Game {
     private final World world;
     private final Player player;
     private final String worldPath;
-    private ActionTimer timer = new ActionTimer();
     public int initPlayerLives = 2;
     ArrayList<Monster> monsters;
     public int stageNumber;
@@ -45,18 +44,18 @@ public class Game {
     public void changeStage(int stageNumber) {
         //world = world.loadWorld(stageNumber);
         monsters = world.findMonsters(this);
-        timer.stopTimer();
+        ActionTimer.stopTimer();
         //timer.startTimer(1, monsters);
     }
     public void startTimer(int seconds){
-        timer.startTimer(2, monsters);
+        ActionTimer.startTimer(2, monsters);
     }
     public void setMonsters(ArrayList<Monster> monsters) {
         this.monsters = monsters;
-        timer.startTimer(1, monsters);
+        ActionTimer.startTimer(1, monsters);
     }
     public void end() {
-        timer.stopTimer();
+        ActionTimer.stopTimer();
     }
 
     public int getInitPlayerLives() {
