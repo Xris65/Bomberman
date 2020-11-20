@@ -22,7 +22,7 @@ public class Game {
     private final World world;
     private final Player player;
     private final String worldPath;
-    public int initPlayerLives = 2;
+    public int initPlayerLives = 1;
     ArrayList<Monster> monsters;
     public int stageNumber;
 

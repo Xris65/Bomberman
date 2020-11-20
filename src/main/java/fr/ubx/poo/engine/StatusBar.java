@@ -7,6 +7,7 @@ package fr.ubx.poo.engine;
 import static fr.ubx.poo.view.image.ImageResource.*;
 
 import fr.ubx.poo.game.Game;
+import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
@@ -80,11 +81,12 @@ public class StatusBar {
     }
 
     public void update(Game game) {
+        Player player = game.getPlayer();
         updateLevel(1);
-        liveValue.setText(String.valueOf(game.getPlayer().getLives()));
-        rangeValue.setText("?");
-        bombsValue.setText("?");
-        keyValue.setText("1");
+        liveValue.setText(String.valueOf(player.getLives()));
+        rangeValue.setText(String.valueOf(player.getRange()));
+        bombsValue.setText(String.valueOf(player.getNumberOfBombs()));
+        keyValue.setText(String.valueOf(player.getNumberOfKeys()));
     }
 
 }

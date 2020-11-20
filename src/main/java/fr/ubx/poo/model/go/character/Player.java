@@ -11,14 +11,11 @@ import fr.ubx.poo.model.decor.Bonus;
 import fr.ubx.poo.model.decor.Princess;
 import fr.ubx.poo.model.go.GameObject;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Player extends GameObject implements Movable {
-
     private final boolean alive = true;
     Direction direction;
     private boolean moveRequested = false;
@@ -26,6 +23,22 @@ public class Player extends GameObject implements Movable {
     private boolean winner;
     private boolean isInvulnerable = false;
     private boolean onBonus = false;
+    private int numberOfBombs = 1;
+    private int range = 1;
+    private int numberOfKeys = 0;
+
+    public int getNumberOfKeys() {
+        return numberOfKeys;
+    }
+
+    public int getNumberOfBombs() {
+        return numberOfBombs;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
 
     public boolean isOnBonus() {
         return onBonus;
@@ -53,8 +66,7 @@ public class Player extends GameObject implements Movable {
         lives--;
         isInvulnerable = true;
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        Runnable task1 = () -> isInvulnerable = false;
-        executor.schedule(task1, 1, TimeUnit.SECONDS);
+        executor.schedule(() -> isInvulnerable = false, 1, TimeUnit.SECONDS);
         executor.shutdown();
     }
 
@@ -79,6 +91,28 @@ public class Player extends GameObject implements Movable {
             return true;
         }
         if (d instanceof Bonus) {
+            Bonus myBonus = (Bonus) d;
+            if(myBonus.getType() == WorldEntity.BombRangeDec){
+                if(range > 1)
+                    range--;
+            }
+            if(myBonus.getType() == WorldEntity.BombRangeInc){
+                range++;
+            }
+            if(myBonus.getType() == WorldEntity.BombNumberDec){
+                if(numberOfBombs > 1)
+                    numberOfBombs--;
+            }
+            if(myBonus.getType() == WorldEntity.BombNumberInc){
+                numberOfBombs++;
+            }
+            if(myBonus.getType() == WorldEntity.Heart){
+                lives++;
+            }
+            if(myBonus.getType() == WorldEntity.Key){
+                numberOfKeys++;
+            }
+
             super.game.getWorld().clear(p);
             onBonus = true;
             return true;
@@ -103,6 +137,7 @@ public class Player extends GameObject implements Movable {
         setPosition(nextPos);
     }
 
+
     public void update(long now) {
         if (moveRequested) {
             if (canMove(direction)) {
@@ -110,6 +145,11 @@ public class Player extends GameObject implements Movable {
             }
         }
         moveRequested = false;
+    }
+
+    public void throwBomb() {
+        // gère le timer de bomb et tout ça
+
     }
 
     public boolean isWinner() {

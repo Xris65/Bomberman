@@ -4,12 +4,11 @@
 package fr.ubx.poo.engine;
 
 import fr.ubx.poo.game.*;
+import fr.ubx.poo.model.decor.Bomb;
+import fr.ubx.poo.model.go.BombObject;
 import fr.ubx.poo.model.go.character.Monster;
-import fr.ubx.poo.view.sprite.Sprite;
-import fr.ubx.poo.view.sprite.SpriteDecor;
-import fr.ubx.poo.view.sprite.SpriteFactory;
+import fr.ubx.poo.view.sprite.*;
 import fr.ubx.poo.model.go.character.Player;
-import fr.ubx.poo.view.sprite.SpriteMonster;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -24,6 +23,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.lang.reflect.Array;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -41,8 +41,10 @@ public final class GameEngine {
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
-    private ArrayList<Sprite> spriteMonsters = new ArrayList<Sprite>();
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
+    private ArrayList<Sprite> spriteMonsters = new ArrayList<Sprite>();
+    private ArrayList<Sprite> spriteBombs = new ArrayList<Sprite>();
+
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
@@ -117,6 +119,11 @@ public final class GameEngine {
         if (input.isMoveUp()) {
             player.requestMove(Direction.N);
         }
+        if (input.isBomb()) {
+            BombObject bomb = new BombObject(game,player.getPosition());
+            spriteBombs.add(new SpriteBomb(layer,bomb));
+            bomb.startTimer();
+        }
         input.clear();
     }
 
@@ -162,14 +169,16 @@ public final class GameEngine {
     private void render() {
         if(player.isOnBonus()) {
             //sprites.get(player.getPosition().x + (player.getPosition().y * game.getWorld().dimension.width)).remove();
-            for(Sprite i : sprites){
-                if(i instanceof SpriteDecor){
-                    SpriteDecor newI = (SpriteDecor) i;
-                    if(newI.updateImage(game)){
-                        System.out.println("" + newI.getImageView());
+            for(Sprite sprite : sprites){
+                if(sprite instanceof SpriteDecor){
+                    SpriteDecor decor = (SpriteDecor) sprite;
+                    if(decor.updateImage(game)){
                         break;
                     }
-
+                }
+                if( sprite instanceof SpriteBomb){
+                    SpriteBomb bomb = (SpriteBomb) sprite;
+                    bomb.updateImage();
                 }
             }
             sprites.removeIf(self -> self.getImageView() == null);
@@ -178,9 +187,18 @@ public final class GameEngine {
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
-        for (Sprite m : spriteMonsters) {
-            m.render();
+        for (Sprite monster : spriteMonsters) {
+            monster.render();
         }
+
+        for (Sprite bombs : spriteBombs) {
+            bombs.render();
+        }
+        for (Sprite bomb : spriteBombs) {
+            bomb.render();
+        }
+        spriteBombs.removeIf(self -> self.getImageView() == null);
+
     }
 
     public void start() {

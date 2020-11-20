@@ -14,13 +14,12 @@ public abstract class Sprite {
 
     public static final int size = 40;
     private final Pane layer;
+    private ImageView imageView;
+    private Image image;
 
     public ImageView getImageView() {
         return imageView;
     }
-
-    private ImageView imageView;
-    private Image image;
 
     public Sprite(Pane layer, Image image) {
         this.layer = layer;
@@ -51,5 +50,13 @@ public abstract class Sprite {
     public final void remove() {
         layer.getChildren().remove(imageView);
         imageView = null;
+    }
+
+    @Override
+    public String toString() {
+        return "Sprite{" +
+                "imageView=" + imageView +
+                ", image=" + image +
+                '}';
     }
 }
