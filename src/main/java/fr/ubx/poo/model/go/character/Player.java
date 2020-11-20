@@ -38,7 +38,7 @@ public class Player extends GameObject implements Movable {
     public boolean isPlayerVulnerable(){
         return !isUnvulnerable;
     }
-    public void lose1(){
+    public void loseLife(){
         lives--;
         isUnvulnerable = true;
         TimerTask task = new TimerTask() {
@@ -72,6 +72,7 @@ public class Player extends GameObject implements Movable {
         }
         if(d instanceof Bonus) {
             super.game.getWorld().clear(p);
+
             return true;
         }
 

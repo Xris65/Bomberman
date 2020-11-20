@@ -146,13 +146,15 @@ public final class GameEngine {
             m.update(now);
             if (m.getPosition().equals(game.getPlayer().getPosition()))
                 if(player.isPlayerVulnerable())
-                    player.lose1();
+                    player.loseLife();
         }
-        if (player.isAlive() == false) {
+        if (!player.isAlive()) {
+            game.end();
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
         }
         if (player.isWinner()) {
+            game.end();
             gameLoop.stop();
             showMessage("Gagné", Color.BLUE);
         }
