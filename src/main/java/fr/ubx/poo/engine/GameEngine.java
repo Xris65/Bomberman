@@ -1,16 +1,17 @@
 /*
  * Copyright (c) 2020. Laurent Réveillère
  */
-
 package fr.ubx.poo.engine;
 
-import fr.ubx.poo.game.Direction;
+import fr.ubx.poo.game.*;
+import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
-import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.go.character.Player;
+import fr.ubx.poo.view.sprite.SpriteMonster;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -21,8 +22,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 
 public final class GameEngine {
@@ -37,6 +40,8 @@ public final class GameEngine {
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
+    private ArrayList<Sprite> spriteMonsters = new ArrayList<Sprite>();
+    private ArrayList<Monster> monsters = new ArrayList<Monster>();
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
@@ -62,7 +67,6 @@ public final class GameEngine {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-
         input = new Input(scene);
         root.getChildren().add(layer);
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
@@ -70,6 +74,11 @@ public final class GameEngine {
         game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
 
+        monsters = game.getWorld().findMonsters(game);
+        game.setMonsters(monsters);
+        for (Monster m : monsters) {
+            spriteMonsters.add(new SpriteMonster(layer, m));
+        }
     }
 
     protected final void buildAndSetGameLoop() {
@@ -131,7 +140,9 @@ public final class GameEngine {
 
     private void update(long now) {
         player.update(now);
-
+        for (Monster m : monsters) {
+            m.update(now);
+        }
         if (player.isAlive() == false) {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
@@ -146,6 +157,9 @@ public final class GameEngine {
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
+        for (Sprite m : spriteMonsters) {
+            m.render();
+        }
     }
 
     public void start() {

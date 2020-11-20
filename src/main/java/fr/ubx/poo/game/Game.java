@@ -9,19 +9,27 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Properties;
 
+import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
+
+import javax.swing.*;
 
 public class Game {
 
     private final World world;
     private final Player player;
     private final String worldPath;
+    private ActionTimer timer = new ActionTimer();
     public int initPlayerLives;
+    ArrayList<Monster> monsters;
+    public int stageNumber;
 
     public Game(String worldPath) {
         world = new WorldStatic();
+        //world = new WorldFromFile();
         this.worldPath = worldPath;
         loadConfig(worldPath);
         Position positionPlayer = null;
@@ -32,6 +40,23 @@ public class Game {
             System.err.println("Position not found : " + e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    public void changeStage(int stageNumber) {
+        //world = world.loadWorld(stageNumber);
+        monsters = world.findMonsters(this);
+        timer.stopTimer();
+        //timer.startTimer(1, monsters);
+    }
+    public void startTimer(int seconds){
+        timer.startTimer(2, monsters);
+    }
+    public void setMonsters(ArrayList<Monster> monsters) {
+        this.monsters = monsters;
+        timer.startTimer(2, monsters);
+    }
+    public void end() {
+        timer.stopTimer();
     }
 
     public int getInitPlayerLives() {

@@ -4,10 +4,12 @@
 
 package fr.ubx.poo.game;
 
+import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.go.character.Monster;
 
-import java.util.Collection;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 public class World {
@@ -21,6 +23,18 @@ public class World {
         grid = WorldBuilder.build(raw, dimension);
     }
 
+    public ArrayList<Monster> findMonsters(Game game) {
+        ArrayList<Monster> monsters = new ArrayList<Monster>();
+        for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (raw[y][x] == WorldEntity.Monster) {
+                    monsters.add(new Monster(game, new Position(x,y)));
+                }
+            }
+        }
+        return monsters;
+    }
+
     public Position findPlayer() throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
@@ -32,7 +46,7 @@ public class World {
         throw new PositionNotFoundException("Player");
     }
 
-    public Decor get(Position position) {
+    public Entity  get(Position position) {
         return grid.get(position);
     }
 

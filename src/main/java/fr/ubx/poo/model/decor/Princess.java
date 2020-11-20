@@ -1,4 +1,4 @@
 package fr.ubx.poo.model.decor;
 
-public class Key extends Decor{
+public class Princess extends Decor{
 }
