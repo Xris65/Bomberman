@@ -5,11 +5,14 @@
 package fr.ubx.poo;
 
 import fr.ubx.poo.engine.GameEngine;
+import fr.ubx.poo.game.ActionTimer;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.view.image.ImageFactory;
 import fr.ubx.poo.view.sprite.Sprite;
 import javafx.application.Application;
 import javafx.stage.Stage;
+
+import javax.swing.*;
 
 public class Main extends Application {
 
@@ -24,7 +27,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-
+        ActionTimer.stopTimer();
     }
 
 
