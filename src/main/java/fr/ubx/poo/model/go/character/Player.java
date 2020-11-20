@@ -8,14 +8,14 @@ import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Bonus;
-import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Princess;
 import fr.ubx.poo.model.go.GameObject;
-import fr.ubx.poo.view.sprite.Sprite;
 
-import javax.lang.model.type.NullType;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Player extends GameObject implements Movable {
 
@@ -24,7 +24,16 @@ public class Player extends GameObject implements Movable {
     private boolean moveRequested = false;
     private int lives;
     private boolean winner;
-    private boolean isUnvulnerable = false;
+    private boolean isInvulnerable = false;
+    private boolean onBonus = false;
+
+    public boolean isOnBonus() {
+        return onBonus;
+    }
+
+    public void setOnBonus(boolean onBonus) {
+        this.onBonus = onBonus;
+    }
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -35,19 +44,18 @@ public class Player extends GameObject implements Movable {
     public int getLives() {
         return lives;
     }
-    public boolean isPlayerVulnerable(){
-        return !isUnvulnerable;
+
+    public boolean isPlayerVulnerable() {
+        return !isInvulnerable;
     }
-    public void loseLife(){
+
+    public void loseLife() {
         lives--;
-        isUnvulnerable = true;
-        TimerTask task = new TimerTask() {
-            public void run() {
-                isUnvulnerable = false;
-            }
-        };
-        Timer timer = new Timer("Timer");
-        timer.schedule(task, 1000);
+        isInvulnerable = true;
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        Runnable task1 = () -> isInvulnerable = false;
+        executor.schedule(task1, 1, TimeUnit.SECONDS);
+        executor.shutdown();
     }
 
     public Direction getDirection() {
@@ -61,18 +69,18 @@ public class Player extends GameObject implements Movable {
         moveRequested = true;
     }
 
-    private boolean handleNewPosition(Entity d,Position p) {
-        if(d instanceof Princess) {
+    private boolean handleNewPosition(Entity d, Position p) {
+        if (d instanceof Princess) {
             this.winner = true;
             super.game.changeStage(2);
             return true;
         }
-        if(d instanceof Monster) {
+        if (d instanceof Monster) {
             return true;
         }
-        if(d instanceof Bonus) {
+        if (d instanceof Bonus) {
             super.game.getWorld().clear(p);
-
+            onBonus = true;
             return true;
         }
 
@@ -85,7 +93,7 @@ public class Player extends GameObject implements Movable {
         Position p = direction.nextPosition(super.getPosition());
         boolean inMap = ((p.x >= 0) && (p.x < w.dimension.width) && (p.y >= 0) && (p.y < w.dimension.height));
         Entity targetPosition = w.get(p);
-        boolean isWalkable = targetPosition == null || handleNewPosition(targetPosition,p);
+        boolean isWalkable = targetPosition == null || handleNewPosition(targetPosition, p);
 
         return inMap && isWalkable;
     }

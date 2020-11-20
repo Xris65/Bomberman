@@ -4,6 +4,7 @@
 
 package fr.ubx.poo.view.sprite;
 
+import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,6 +14,11 @@ public abstract class Sprite {
 
     public static final int size = 40;
     private final Pane layer;
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
     private ImageView imageView;
     private Image image;
 

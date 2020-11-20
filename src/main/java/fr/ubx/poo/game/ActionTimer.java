@@ -13,16 +13,13 @@ public class ActionTimer {
             @Override
             public void run() {
                 for (Monster m : monsters) {
-                    System.out.println("Request monster move");
                     m.requestMove();
                 }
             }
         }, 0, seconds*1000);
-        System.out.println("Timer started");
     }
 
     public static void stopTimer(){
-        System.out.println("Timer stopped");
         timer.cancel();
     }
 

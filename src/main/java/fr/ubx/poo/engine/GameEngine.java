@@ -6,6 +6,7 @@ package fr.ubx.poo.engine;
 import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.view.sprite.Sprite;
+import fr.ubx.poo.view.sprite.SpriteDecor;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.sprite.SpriteMonster;
@@ -149,18 +150,31 @@ public final class GameEngine {
                     player.loseLife();
         }
         if (!player.isAlive()) {
-            game.end();
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
         }
         if (player.isWinner()) {
-            game.end();
             gameLoop.stop();
             showMessage("Gagné", Color.BLUE);
         }
     }
 
     private void render() {
+        if(player.isOnBonus()) {
+            //sprites.get(player.getPosition().x + (player.getPosition().y * game.getWorld().dimension.width)).remove();
+            for(Sprite i : sprites){
+                if(i instanceof SpriteDecor){
+                    SpriteDecor newI = (SpriteDecor) i;
+                    if(newI.updateImage(game)){
+                        System.out.println("" + newI.getImageView());
+                        break;
+                    }
+
+                }
+            }
+            sprites.removeIf(self -> self.getImageView() == null);
+            player.setOnBonus(false);
+        }
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();

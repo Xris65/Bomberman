@@ -10,6 +10,7 @@ import java.io.File;
 
 public class Bonus extends Decor {
     private WorldEntity type;
+    private int index;
 
     public Bonus(WorldEntity type){
         this.type = type;

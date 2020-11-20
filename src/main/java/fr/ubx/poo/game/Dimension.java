@@ -8,4 +8,12 @@ public class Dimension {
         this.height = height;
         this.width = width;
     }
+
+    @Override
+    public String toString() {
+        return "Dimension{" +
+                "height=" + height +
+                ", width=" + width +
+                '}';
+    }
 }
