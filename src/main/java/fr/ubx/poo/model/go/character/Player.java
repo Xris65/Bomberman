@@ -34,7 +34,14 @@ public class Player extends GameObject implements Movable {
     public int getNumberOfBombs() {
         return numberOfBombs;
     }
+    public void addBomb(){
+        numberOfBombs++;
+    }
 
+    public void removeBomb(){
+        if(numberOfBombs > 0)
+            numberOfBombs--;
+    }
     public int getRange() {
         return range;
     }

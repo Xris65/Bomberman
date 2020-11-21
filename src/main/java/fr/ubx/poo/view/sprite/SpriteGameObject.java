@@ -8,6 +8,11 @@ import javafx.scene.layout.Pane;
 public abstract class SpriteGameObject extends Sprite {
     protected final GameObject go;
 
+    public void setToRemove(boolean toRemove) {
+        super.setToRemove(toRemove);
+    }
+
+
     public SpriteGameObject(Pane layer, Image image, GameObject go) {
         super(layer, image);
         this.go = go;
@@ -17,4 +22,5 @@ public abstract class SpriteGameObject extends Sprite {
     public Position getPosition() {
         return go.getPosition();
     }
+
 }

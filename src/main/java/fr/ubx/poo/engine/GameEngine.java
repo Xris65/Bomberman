@@ -6,6 +6,7 @@ package fr.ubx.poo.engine;
 import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.decor.Bomb;
 import fr.ubx.poo.model.go.BombObject;
+import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.view.sprite.*;
 import fr.ubx.poo.model.go.character.Player;
@@ -120,9 +121,12 @@ public final class GameEngine {
             player.requestMove(Direction.N);
         }
         if (input.isBomb()) {
-            BombObject bomb = new BombObject(game,player.getPosition());
-            spriteBombs.add(new SpriteBomb(layer,bomb));
-            bomb.startTimer();
+            if(player.getNumberOfBombs() > 0 ) {
+                BombObject bomb = new BombObject(game, player.getPosition());
+                spriteBombs.add(new SpriteBomb(layer, bomb));
+                bomb.startTimer(player);
+                player.removeBomb();
+            }
         }
         input.clear();
     }
@@ -176,10 +180,6 @@ public final class GameEngine {
                         break;
                     }
                 }
-                if( sprite instanceof SpriteBomb){
-                    SpriteBomb bomb = (SpriteBomb) sprite;
-                    bomb.updateImage();
-                }
             }
             sprites.removeIf(self -> self.getImageView() == null);
             player.setOnBonus(false);
@@ -191,14 +191,12 @@ public final class GameEngine {
             monster.render();
         }
 
-        for (Sprite bombs : spriteBombs) {
-            bombs.render();
-        }
         for (Sprite bomb : spriteBombs) {
             bomb.render();
+            if (bomb.isToRemove())
+                    player.addBomb();
         }
-        spriteBombs.removeIf(self -> self.getImageView() == null);
-
+        spriteBombs.removeIf(self -> self.isToRemove());
     }
 
     public void start() {

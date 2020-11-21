@@ -16,6 +16,16 @@ public abstract class Sprite {
     private final Pane layer;
     private ImageView imageView;
     private Image image;
+    private boolean toRemove = false;
+
+    public boolean isToRemove() {
+        return toRemove;
+    }
+
+    public void setToRemove(boolean toRemove) {
+        this.toRemove = toRemove;
+    }
+
 
     public ImageView getImageView() {
         return imageView;

@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 public class SpriteBomb extends SpriteGameObject{
     private final ColorAdjust effect = new ColorAdjust();
 
+
     public SpriteBomb(Pane layer, BombObject bomb) {
         super(layer, null, bomb);
         updateImage();
@@ -21,8 +22,12 @@ public class SpriteBomb extends SpriteGameObject{
         if(bomb.getBombPhase() >= 6){
             System.out.println("In update Image, call to remove");
             remove();
+            setImage(null);
+            super.setToRemove(true);
         } else {
             setImage(ImageFactory.getInstance().getBomb(bomb.getBombPhase()));
         }
     }
+
+
 }
