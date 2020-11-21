@@ -9,6 +9,7 @@ import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Bonus;
 import fr.ubx.poo.model.decor.Princess;
+import fr.ubx.poo.model.go.BombObject;
 import fr.ubx.poo.model.go.GameObject;
 
 import java.util.concurrent.Executors;
@@ -94,8 +95,8 @@ public class Player extends GameObject implements Movable {
             super.game.changeStage(2);
             return true;
         }
-        if (d instanceof Monster) {
-            return true;
+        if ( d instanceof BombObject){
+            return false;
         }
         if (d instanceof Bonus) {
             Bonus myBonus = (Bonus) d;
@@ -154,10 +155,6 @@ public class Player extends GameObject implements Movable {
         moveRequested = false;
     }
 
-    public void throwBomb() {
-        // gère le timer de bomb et tout ça
-
-    }
 
     public boolean isWinner() {
         return winner;
