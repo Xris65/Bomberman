@@ -140,6 +140,7 @@ public class Player extends GameObject implements Movable {
         return inMap && isWalkable;
     }
 
+
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);

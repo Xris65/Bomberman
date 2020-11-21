@@ -28,6 +28,9 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public final class GameEngine {
@@ -45,6 +48,8 @@ public final class GameEngine {
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
     private ArrayList<Sprite> spriteMonsters = new ArrayList<Sprite>();
     private ArrayList<Sprite> spriteBombs = new ArrayList<Sprite>();
+    private ArrayList<SpriteExplosion> explosions = new ArrayList<SpriteExplosion>();
+    ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
@@ -124,7 +129,8 @@ public final class GameEngine {
             if(player.getNumberOfBombs() > 0 ) {
                 BombObject bomb = new BombObject(game, player.getPosition());
                 spriteBombs.add(new SpriteBomb(layer, bomb));
-                bomb.startTimer(player);
+                //game.createExplosions(explosions,layer,player);
+                bomb.startTimer();
                 player.removeBomb();
             }
         }
@@ -196,6 +202,26 @@ public final class GameEngine {
             if (bomb.isToRemove())
                     player.addBomb();
         }
+
+        /*System.out.println(""+spriteBombs.size());
+        if(explosions.size()>0) {
+            for (Sprite explosion : explosions) {
+                SpriteExplosion explosion1 = (SpriteExplosion) explosion;
+                if(!explosion1.isRendering()) {
+                    executor.schedule(explosion::render, 1, TimeUnit.SECONDS);
+                    executor.schedule(() -> explosion1.setRendered(true), 1500, TimeUnit.MILLISECONDS);
+                    explosion1.setRendering(true);
+                    executor.schedule(() -> executor.shutdown(), 2, TimeUnit.SECONDS);
+                }
+                //explosion.remove();
+                //executor.schedule(() -> explosions.remove(explosion), 1, TimeUnit.SECONDS);
+                if(explosion1.isRendered()) {
+                    explosion.remove();
+                    explosions.remove(explosion);
+                }
+
+            }
+        }*/
         spriteBombs.removeIf(self -> self.isToRemove());
     }
 

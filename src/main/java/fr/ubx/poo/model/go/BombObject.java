@@ -5,7 +5,12 @@ import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
+import fr.ubx.poo.view.image.ImageFactory;
+import fr.ubx.poo.view.sprite.Sprite;
+import fr.ubx.poo.view.sprite.SpriteExplosion;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,7 +22,7 @@ public class BombObject extends GameObject {
 
     // 5 images, 6 eme étape c'est la destruction de la bombe
 
-    public void startTimer(Player player){
+    public void startTimer(){
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
