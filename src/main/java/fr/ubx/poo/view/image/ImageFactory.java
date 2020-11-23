@@ -17,8 +17,12 @@ public final class ImageFactory {
             PLAYER_UP, PLAYER_RIGHT, PLAYER_DOWN, PLAYER_LEFT, MONSTER_UP, MONSTER_RIGHT, MONSTER_DOWN, MONSTER_LEFT,
     };
     private final ImageResource[] bombAnimations = new ImageResource[]{
-            // Direction { N, E, S, W }
+            // Bomb animations
             BOMB_1, BOMB_2, BOMB_3, BOMB_4, EXPLOSION,
+    };
+    private final ImageResource[] doors = new ImageResource[]{
+            // Door images
+            DOOR_CLOSED,DOOR_OPENED,
     };
 
     private final ImageResource[] digits = new ImageResource[]{
@@ -65,6 +69,11 @@ public final class ImageFactory {
     }
     public Image getBomb(int phase){
         return get(bombAnimations[phase - 1]);
+    }
+    public Image getDoor(boolean closed){
+        if(closed)
+            return get(doors[0]);
+        return get(doors[1]);
     }
 
 

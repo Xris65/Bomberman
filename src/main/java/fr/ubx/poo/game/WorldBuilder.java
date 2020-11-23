@@ -42,6 +42,11 @@ public class WorldBuilder {
                 return new Bonus(entity);
             case Princess:
                 return new Princess();
+            case DoorNextClosed:
+                return new Door(true);
+            case DoorNextOpened:
+            case DoorPrevOpened:
+                return new Door(false);
             default:
                 return null;
         }
