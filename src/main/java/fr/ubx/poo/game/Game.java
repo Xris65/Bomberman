@@ -31,8 +31,9 @@ public class Game {
     public int stageNumber;
 
     public Game(String worldPath) {
-        world = new WorldStatic();
-        //world = new WorldFromFile();
+        WorldLoader loader = new WorldLoader();
+        world = loader.readFromFile("level1.txt");
+        //world = new WorldStatic();
         this.worldPath = worldPath;
         loadConfig(worldPath);
         Position positionPlayer = null;
