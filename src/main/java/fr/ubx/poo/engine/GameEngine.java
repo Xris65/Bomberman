@@ -131,8 +131,8 @@ public final class GameEngine {
                 BombObject bomb = new BombObject(game, player.getPosition());
                 bombs.add(bomb);
                 spriteBombs.add(new SpriteBomb(layer, bomb));
-                game.getWorld().setChanged(true);
                 game.getWorld().set(player.getPosition(),new Bomb());
+                game.getWorld().setChanged(true);
                 //game.createExplosions(explosions,layer,player);
                 bomb.startTimer();
                 player.removeBomb();
@@ -195,10 +195,11 @@ public final class GameEngine {
             player.setOnBonus(false);
         }
         if( game.getWorld().isChanged()){
+
             game.getWorld().setChanged(false);
             sprites.forEach(Sprite::remove);
             sprites.removeIf(self->self.getImageView() == null);
-            game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+            game.getWorld().forEach( (pos,d ) -> {if (!(d instanceof Bomb)){ sprites.add(SpriteFactory.createDecor(layer, pos, d)); }} );
         }
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground

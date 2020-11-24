@@ -7,6 +7,7 @@ package fr.ubx.poo.model.go.character;
 import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
+import fr.ubx.poo.model.decor.Bomb;
 import fr.ubx.poo.model.decor.Bonus;
 import fr.ubx.poo.model.decor.Princess;
 import fr.ubx.poo.model.go.BombObject;
@@ -95,9 +96,6 @@ public class Player extends GameObject implements Movable {
             super.game.changeStage(2);
             return true;
         }
-        if ( d instanceof BombObject){
-            return false;
-        }
         if (d instanceof Bonus) {
             Bonus myBonus = (Bonus) d;
             if(myBonus.getType() == WorldEntity.BombRangeDec){
@@ -120,12 +118,10 @@ public class Player extends GameObject implements Movable {
             if(myBonus.getType() == WorldEntity.Key){
                 numberOfKeys++;
             }
-
             super.game.getWorld().clear(p);
             onBonus = true;
             return true;
         }
-
         return false;
     }
 
