@@ -45,10 +45,11 @@ public final class GameEngine {
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
-    private ArrayList<Monster> monsters = new ArrayList<Monster>();
-    private ArrayList<Sprite> spriteMonsters = new ArrayList<Sprite>();
-    private ArrayList<Sprite> spriteBombs = new ArrayList<Sprite>();
-    private ArrayList<SpriteExplosion> explosions = new ArrayList<SpriteExplosion>();
+    private ArrayList<Monster> monsters = new ArrayList<>();
+    private ArrayList<Sprite> spriteMonsters = new ArrayList<>();
+    private ArrayList<Sprite> spriteBombs = new ArrayList<>();
+    private ArrayList<BombObject> bombs = new ArrayList<>();
+    private ArrayList<SpriteExplosion> explosions = new ArrayList<>();
     ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
 
@@ -128,7 +129,10 @@ public final class GameEngine {
         if (input.isBomb()) {
             if(player.getNumberOfBombs() > 0 ) {
                 BombObject bomb = new BombObject(game, player.getPosition());
+                bombs.add(bomb);
                 spriteBombs.add(new SpriteBomb(layer, bomb));
+                game.getWorld().setChanged(true);
+                game.getWorld().set(player.getPosition(),new Bomb());
                 //game.createExplosions(explosions,layer,player);
                 bomb.startTimer();
                 player.removeBomb();
@@ -190,6 +194,12 @@ public final class GameEngine {
             sprites.removeIf(self -> self.getImageView() == null);
             player.setOnBonus(false);
         }
+        if( game.getWorld().isChanged()){
+            game.getWorld().setChanged(false);
+            sprites.forEach(Sprite::remove);
+            sprites.removeIf(self->self.getImageView() == null);
+            game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+        }
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
@@ -199,9 +209,16 @@ public final class GameEngine {
 
         for (Sprite bomb : spriteBombs) {
             bomb.render();
-            if (bomb.isToRemove())
-                    player.addBomb();
+            if (bomb.isToRemove()) {
+                player.addBomb();
+            }
         }
+        for (BombObject bomb : bombs) {
+            if( bomb.getBombPhase() == 5) {
+                game.getWorld().clear(bomb.getPosition());
+            }
+        }
+        bombs.removeIf( self -> self.getBombPhase() == 5);
 
         /*System.out.println(""+spriteBombs.size());
         if(explosions.size()>0) {
@@ -222,7 +239,7 @@ public final class GameEngine {
 
             }
         }*/
-        spriteBombs.removeIf(self -> self.isToRemove());
+        spriteBombs.removeIf(Sprite::isToRemove);
     }
 
     public void start() {

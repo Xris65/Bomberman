@@ -47,6 +47,8 @@ public class WorldBuilder {
             case DoorNextOpened:
             case DoorPrevOpened:
                 return new Door(false);
+            case Bomb:
+                return new Bomb();
             default:
                 return null;
         }

@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class WorldLoader {
     public World readFromFile(String filename){
         // Pretty ugly but needed to work, else "file:" prefix isn't working because of File() not parsing it correctly
-        String path = getClass().getResource("/sample/" + filename).toExternalForm().split(":")[1];
+        String path = getClass().getResource("/sample/" + filename).toExternalForm().substring("file:".length());
         WorldEntity[][] read = null;
         try {
             File myObj = new File(path);

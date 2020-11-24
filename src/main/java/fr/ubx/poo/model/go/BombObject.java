@@ -26,7 +26,7 @@ public class BombObject extends GameObject {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(bombPhase < 6) {
+                if(bombPhase <= 5) {
                     bombPhase++;
                 }
                 else {
