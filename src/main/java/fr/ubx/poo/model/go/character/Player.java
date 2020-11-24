@@ -9,6 +9,7 @@ import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Bomb;
 import fr.ubx.poo.model.decor.Bonus;
+import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Princess;
 import fr.ubx.poo.model.go.BombObject;
 import fr.ubx.poo.model.go.GameObject;
@@ -25,7 +26,8 @@ public class Player extends GameObject implements Movable {
     private boolean winner;
     private boolean isInvulnerable = false;
     private boolean onBonus = false;
-    private int numberOfBombs = 1;
+    private int bombCapacity = 1;
+    private int numberOfBombs = 0;
     private int range = 1;
     private int numberOfKeys = 0;
 
@@ -36,17 +38,45 @@ public class Player extends GameObject implements Movable {
     public int getNumberOfBombs() {
         return numberOfBombs;
     }
+
+    public int getBombCapacity() {
+        return bombCapacity;
+    }
+    public void addBombCapacity() {
+        bombCapacity++;
+    }
     public void addBomb(){
-        numberOfBombs++;
+        numberOfBombs--;
     }
 
     public void removeBomb(){
-        if(numberOfBombs > 0)
-            numberOfBombs--;
+        numberOfBombs++;
     }
     public int getRange() {
         return range;
     }
+
+    private boolean isInMap(Position p){
+        World w = game.getWorld();
+        return ((p.x >= 0) && (p.x < w.dimension.width) && (p.y >= 0) && (p.y < w.dimension.height));
+    }
+
+
+    public void moveBoxIfAble(World w){
+        Position boxAt = direction.nextPosition(getPosition());
+        if(w.get(boxAt) instanceof Box){
+            if (w.get(direction.nextPosition(boxAt)) == null && isInMap(direction.nextPosition(boxAt))){
+                // can move
+                w.set(direction.nextPosition(boxAt),new Box());
+                w.clear(boxAt);
+                w.setChanged(true);
+
+
+            }
+        }
+    }
+
+
 
 
     public boolean isOnBonus() {
@@ -106,11 +136,11 @@ public class Player extends GameObject implements Movable {
                 range++;
             }
             if(myBonus.getType() == WorldEntity.BombNumberDec){
-                if(numberOfBombs > 1)
-                    numberOfBombs--;
+                if(bombCapacity > 1)
+                    bombCapacity--;
             }
             if(myBonus.getType() == WorldEntity.BombNumberInc){
-                numberOfBombs++;
+                bombCapacity++;
             }
             if(myBonus.getType() == WorldEntity.Heart){
                 lives++;
@@ -129,7 +159,7 @@ public class Player extends GameObject implements Movable {
     public boolean canMove(Direction direction) {
         World w = super.game.getWorld();
         Position p = direction.nextPosition(super.getPosition());
-        boolean inMap = ((p.x >= 0) && (p.x < w.dimension.width) && (p.y >= 0) && (p.y < w.dimension.height));
+        boolean inMap = isInMap(p);
         Entity targetPosition = w.get(p);
         boolean isWalkable = targetPosition == null || handleNewPosition(targetPosition, p);
 

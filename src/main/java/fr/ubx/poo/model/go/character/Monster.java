@@ -21,7 +21,7 @@ public class Monster extends GameObject implements Movable {
     }
 
     public void requestMove() {
-        while(canMove(direction) == false)
+        while(!canMove(direction))
             this.direction = Direction.random();
         moveRequested = true;
     }

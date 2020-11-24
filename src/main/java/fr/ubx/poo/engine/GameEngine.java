@@ -116,26 +116,33 @@ public final class GameEngine {
         }
         if (input.isMoveDown()) {
             player.requestMove(Direction.S);
+            player.moveBoxIfAble(game.getWorld());
         }
         if (input.isMoveLeft()) {
             player.requestMove(Direction.W);
+            player.moveBoxIfAble(game.getWorld());
         }
         if (input.isMoveRight()) {
             player.requestMove(Direction.E);
+            player.moveBoxIfAble(game.getWorld());
         }
         if (input.isMoveUp()) {
             player.requestMove(Direction.N);
+            player.moveBoxIfAble(game.getWorld());
         }
+
         if (input.isBomb()) {
-            if(player.getNumberOfBombs() > 0 ) {
-                BombObject bomb = new BombObject(game, player.getPosition());
-                bombs.add(bomb);
-                spriteBombs.add(new SpriteBomb(layer, bomb));
-                game.getWorld().set(player.getPosition(),new Bomb());
-                game.getWorld().setChanged(true);
-                //game.createExplosions(explosions,layer,player);
-                bomb.startTimer();
-                player.removeBomb();
+            if(!(game.getWorld().get(player.getPosition()) instanceof Bomb)) {
+                if (player.getNumberOfBombs() < player.getBombCapacity()) {
+                    BombObject bomb = new BombObject(game, player.getPosition());
+                    bombs.add(bomb);
+                    spriteBombs.add(new SpriteBomb(layer, bomb));
+                    game.getWorld().set(player.getPosition(), new Bomb());
+                    game.getWorld().setChanged(true);
+                    //game.createExplosions(explosions,layer,player);
+                    bomb.startTimer();
+                    player.removeBomb();
+                }
             }
         }
         input.clear();
