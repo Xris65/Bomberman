@@ -5,6 +5,12 @@
 package fr.ubx.poo.game;
 
 
+import fr.ubx.poo.model.Entity;
+import fr.ubx.poo.model.decor.Door;
+import fr.ubx.poo.model.go.character.Monster;
+import fr.ubx.poo.model.go.character.Player;
+import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,23 +18,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import fr.ubx.poo.model.go.character.Monster;
-import fr.ubx.poo.model.go.character.Player;
-import fr.ubx.poo.view.image.ImageFactory;
-import fr.ubx.poo.view.sprite.SpriteExplosion;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-
-import javax.swing.*;
-
 public class Game {
 
-    private final World world;
+    private World world;
+    private ArrayList<World> worlds = new ArrayList<>();
     private final Player player;
     private final String worldPath;
     public int initPlayerLives = 1;
     ArrayList<Monster> monsters;
-    public int stageNumber;
+    public int stageNumber = 1;
 
     public Game(String worldPath) {
         WorldLoader loader = new WorldLoader();
@@ -45,13 +43,27 @@ public class Game {
             throw new RuntimeException(e);
         }
     }
-
-    public void changeStage(int stageNumber) {
-        //world = world.loadWorld(stageNumber);
-        monsters = world.findMonsters(this);
-        ActionTimer.stopTimer();
-        //timer.startTimer(1, monsters);
+    public void changeWorld(){
+        WorldLoader loader = new WorldLoader();
+        if(stageNumber == 1)
+            world = loader.readFromFile("level1.txt");
+        if (stageNumber == 2 )
+            world = loader.readFromFile("level2.txt");
+        if(stageNumber == 3 )
+            world = loader.readFromFile("level3.txt");
+        Dimension dimension = world.dimension;
+        for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (world.get(new Position(x,y)) instanceof Door)
+                    if(!((Door) world.get(new Position(x,y))).isClosed()) {
+                        player.setPosition(new Position(x, y));
+                        break;
+                    }
+            }
+        }
+        world.setChanged(true);
     }
+
     public void startTimer(int seconds){
         ActionTimer.startTimer(2, monsters);
     }

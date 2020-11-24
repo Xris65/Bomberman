@@ -6,6 +6,7 @@ package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.go.BombObject;
 import fr.ubx.poo.model.go.character.Monster;
 
 import java.lang.reflect.Array;
@@ -17,6 +18,9 @@ public class World {
     private final WorldEntity[][] raw;
     public final Dimension dimension;
     private boolean changed = false;
+    public ArrayList<Monster> monsters = new ArrayList<>();
+    public ArrayList<BombObject> bombs = new ArrayList<>();
+
 
     public boolean isChanged() {
         return changed;
@@ -34,7 +38,7 @@ public class World {
     }
 
     public ArrayList<Monster> findMonsters(Game game) {
-        ArrayList<Monster> monsters = new ArrayList<Monster>();
+        ArrayList<Monster> monsters = new ArrayList<>();
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
                 if (raw[y][x] == WorldEntity.Monster) {

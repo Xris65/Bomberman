@@ -19,7 +19,7 @@ public class WorldLoader {
             int height = 0;
             int width = -1;
             for(; measuresReader.hasNextLine(); height++){
-                var tmp = measuresReader.nextLine().length();
+                int tmp = measuresReader.nextLine().length();
                 if(width != -1){
                     if(tmp != width){
                         throw new RuntimeException("Map width is not consistent");
@@ -32,9 +32,10 @@ public class WorldLoader {
             }
             measuresReader.close();
 
-            read = new WorldEntity[width][height];
+            read = new WorldEntity[height][width];
+            String line;
             for(int y = 0; myReader.hasNextLine(); y++){
-                String line = myReader.nextLine();
+                line = myReader.nextLine();
                 for(int x = 0; x < line.length(); x++){
                     Optional<WorldEntity> readInFileToWorldEntity = WorldEntity.fromCode(line.charAt(x));
                     if(readInFileToWorldEntity.isPresent()){

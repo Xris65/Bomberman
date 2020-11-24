@@ -29,6 +29,11 @@ public class Player extends GameObject implements Movable {
     private int bombCapacity = 1;
     private int numberOfBombs = 0;
     private int range = 1;
+
+    public void substractKey() {
+        numberOfKeys--;
+    }
+
     private int numberOfKeys = 0;
 
     public int getNumberOfKeys() {
@@ -41,9 +46,6 @@ public class Player extends GameObject implements Movable {
 
     public int getBombCapacity() {
         return bombCapacity;
-    }
-    public void addBombCapacity() {
-        bombCapacity++;
     }
     public void addBomb(){
         numberOfBombs--;
@@ -71,11 +73,9 @@ public class Player extends GameObject implements Movable {
                 w.clear(boxAt);
                 w.setChanged(true);
 
-
             }
         }
     }
-
 
 
 
@@ -123,7 +123,6 @@ public class Player extends GameObject implements Movable {
     private boolean handleNewPosition(Entity d, Position p) {
         if (d instanceof Princess) {
             this.winner = true;
-            super.game.changeStage(2);
             return true;
         }
         if (d instanceof Bonus) {

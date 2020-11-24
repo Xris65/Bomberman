@@ -5,6 +5,7 @@ package fr.ubx.poo.engine;
 
 import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.decor.Bomb;
+import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.go.BombObject;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.character.Monster;
@@ -45,10 +46,8 @@ public final class GameEngine {
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
-    private ArrayList<Monster> monsters = new ArrayList<>();
     private ArrayList<Sprite> spriteMonsters = new ArrayList<>();
     private ArrayList<Sprite> spriteBombs = new ArrayList<>();
-    private ArrayList<BombObject> bombs = new ArrayList<>();
     private ArrayList<SpriteExplosion> explosions = new ArrayList<>();
     ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
@@ -83,10 +82,10 @@ public final class GameEngine {
         // Create decor sprites
         game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
-
-        monsters = game.getWorld().findMonsters(game);
-        game.setMonsters(monsters);
-        for (Monster m : monsters) {
+        World w = game.getWorld();
+        w.monsters = w.findMonsters(game);
+        game.setMonsters(w.monsters);
+        for (Monster m : w.monsters) {
             spriteMonsters.add(new SpriteMonster(layer, m));
         }
     }
@@ -135,13 +134,31 @@ public final class GameEngine {
             if(!(game.getWorld().get(player.getPosition()) instanceof Bomb)) {
                 if (player.getNumberOfBombs() < player.getBombCapacity()) {
                     BombObject bomb = new BombObject(game, player.getPosition());
-                    bombs.add(bomb);
+                    game.getWorld().bombs.add(bomb);
                     spriteBombs.add(new SpriteBomb(layer, bomb));
                     game.getWorld().set(player.getPosition(), new Bomb());
                     game.getWorld().setChanged(true);
                     //game.createExplosions(explosions,layer,player);
                     bomb.startTimer();
                     player.removeBomb();
+                }
+            }
+        }
+        if(input.isKey()) {
+            Position playerPos = player.getPosition();
+            World world = game.getWorld();
+            if((world.get(Direction.E.nextPosition(playerPos)) instanceof Door
+                    && (((Door) world.get(Direction.E.nextPosition(playerPos))).isClosed()))
+                    || (world.get(Direction.N.nextPosition(playerPos)) instanceof Door
+                    && (((Door) world.get(Direction.N.nextPosition(playerPos))).isClosed()))
+                    || (world.get(Direction.S.nextPosition(playerPos)) instanceof Door
+                    && (((Door) world.get(Direction.S.nextPosition(playerPos))).isClosed()))
+                    || (world.get(Direction.W.nextPosition(playerPos)) instanceof Door
+                    && (((Door) world.get(Direction.W.nextPosition(playerPos))).isClosed()))){
+                if(player.getNumberOfKeys() > 0){
+                    player.substractKey();
+                    game.stageNumber++;
+                    game.changeWorld();
                 }
             }
         }
@@ -171,7 +188,7 @@ public final class GameEngine {
     private void update(long now) {
 
         player.update(now);
-        for (Monster m : monsters) {
+        for (Monster m : game.getWorld().monsters) {
             m.update(now);
             if (m.getPosition().equals(game.getPlayer().getPosition()))
                 if(player.isPlayerVulnerable())
@@ -221,12 +238,12 @@ public final class GameEngine {
                 player.addBomb();
             }
         }
-        for (BombObject bomb : bombs) {
+        for (BombObject bomb : game.getWorld().bombs) {
             if( bomb.getBombPhase() == 5) {
                 game.getWorld().clear(bomb.getPosition());
             }
         }
-        bombs.removeIf( self -> self.getBombPhase() == 5);
+        game.getWorld().bombs.removeIf( self -> self.getBombPhase() == 5);
 
         /*System.out.println(""+spriteBombs.size());
         if(explosions.size()>0) {
