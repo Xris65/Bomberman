@@ -24,10 +24,12 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.lang.reflect.Array;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -158,7 +160,9 @@ public final class GameEngine {
                 if(player.getNumberOfKeys() > 0){
                     player.substractKey();
                     game.stageNumber++;
+                    spriteMonsters.removeIf(Objects::nonNull);
                     game.changeWorld();
+                    initialize(stage,game);
                 }
             }
         }
@@ -207,16 +211,8 @@ public final class GameEngine {
     private void render() {
         if(player.isOnBonus()) {
             //sprites.get(player.getPosition().x + (player.getPosition().y * game.getWorld().dimension.width)).remove();
-            for(Sprite sprite : sprites){
-                if(sprite instanceof SpriteDecor){
-                    SpriteDecor decor = (SpriteDecor) sprite;
-                    if(decor.updateImage(game)){
-                        break;
-                    }
-                }
-            }
-            sprites.removeIf(self -> self.getImageView() == null);
-            player.setOnBonus(false);
+            game.getWorld().clear(player.getPosition());
+            game.getWorld().setChanged(true);
         }
         if( game.getWorld().isChanged()){
 

@@ -11,6 +11,7 @@ import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -73,6 +74,7 @@ public class Game {
     }
     public void end() {
         ActionTimer.stopTimer();
+
     }
 
     public int getInitPlayerLives() {
