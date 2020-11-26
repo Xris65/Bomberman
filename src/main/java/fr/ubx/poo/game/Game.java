@@ -21,13 +21,17 @@ import java.util.Properties;
 
 public class Game {
 
+    private final String worldPath;
     private World world;
     private ArrayList<World> worlds = new ArrayList<>();
     private final Player player;
-    private final String worldPath;
+    private int worldIndex = 1;
     public int initPlayerLives = 1;
     ArrayList<Monster> monsters;
-    public int stageNumber = 1;
+    private boolean returning = false;
+    private boolean toChange = false;
+
+
 
     public Game(String worldPath) {
         WorldLoader loader = new WorldLoader();
@@ -46,35 +50,38 @@ public class Game {
     }
     public void changeWorld(){
         WorldLoader loader = new WorldLoader();
-        if(stageNumber == 1)
-            world = loader.readFromFile("level1.txt");
-        if (stageNumber == 2 )
-            world = loader.readFromFile("level2.txt");
-        if(stageNumber == 3 )
-            world = loader.readFromFile("level3.txt");
+        if(returning){
+            world = worlds.get(worldIndex-1);
+            returning = false;
+        }else {
+            worlds.add(world);
+            if (worldIndex == 1)
+                world = loader.readFromFile("level1.txt");
+            if (worldIndex == 2)
+                world = loader.readFromFile("level2.txt");
+            if (worldIndex == 3)
+                world = loader.readFromFile("level3.txt");
+        }
         Dimension dimension = world.dimension;
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
-                if (world.get(new Position(x,y)) instanceof Door)
-                    if(!((Door) world.get(new Position(x,y))).isClosed()) {
+                if (world.get(new Position(x, y)) instanceof Door)
+                    if (!((Door) world.get(new Position(x, y))).isClosed()) {
                         player.setPosition(new Position(x, y));
                         break;
                     }
             }
         }
         world.setChanged(true);
+
     }
 
-    public void startTimer(int seconds){
-        ActionTimer.startTimer(2, monsters);
-    }
-    public void setMonsters(ArrayList<Monster> monsters) {
+
+    public ActionTimer setMonsters(ArrayList<Monster> monsters, Stage stage) {
+        ActionTimer timer = new ActionTimer();
         this.monsters = monsters;
-        ActionTimer.startTimer(1, monsters);
-    }
-    public void end() {
-        ActionTimer.stopTimer();
-
+        timer.startTimer(1, monsters, stage);
+        return timer;
     }
 
     public int getInitPlayerLives() {
@@ -118,6 +125,32 @@ public class Game {
     public Player getPlayer() {
         return this.player;
     }
+
+
+    public int getWorldIndex() {
+        return worldIndex;
+    }
+
+    public void setWorldIndex(int worldIndex) {
+        this.worldIndex = worldIndex;
+    }
+
+    public boolean isToChange() {
+        return toChange;
+    }
+
+    public void setToChange(boolean toChange) {
+        this.toChange = toChange;
+    }
+
+    public boolean isReturning() {
+        return returning;
+    }
+
+    public void setReturning(boolean returning) {
+        this.returning = returning;
+    }
+
 
 
 }

@@ -7,10 +7,7 @@ package fr.ubx.poo.model.go.character;
 import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
-import fr.ubx.poo.model.decor.Bomb;
-import fr.ubx.poo.model.decor.Bonus;
-import fr.ubx.poo.model.decor.Box;
-import fr.ubx.poo.model.decor.Princess;
+import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.go.BombObject;
 import fr.ubx.poo.model.go.GameObject;
 
@@ -150,6 +147,20 @@ public class Player extends GameObject implements Movable {
             super.game.getWorld().clear(p);
             onBonus = true;
             return true;
+        }
+        if (d instanceof Door){
+            if(!((Door) d).isClosed()){
+                if(((Door) d).isPrev()) {
+                    game.setWorldIndex(game.getWorldIndex()-1);
+                    game.setReturning(true);
+                }
+                else{
+                    game.setWorldIndex(game.getWorldIndex()+1);
+                }
+                game.setToChange(true);
+                return true;
+            }
+
         }
         return false;
     }

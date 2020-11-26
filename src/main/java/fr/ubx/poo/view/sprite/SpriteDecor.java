@@ -22,16 +22,6 @@ public class SpriteDecor extends Sprite {
 
     }
 
-    public boolean updateImage(Game game) {
-        World w = game.getWorld();
-        if (w.get(position) == null) {
-            remove();
-            return true;
-        }
-        return false;
-    }
-
-
 
     @Override
     public Position getPosition() {

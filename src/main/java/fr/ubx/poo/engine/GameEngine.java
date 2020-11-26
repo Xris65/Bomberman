@@ -7,13 +7,11 @@ import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.decor.Bomb;
 import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.go.BombObject;
-import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.character.Monster;
-import fr.ubx.poo.view.sprite.*;
 import fr.ubx.poo.model.go.character.Player;
+import fr.ubx.poo.view.sprite.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -24,21 +22,17 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-import java.lang.reflect.Array;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 
 public final class GameEngine {
 
     private static AnimationTimer gameLoop;
+    private static ArrayList<ActionTimer> monsterTimer = new ArrayList<>();
     private final String windowTitle;
     private final Game game;
     private final Player player;
@@ -85,8 +79,10 @@ public final class GameEngine {
         game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         World w = game.getWorld();
-        w.monsters = w.findMonsters(game);
-        game.setMonsters(w.monsters);
+        if(!game.isReturning()) {
+            w.monsters = w.findMonsters(game);
+            monsterTimer.add(game.setMonsters(w.monsters, stage));
+        }
         for (Monster m : w.monsters) {
             spriteMonsters.add(new SpriteMonster(layer, m));
         }
@@ -113,7 +109,6 @@ public final class GameEngine {
             gameLoop.stop();
             Platform.exit();
             System.exit(0);
-            game.end();
         }
         if (input.isMoveDown()) {
             player.requestMove(Direction.S);
@@ -131,7 +126,6 @@ public final class GameEngine {
             player.requestMove(Direction.N);
             player.moveBoxIfAble(game.getWorld());
         }
-
         if (input.isBomb()) {
             if(!(game.getWorld().get(player.getPosition()) instanceof Bomb)) {
                 if (player.getNumberOfBombs() < player.getBombCapacity()) {
@@ -159,10 +153,20 @@ public final class GameEngine {
                     && (((Door) world.get(Direction.W.nextPosition(playerPos))).isClosed()))){
                 if(player.getNumberOfKeys() > 0){
                     player.substractKey();
-                    game.stageNumber++;
-                    spriteMonsters.removeIf(Objects::nonNull);
-                    game.changeWorld();
-                    initialize(stage,game);
+                    game.setWorldIndex(game.getWorldIndex()+1);
+                    game.setToChange(true);
+                    if(world.get(Direction.E.nextPosition(playerPos)) instanceof Door){
+                        world.set(Direction.E.nextPosition(playerPos),new Door(false,false));
+                    }
+                    if(world.get(Direction.S.nextPosition(playerPos)) instanceof Door){
+                        world.set(Direction.S.nextPosition(playerPos),new Door(false,false));
+                    }
+                    if(world.get(Direction.N.nextPosition(playerPos)) instanceof Door){
+                        world.set(Direction.N.nextPosition(playerPos),new Door(false,false));
+                    }
+                    if(world.get(Direction.W.nextPosition(playerPos)) instanceof Door){
+                        world.set(Direction.W.nextPosition(playerPos),new Door(false,false));
+                    }
                 }
             }
         }
@@ -212,6 +216,7 @@ public final class GameEngine {
         if(player.isOnBonus()) {
             //sprites.get(player.getPosition().x + (player.getPosition().y * game.getWorld().dimension.width)).remove();
             game.getWorld().clear(player.getPosition());
+            player.setOnBonus(false);
             game.getWorld().setChanged(true);
         }
         if( game.getWorld().isChanged()){
@@ -240,7 +245,13 @@ public final class GameEngine {
             }
         }
         game.getWorld().bombs.removeIf( self -> self.getBombPhase() == 5);
-
+        if(game.isToChange()){
+            game.setToChange(false);
+            spriteMonsters.removeIf(Objects::nonNull);
+            System.out.println("" + game.getWorldIndex());
+            game.changeWorld();
+            initialize(stage,game);
+        }
         /*System.out.println(""+spriteBombs.size());
         if(explosions.size()>0) {
             for (Sprite explosion : explosions) {
