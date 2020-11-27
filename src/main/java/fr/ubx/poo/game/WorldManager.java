@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class WorldManager {
     private ArrayList<World> worlds = new ArrayList<>();
-    int worldMaxAtteint = 0;
-    int currentWorldIndex = -1;
+    private int worldMaxAtteint = 0;
+    private int currentWorldIndex = -1;
 
 
 
@@ -61,6 +61,9 @@ public class WorldManager {
                 if (player.isPlayerVulnerable())
                     player.loseLife();
         }
+    }
+    public int getCurrentWorldIndex() {
+        return currentWorldIndex;
     }
 
 }

@@ -26,7 +26,6 @@ public class StatusBar {
     private Text keyValue = new Text();
     private HBox level = new HBox();
     private int gameLevel = 1;
-
     private final Game game;
     private final DropShadow ds = new DropShadow();
 
@@ -82,11 +81,16 @@ public class StatusBar {
 
     public void update(Game game) {
         Player player = game.getPlayer();
-        updateLevel(1);
+        updateLevel(game.getWorldManager().getCurrentWorldIndex()+1);
         liveValue.setText(String.valueOf(player.getLives()));
         rangeValue.setText(String.valueOf(player.getRange()));
         bombsValue.setText(String.valueOf(player.getBombCapacity()));
         keyValue.setText(String.valueOf(player.getNumberOfKeys()));
     }
+
+    public void setGameLevel(int gameLevel) {
+        this.gameLevel = gameLevel;
+    }
+
 
 }
