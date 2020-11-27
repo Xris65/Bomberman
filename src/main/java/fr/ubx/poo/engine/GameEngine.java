@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,7 +33,6 @@ import java.util.concurrent.ScheduledExecutorService;
 public final class GameEngine {
 
     private static AnimationTimer gameLoop;
-    private static ArrayList<ActionTimer> monsterTimer = new ArrayList<>();
     private final String windowTitle;
     private final Game game;
     private final Player player;
@@ -79,10 +79,6 @@ public final class GameEngine {
         game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         World w = game.getWorld();
-        if(!game.isReturning()) {
-            w.monsters = w.findMonsters(game);
-            monsterTimer.add(game.setMonsters(w.monsters, stage));
-        }
         for (Monster m : w.monsters) {
             spriteMonsters.add(new SpriteMonster(layer, m));
         }
@@ -143,35 +139,23 @@ public final class GameEngine {
         if(input.isKey()) {
             Position playerPos = player.getPosition();
             World world = game.getWorld();
-            if((world.get(Direction.E.nextPosition(playerPos)) instanceof Door
-                    && (((Door) world.get(Direction.E.nextPosition(playerPos))).isClosed()))
-                    || (world.get(Direction.N.nextPosition(playerPos)) instanceof Door
-                    && (((Door) world.get(Direction.N.nextPosition(playerPos))).isClosed()))
-                    || (world.get(Direction.S.nextPosition(playerPos)) instanceof Door
-                    && (((Door) world.get(Direction.S.nextPosition(playerPos))).isClosed()))
-                    || (world.get(Direction.W.nextPosition(playerPos)) instanceof Door
-                    && (((Door) world.get(Direction.W.nextPosition(playerPos))).isClosed()))){
-                if(player.getNumberOfKeys() > 0){
-                    player.substractKey();
-                    game.setWorldIndex(game.getWorldIndex()+1);
-                    game.setToChange(true);
-                    if(world.get(Direction.E.nextPosition(playerPos)) instanceof Door){
-                        world.set(Direction.E.nextPosition(playerPos),new Door(false,false));
-                    }
-                    if(world.get(Direction.S.nextPosition(playerPos)) instanceof Door){
-                        world.set(Direction.S.nextPosition(playerPos),new Door(false,false));
-                    }
-                    if(world.get(Direction.N.nextPosition(playerPos)) instanceof Door){
-                        world.set(Direction.N.nextPosition(playerPos),new Door(false,false));
-                    }
-                    if(world.get(Direction.W.nextPosition(playerPos)) instanceof Door){
-                        world.set(Direction.W.nextPosition(playerPos),new Door(false,false));
+            for(Direction d : Direction.values()){
+                if(world.get(d.nextPosition(playerPos)) instanceof Door
+                  &&(((Door) world.get(d.nextPosition(playerPos))).isClosed())){
+                    if(player.getNumberOfKeys() > 0){
+                        player.substractKey();
+                        game.setToChange(true);
+                        world.set(d.nextPosition(playerPos),new Door(false,false));
+                        game.changeWorld(true);
+                        break;
                     }
                 }
             }
         }
         input.clear();
     }
+
+
 
     private void showMessage(String msg, Color color) {
         Text waitingForKey = new Text(msg);
@@ -194,14 +178,9 @@ public final class GameEngine {
 
 
     private void update(long now) {
-
         player.update(now);
-        for (Monster m : game.getWorld().monsters) {
-            m.update(now);
-            if (m.getPosition().equals(game.getPlayer().getPosition()))
-                if(player.isPlayerVulnerable())
-                    player.loseLife();
-        }
+        game.getWorldManager().updateMonstersOnWorlds(now);
+        game.getWorldManager().verifyMonsterCollisionsWithPlayer();
         if (!player.isAlive()) {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
@@ -210,6 +189,12 @@ public final class GameEngine {
             gameLoop.stop();
             showMessage("Gagné", Color.BLUE);
         }
+        if(game.isToChange()){
+            game.setToChange(false);
+            spriteMonsters.removeIf(Objects::nonNull);
+            initialize(stage,game);
+        }
+
     }
 
     private void render() {
@@ -245,32 +230,6 @@ public final class GameEngine {
             }
         }
         game.getWorld().bombs.removeIf( self -> self.getBombPhase() == 5);
-        if(game.isToChange()){
-            game.setToChange(false);
-            spriteMonsters.removeIf(Objects::nonNull);
-            System.out.println("" + game.getWorldIndex());
-            game.changeWorld();
-            initialize(stage,game);
-        }
-        /*System.out.println(""+spriteBombs.size());
-        if(explosions.size()>0) {
-            for (Sprite explosion : explosions) {
-                SpriteExplosion explosion1 = (SpriteExplosion) explosion;
-                if(!explosion1.isRendering()) {
-                    executor.schedule(explosion::render, 1, TimeUnit.SECONDS);
-                    executor.schedule(() -> explosion1.setRendered(true), 1500, TimeUnit.MILLISECONDS);
-                    explosion1.setRendering(true);
-                    executor.schedule(() -> executor.shutdown(), 2, TimeUnit.SECONDS);
-                }
-                //explosion.remove();
-                //executor.schedule(() -> explosions.remove(explosion), 1, TimeUnit.SECONDS);
-                if(explosion1.isRendered()) {
-                    explosion.remove();
-                    explosions.remove(explosion);
-                }
-
-            }
-        }*/
         spriteBombs.removeIf(Sprite::isToRemove);
     }
 

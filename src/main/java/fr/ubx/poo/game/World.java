@@ -30,6 +30,10 @@ public class World {
         this.changed = changed;
     }
 
+    public void updateMonsters(long now){
+        monsters.forEach(self -> self.update(now));
+    }
+
 
     public World(WorldEntity[][] raw) {
         this.raw = raw;
@@ -42,7 +46,7 @@ public class World {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
                 if (raw[y][x] == WorldEntity.Monster) {
-                    monsters.add(new Monster(game, new Position(x,y)));
+                    monsters.add(new Monster(game, new Position(x,y),1000,this));
                 }
             }
         }
@@ -80,8 +84,8 @@ public class World {
         return grid.values();
     }
 
-    public boolean isInside(Position position) {
-        return true; // to update
+    public boolean isInside(Position p) {
+        return ((p.x >= 0) && (p.x < dimension.width) && (p.y >= 0) && (p.y < dimension.height));
     }
 
     public boolean isEmpty(Position position) {

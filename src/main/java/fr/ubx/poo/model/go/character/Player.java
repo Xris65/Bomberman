@@ -55,17 +55,18 @@ public class Player extends GameObject implements Movable {
         return range;
     }
 
-    private boolean isInMap(Position p){
-        World w = game.getWorld();
-        return ((p.x >= 0) && (p.x < w.dimension.width) && (p.y >= 0) && (p.y < w.dimension.height));
-    }
 
 
     public void moveBoxIfAble(World w){
         Position boxAt = direction.nextPosition(getPosition());
         if(w.get(boxAt) instanceof Box){
-            if (w.get(direction.nextPosition(boxAt)) == null && isInMap(direction.nextPosition(boxAt))){
+            if (w.get(direction.nextPosition(boxAt)) == null && game.getWorld().isInside(direction.nextPosition(boxAt))){
                 // can move
+                for(Monster m : w.monsters){
+                    if (m.getPosition().equals(direction.nextPosition(boxAt))){
+                        return;
+                    }
+                }
                 w.set(direction.nextPosition(boxAt),new Box());
                 w.clear(boxAt);
                 w.setChanged(true);
@@ -150,15 +151,9 @@ public class Player extends GameObject implements Movable {
         }
         if (d instanceof Door){
             if(!((Door) d).isClosed()){
-                if(((Door) d).isPrev()) {
-                    game.setWorldIndex(game.getWorldIndex()-1);
-                    game.setReturning(true);
-                }
-                else{
-                    game.setWorldIndex(game.getWorldIndex()+1);
-                }
+                game.changeWorld(!((Door) d).isPrev());
                 game.setToChange(true);
-                return true;
+                return false;
             }
 
         }
@@ -169,7 +164,7 @@ public class Player extends GameObject implements Movable {
     public boolean canMove(Direction direction) {
         World w = super.game.getWorld();
         Position p = direction.nextPosition(super.getPosition());
-        boolean inMap = isInMap(p);
+        boolean inMap = w.isInside(p);
         Entity targetPosition = w.get(p);
         boolean isWalkable = targetPosition == null || handleNewPosition(targetPosition, p);
 

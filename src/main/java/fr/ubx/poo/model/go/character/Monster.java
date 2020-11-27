@@ -15,18 +15,39 @@ public class Monster extends GameObject implements Movable {
     Direction direction = Direction.random();
     private boolean moveRequested = false;
     private int lives = 1;
+    long lastActionTime = 0;
+    int timeToMove;
+    private final World world;
 
-    public Monster(Game game, Position position) {
+
+    public Monster(Game game, Position position, int timeToMove, World w) {
         super(game, position);
+        this.timeToMove = timeToMove;
+        this.world = w;
+    }
+
+    public boolean isThereAValidMovement() {
+        for (Direction d : Direction.values()) {
+            if (canMove(d))
+                return true;
+        }
+        return false;
     }
 
     public void requestMove() {
-        while(!canMove(direction))
+        if (!isThereAValidMovement())
+            return;
+        while (!canMove(direction))
             this.direction = Direction.random();
         moveRequested = true;
     }
 
+
     public void update(long now) {
+        if ((now - lastActionTime) > timeToMove * 1000000) {
+            lastActionTime = now;
+            requestMove();
+        }
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
@@ -37,20 +58,18 @@ public class Monster extends GameObject implements Movable {
 
     @Override
     public boolean canMove(Direction direction) {
-        World w = super.game.getWorld();
         Position p = direction.nextPosition(super.getPosition());
-
-        boolean inMap = ((p.x >= 0) && (p.x < w.dimension.width) && (p.y >= 0) && (p.y < w.dimension.height));
-        Entity targetPosition = w.get(p);
+        Entity targetPosition = world.get(p);
         boolean isWalkable = targetPosition == null || targetPosition instanceof Bonus;
-        return inMap && isWalkable;
+        return world.isInside(p) && isWalkable;
     }
+
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
     }
 
-    public Direction getDirection(){
+    public Direction getDirection() {
         return direction;
     }
 

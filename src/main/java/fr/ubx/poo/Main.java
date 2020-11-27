@@ -5,14 +5,11 @@
 package fr.ubx.poo;
 
 import fr.ubx.poo.engine.GameEngine;
-import fr.ubx.poo.game.ActionTimer;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.view.image.ImageFactory;
-import fr.ubx.poo.view.sprite.Sprite;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 
 public class Main extends Application {
 
@@ -27,6 +24,9 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        // If the user clicks the x button to close the window, it will shutdown even the timers
+        Platform.exit();
+        System.exit(0);
     }
 
 
