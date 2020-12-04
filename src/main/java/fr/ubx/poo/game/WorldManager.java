@@ -48,10 +48,7 @@ public class WorldManager {
 
     public void updateMonstersOnWorlds(long now) {
         for (World w : worlds) {
-                w.updateMonsters(now);
-            for (Monster m : w.getMonsters()) {
-                m.update(now);
-            }
+            w.updateMonsters(now);
         }
     }
 

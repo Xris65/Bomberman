@@ -24,9 +24,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        // If the user clicks the x button to close the window, it will shutdown even the timers
-        Platform.exit();
-        System.exit(0);
     }
 
 

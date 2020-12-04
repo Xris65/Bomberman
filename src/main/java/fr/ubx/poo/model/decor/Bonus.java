@@ -41,6 +41,17 @@ public class Bonus extends Decor {
             return ImageResource.KEY;
         return null;
     }
+
+    @Override
+    public boolean isWalkable() {
+        return true;
+    }
+
+    @Override
+    public boolean isBonus() {
+        return true;
+    }
+
     @Override
     public String toString() {
         return "" + getImagePath();

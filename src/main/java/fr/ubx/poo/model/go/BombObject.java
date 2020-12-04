@@ -15,6 +15,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class BombObject extends GameObject {
+    int range;
 
     private int bombPhase = 1;
 
@@ -31,8 +32,13 @@ public class BombObject extends GameObject {
         return bombPhase;
     }
 
-    public BombObject(Game game, Position position, long now) {
+    public int getRange() {
+        return range;
+    }
+
+    public BombObject(Game game, Position position, int range, long now) {
         super(game, position);
+        this.range = range;
         super.setTimeToAct(1000); // bomb changes phase every 1000 ms
         super.setLastActionTime(now);
     }

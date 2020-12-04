@@ -16,4 +16,14 @@ public class Door extends Decor{
         this.closed = closed;
         this.prev = prev;
     }
+
+    @Override
+    public boolean isWalkable() {
+        return closed;
+    }
+
+    @Override
+    public boolean isDoor() {
+        return true;
+    }
 }

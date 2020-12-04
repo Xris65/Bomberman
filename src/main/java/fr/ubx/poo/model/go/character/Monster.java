@@ -13,11 +13,22 @@ import java.util.function.Function;
 
 public class Monster extends GameObject implements Movable {
 
-    private boolean alive = true;
     Direction direction = Direction.random();
     private boolean moveRequested = false;
     private int lives = 1;
     private final World world;
+
+    public boolean isAlive() {
+        return lives > 0;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void removeHP(int hp) {
+        this.lives -= hp;
+    }
 
     // time to move in ms
     public Monster(Game game, Position position, int timeToMove, World w) {

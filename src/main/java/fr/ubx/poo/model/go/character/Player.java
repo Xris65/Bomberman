@@ -59,7 +59,8 @@ public class Player extends GameObject implements Movable {
 
     public void moveBoxIfAble(World w){
         Position boxAt = direction.nextPosition(getPosition());
-        if(w.get(boxAt) instanceof Box){
+        Entity e = w.get(boxAt);
+        if(e != null && e.isBox()){
             if (w.get(direction.nextPosition(boxAt)) == null && game.getWorld().isInside(direction.nextPosition(boxAt))){
                 // can move
                 for(Monster m : w.getMonsters()){
@@ -119,37 +120,38 @@ public class Player extends GameObject implements Movable {
     }
 
     private boolean handleNewPosition(Entity d, Position p) {
-        if (d instanceof Princess) {
+        if (d.isPrincess()) {
             this.winner = true;
             return true;
         }
-        if (d instanceof Bonus) {
+        else if (d.isBonus()) {
             Bonus myBonus = (Bonus) d;
-            if(myBonus.getType() == WorldEntity.BombRangeDec){
+            WorldEntity type = myBonus.getType();
+            if(type == WorldEntity.BombRangeDec){
                 if(range > 1)
                     range--;
             }
-            if(myBonus.getType() == WorldEntity.BombRangeInc){
+            else if(type == WorldEntity.BombRangeInc){
                 range++;
             }
-            if(myBonus.getType() == WorldEntity.BombNumberDec){
+            else if(type == WorldEntity.BombNumberDec){
                 if(bombCapacity > 1)
                     bombCapacity--;
             }
-            if(myBonus.getType() == WorldEntity.BombNumberInc){
+            else if(type == WorldEntity.BombNumberInc){
                 bombCapacity++;
             }
-            if(myBonus.getType() == WorldEntity.Heart){
+            else if(type == WorldEntity.Heart){
                 lives++;
             }
-            if(myBonus.getType() == WorldEntity.Key){
+            else if(type == WorldEntity.Key){
                 numberOfKeys++;
             }
             super.game.getWorld().clear(p);
             onBonus = true;
             return true;
         }
-        if (d instanceof Door){
+        else if (d.isDoor()){
             if(!((Door) d).isClosed()){
                 game.changeWorld(!((Door) d).isPrev());
                 game.setToChange(true);
