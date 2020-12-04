@@ -18,19 +18,19 @@ public final class SpriteFactory {
 
     public static Sprite createDecor(Pane layer, Position position, Decor decor) {
         ImageFactory factory = ImageFactory.getInstance();
-        if (decor instanceof Stone)
+        if (decor.isStone())
             return new SpriteDecor(layer, factory.get(STONE), position);
-        if (decor instanceof Tree)
+        if (decor.isTree())
             return new SpriteDecor(layer, factory.get(TREE), position);
-        if(decor instanceof Box)
+        if(decor.isBox())
             return new SpriteDecor(layer, factory.get(BOX), position);
-        if(decor instanceof Bonus)
+        if(decor.isBonus())
             return new SpriteDecor(layer, factory.get( ((Bonus) decor).getImagePath()), position);
-        if(decor instanceof Princess)
+        if(decor.isPrincess())
             return new SpriteDecor(layer, factory.get(PRINCESS), position);
-        if(decor instanceof Door)
+        if(decor.isDoor())
             return new SpriteDecor(layer,factory.getDoor(((Door) decor).isClosed()),position);
-        if(decor instanceof Bomb){}
+        if(decor.isBomb()){}
         throw new RuntimeException("Unsupported sprite for decor " + decor);
     }
 

@@ -24,4 +24,12 @@ public abstract class Entity {
     public boolean isBomb(){
         return false;
     }
+
+    public boolean isStone(){
+        return false;
+    }
+
+    public boolean isTree(){
+        return false;
+    }
 }

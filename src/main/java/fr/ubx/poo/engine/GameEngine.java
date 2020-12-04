@@ -44,10 +44,9 @@ public final class GameEngine {
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
-    private ArrayList<Sprite> spriteMonsters = new ArrayList<>();
-    private ArrayList<Sprite> spriteBombs = new ArrayList<>();
-    private ArrayList<SpriteExplosion> explosions = new ArrayList<>();
-    ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    private final ArrayList<Sprite> spriteMonsters = new ArrayList<>();
+    private final ArrayList<Sprite> spriteBombs = new ArrayList<>();
+    private final ArrayList<SpriteExplosion> explosions = new ArrayList<>();
 
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
@@ -223,6 +222,7 @@ public final class GameEngine {
                 Position p = b.getPosition();
                 game.getWorld().clear(p);
                 game.getWorld().getExplosions().add(new Explosion(game, p, b.getRange()));
+                // add explosion sprites
             }
         }
 
