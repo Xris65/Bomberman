@@ -190,7 +190,12 @@ public final class GameEngine {
         while(i.hasNext()){
             Monster m = (Monster) i.next();
             if(!m.isAlive()){
-                System.out.println("Monster is dead");
+                spriteMonsters.forEach(self -> {
+                    if(self.isToRemove()){
+                        self.remove();
+                        spriteMonsters.remove(self);
+                    }});
+                spriteMonsters.removeIf(Sprite::isToRemove);
                 i.remove();
             }
         }
@@ -237,10 +242,15 @@ public final class GameEngine {
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
-        spriteMonsters.removeIf(Sprite::isToRemove);
+
         for (Sprite monster : spriteMonsters) {
             monster.render();
         }
+        spriteMonsters.forEach(self -> {
+            if(self.isToRemove()){
+            self.remove();
+        }});
+        spriteMonsters.removeIf(Sprite::isToRemove);
 
 
         for (Sprite bomb : spriteBombs) {
@@ -252,8 +262,13 @@ public final class GameEngine {
         for (BombObject bomb : game.getWorld().getBombs()) {
             if( bomb.getBombPhase() == 5) {
                 game.getWorld().clear(bomb.getPosition());
+
             }
         }
+        spriteBombs.forEach(self -> {
+            if (self.isToRemove()) {
+                self.remove();
+            }});
         spriteBombs.removeIf(Sprite::isToRemove);
     }
 

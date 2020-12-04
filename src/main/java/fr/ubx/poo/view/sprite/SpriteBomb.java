@@ -26,8 +26,6 @@ public class SpriteBomb extends SpriteGameObject{
         BombObject bomb = (BombObject) super.go;
         if(bomb.getBombPhase() >= 5){
             System.out.println("In update Image, call to remove");
-            remove();
-            setImage(null);
             super.setToRemove(true);
         } else {
             setImage(ImageFactory.getInstance().getBomb(bomb.getBombPhase()));
