@@ -186,17 +186,20 @@ public final class GameEngine {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
         }
-        Iterator i = game.getWorld().getMonsters().iterator();
-        while(i.hasNext()){
-            Monster m = (Monster) i.next();
+        Iterator monsterIterator = game.getWorld().getMonsters().iterator();
+        while(monsterIterator.hasNext()){
+            Monster m = (Monster) monsterIterator.next();
             if(!m.isAlive()){
-                spriteMonsters.forEach(self -> {
-                    if(self.isToRemove()){
-                        self.remove();
-                        spriteMonsters.remove(self);
-                    }});
-                spriteMonsters.removeIf(Sprite::isToRemove);
-                i.remove();
+                Iterator spriteMonstersIterator = spriteMonsters.iterator();
+                while(spriteMonstersIterator.hasNext()){
+                    SpriteMonster spriteMonster = (SpriteMonster) spriteMonstersIterator.next();
+                    if(spriteMonster.isToRemove()){
+                        spriteMonster.remove();
+                        spriteMonstersIterator.remove();
+                    }
+                }
+                //spriteMonsters.removeIf(Sprite::isToRemove);
+                monsterIterator.remove();
             }
         }
         if (player.isWinner()) {
@@ -212,11 +215,11 @@ public final class GameEngine {
             b.update(now);
         }
 
-        i = game.getWorld().getBombs().iterator();
-        while(i.hasNext()){
-            BombObject b = (BombObject) i.next();
+        Iterator bombObjectIterator = game.getWorld().getBombs().iterator();
+        while(bombObjectIterator.hasNext()){
+            BombObject b = (BombObject) bombObjectIterator.next();
             if((b.getBombPhase() == 5)){
-                i.remove();
+                bombObjectIterator.remove();
                 Position p = b.getPosition();
                 game.getWorld().clear(p);
                 game.getWorld().getExplosions().add(new Explosion(game, p, b.getRange()));
