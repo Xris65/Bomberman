@@ -23,8 +23,8 @@ public class SpriteBomb extends SpriteGameObject{
 
     @Override
     public void updateImage() {
-        BombObject bomb = (BombObject) go;
-        if(bomb.getBombPhase() >= 6){
+        BombObject bomb = (BombObject) super.go;
+        if(bomb.getBombPhase() >= 5){
             System.out.println("In update Image, call to remove");
             remove();
             setImage(null);

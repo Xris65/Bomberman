@@ -17,34 +17,24 @@ import java.util.TimerTask;
 public class BombObject extends GameObject {
 
     private int bombPhase = 1;
-    public Timer timer = new Timer();
 
-
-    // 5 images, 6 eme étape c'est la destruction de la bombe
-
-    public void startTimer(){
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if(bombPhase <= 5) {
-                    bombPhase++;
-                }
-                else {
-                    timer.cancel();
-                }
+    @Override
+    public void update(long now) {
+        super.actionIfTime(now, () -> {
+            if(bombPhase <= 4){
+                bombPhase++;
             }
-        }, 1000, 1000);
+        });
     }
-
 
     public int getBombPhase() {
         return bombPhase;
     }
 
-
-
-    public BombObject(Game game, Position position) {
+    public BombObject(Game game, Position position, long now) {
         super(game, position);
+        super.setTimeToAct(1000); // bomb changes phase every 1000 ms
+        super.setLastActionTime(now);
     }
 
 }

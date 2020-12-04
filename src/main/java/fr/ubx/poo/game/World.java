@@ -7,6 +7,7 @@ package fr.ubx.poo.game;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.BombObject;
+import fr.ubx.poo.model.go.Explosion;
 import fr.ubx.poo.model.go.character.Monster;
 
 import java.lang.reflect.Array;
@@ -18,9 +19,25 @@ public class World {
     private final WorldEntity[][] raw;
     public final Dimension dimension;
     private boolean changed = false;
-    public ArrayList<Monster> monsters = new ArrayList<>();
-    public ArrayList<BombObject> bombs = new ArrayList<>();
+    private ArrayList<Monster> monsters = new ArrayList<>();
+    private ArrayList<BombObject> bombs = new ArrayList<>();
+    private ArrayList<Explosion> explosions = new ArrayList<>();
 
+    public void setMonsters(ArrayList<Monster> monsters) {
+        this.monsters = monsters;
+    }
+
+    public ArrayList<BombObject> getBombs() {
+        return bombs;
+    }
+
+    public ArrayList<Explosion> getExplosions() {
+        return explosions;
+    }
+
+    public ArrayList<Monster> getMonsters() {
+        return monsters;
+    }
 
     public boolean isChanged() {
         return changed;

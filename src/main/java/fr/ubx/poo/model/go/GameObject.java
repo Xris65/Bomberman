@@ -8,13 +8,45 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.Entity;
 
+import javax.swing.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 /***
  * A GameObject can acces the game and knows its position in the grid.
  */
 public abstract class GameObject extends Entity {
     protected final Game game;
     private Position position;
+    private long lastActionTime = 0;
+    private int timeToAct;
 
+    public long getLastActionTime() {
+        return lastActionTime;
+    }
+
+    public void setLastActionTime(long lastActionTime) {
+        this.lastActionTime = lastActionTime;
+    }
+
+    public int getTimeToAct() {
+        return timeToAct;
+    }
+
+    public void setTimeToAct(int timeToAct) {
+        this.timeToAct = timeToAct;
+    }
+
+    public void actionIfTime(long now, Runnable runnable){
+        if((now - getLastActionTime()) > (getTimeToAct() * 1000000)){
+            lastActionTime = now;
+            runnable.run();
+        }
+    }
+
+    public void update(long now) {
+
+    }
 
     public Position getPosition() {
         return position;

@@ -7,6 +7,7 @@ import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.decor.Bomb;
 import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.go.BombObject;
+import fr.ubx.poo.model.go.Explosion;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.sprite.*;
@@ -79,7 +80,7 @@ public final class GameEngine {
         game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         World w = game.getWorld();
-        for (Monster m : w.monsters) {
+        for (Monster m : w.getMonsters()) {
             spriteMonsters.add(new SpriteMonster(layer, m));
         }
     }
@@ -125,13 +126,13 @@ public final class GameEngine {
         if (input.isBomb()) {
             if(!(game.getWorld().get(player.getPosition()) instanceof Bomb)) {
                 if (player.getNumberOfBombs() < player.getBombCapacity()) {
-                    BombObject bomb = new BombObject(game, player.getPosition());
-                    game.getWorld().bombs.add(bomb);
+
+                    BombObject bomb = new BombObject(game, player.getPosition(), now);
+                    game.getWorld().getBombs().add(bomb);
                     spriteBombs.add(new SpriteBomb(layer, bomb));
                     game.getWorld().set(player.getPosition(), new Bomb());
                     game.getWorld().setChanged(true);
                     //game.createExplosions(explosions,layer,player);
-                    bomb.startTimer();
                     player.removeBomb();
                 }
             }
@@ -176,7 +177,6 @@ public final class GameEngine {
         }.start();
     }
 
-
     private void update(long now) {
         player.update(now);
         game.getWorldManager().updateMonstersOnWorlds(now);
@@ -193,6 +193,9 @@ public final class GameEngine {
             game.setToChange(false);
             spriteMonsters.removeIf(Objects::nonNull);
             initialize(stage,game);
+        }
+        for(BombObject b : game.getWorld().getBombs()){
+            b.update(now);
         }
 
     }
@@ -218,18 +221,23 @@ public final class GameEngine {
             monster.render();
         }
 
+
         for (Sprite bomb : spriteBombs) {
             bomb.render();
             if (bomb.isToRemove()) {
                 player.addBomb();
             }
         }
-        for (BombObject bomb : game.getWorld().bombs) {
+        for (BombObject bomb : game.getWorld().getBombs()) {
             if( bomb.getBombPhase() == 5) {
                 game.getWorld().clear(bomb.getPosition());
             }
         }
-        game.getWorld().bombs.removeIf( self -> self.getBombPhase() == 5);
+        game.getWorld().getBombs().forEach( self -> {
+            Position p = self.getPosition();
+            game.getWorld().getExplosions().add(new Explosion(game, p));
+            game.getWorld().getBombs().remove(self);
+        });
         spriteBombs.removeIf(Sprite::isToRemove);
     }
 

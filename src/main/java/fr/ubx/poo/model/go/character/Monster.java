@@ -9,20 +9,20 @@ import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Bonus;
 import fr.ubx.poo.model.go.GameObject;
 
+import java.util.function.Function;
+
 public class Monster extends GameObject implements Movable {
 
     private boolean alive = true;
     Direction direction = Direction.random();
     private boolean moveRequested = false;
     private int lives = 1;
-    long lastActionTime = 0;
-    int timeToMove;
     private final World world;
 
-
+    // time to move in ms
     public Monster(Game game, Position position, int timeToMove, World w) {
         super(game, position);
-        this.timeToMove = timeToMove;
+        super.setTimeToAct(timeToMove);
         this.world = w;
     }
 
@@ -42,12 +42,8 @@ public class Monster extends GameObject implements Movable {
         moveRequested = true;
     }
 
-
     public void update(long now) {
-        if ((now - lastActionTime) > timeToMove * 1000000) {
-            lastActionTime = now;
-            requestMove();
-        }
+        super.actionIfTime(now, this::requestMove);
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);

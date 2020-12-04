@@ -62,7 +62,7 @@ public class Player extends GameObject implements Movable {
         if(w.get(boxAt) instanceof Box){
             if (w.get(direction.nextPosition(boxAt)) == null && game.getWorld().isInside(direction.nextPosition(boxAt))){
                 // can move
-                for(Monster m : w.monsters){
+                for(Monster m : w.getMonsters()){
                     if (m.getPosition().equals(direction.nextPosition(boxAt))){
                         return;
                     }

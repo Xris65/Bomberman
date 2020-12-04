@@ -35,7 +35,7 @@ public class WorldManager {
         } else {
             World nextWorld;
             nextWorld = readFromFile(String.format("level%d.txt", worldMaxAtteint + 1));
-            nextWorld.monsters = nextWorld.findMonsters(game);
+            nextWorld.setMonsters(nextWorld.findMonsters(game));
             addWorld(nextWorld);
             return nextWorld;
         }
@@ -49,7 +49,7 @@ public class WorldManager {
     public void updateMonstersOnWorlds(long now) {
         for (World w : worlds) {
                 w.updateMonsters(now);
-            for (Monster m : w.monsters) {
+            for (Monster m : w.getMonsters()) {
                 m.update(now);
             }
         }
@@ -57,7 +57,7 @@ public class WorldManager {
 
     public void verifyMonsterCollisionsWithPlayer() {
         World w = worlds.get(currentWorldIndex);
-        for (Monster m : w.monsters) {
+        for (Monster m : w.getMonsters()) {
             Game game = m.getGame();
             Player player = game.getPlayer();
             if (m.getPosition().equals(game.getPlayer().getPosition()))
