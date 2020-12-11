@@ -7,4 +7,9 @@ public class Key extends Bonus{
     public void obtain(Player player) {
         player.addKey();
     }
+
+    @Override
+    public boolean isDestroyable() {
+        return false;
+    }
 }

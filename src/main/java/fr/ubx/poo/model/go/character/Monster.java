@@ -9,24 +9,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Monster extends Character {
-    private int lives = 1;
-
-    public boolean isAlive() {
-        return lives > 0;
-    }
-
-    public int getLives() {
-        return lives;
-    }
-
-    public void removeHP(int hp) {
-        this.lives -= hp;
-    }
 
     // time to move in ms
     public Monster(Game game, Position position, int timeToMove){
         super(game, position, Direction.random());
         super.setTimeToAct(timeToMove);
+        setLives(1);
     }
 
     public ArrayList<Direction> validMovements(){
@@ -58,12 +46,6 @@ public class Monster extends Character {
             setLastActionTime(now);
         });
         super.update(now);
-    }
-
-
-    public void doMove(Direction direction) {
-        Position nextPos = direction.nextPosition(getPosition());
-        setPosition(nextPos);
     }
 
     public Direction getDirection() {

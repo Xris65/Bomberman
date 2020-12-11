@@ -33,7 +33,7 @@ public class Game {
     public Game(String worldPath) {
         world = manager.getNextWorld(this);
         loadConfig(worldPath);
-        Position positionPlayer = null;
+        Position positionPlayer;
         try {
             positionPlayer = world.findPlayer();
             player = new Player(this, positionPlayer);

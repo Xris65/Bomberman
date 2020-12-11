@@ -21,6 +21,17 @@ abstract public class Bonus extends Decor {
     }
 
     @Override
+    public boolean isDestroyable() {
+        return true;
+    }
+
+    // As in a classic bomberman, bonuses won't stop the bomb explosion
+    @Override
+    public boolean stopsBombExplosion() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Bonus";
     }

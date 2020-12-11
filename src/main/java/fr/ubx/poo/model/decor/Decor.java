@@ -20,6 +20,18 @@ abstract public class Decor extends Entity {
         return false;
     }
 
+    public boolean stopsBombExplosion(){
+        return true;
+    }
+
+    public void move(Player player){
+
+    }
+
+    public boolean isDestroyable(){
+        return false;
+    }
+
     @Override
     public String toString() {
         return "Decor";

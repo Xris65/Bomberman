@@ -5,16 +5,9 @@
 package fr.ubx.poo.model.go.character;
 
 import fr.ubx.poo.game.*;
-import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.decor.*;
-import fr.ubx.poo.model.decor.Bonus.Bonus;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class Player extends Character {
-    private int lives;
     private boolean winner;
     private boolean isInvulnerable = false;
 
@@ -55,10 +48,6 @@ public class Player extends Character {
             bombRange--;
     }
 
-    public void addLife(){
-        lives++;
-    }
-
     public int getNumberOfKeys() {
         return numberOfKeys;
     }
@@ -77,31 +66,16 @@ public class Player extends Character {
 
     public void moveBoxIfAble(World w){
         Position boxAt = direction.nextPosition(getPosition());
-        Entity e = w.get(boxAt);
-        if(e instanceof Box){
-            if (w.get(direction.nextPosition(boxAt)) == null && game.getWorld().isInside(direction.nextPosition(boxAt))){
-                // can move
-                for(Monster m : w.getMonsters()){
-                    if (m.getPosition().equals(direction.nextPosition(boxAt))){
-                        return;
-                    }
-                }
-                w.set(direction.nextPosition(boxAt),new Box());
-                w.clear(boxAt);
-                w.setChanged(true);
-
-            }
+        Decor decor = w.get(boxAt);
+        if(decor != null) {
+            decor.move(this);
         }
     }
 
     public Player(Game game, Position position) {
         super(game, position, Direction.S);
-        this.lives = game.getInitPlayerLives();
-        setTimeToAct(1000);
-    }
-
-    public int getLives() {
-        return lives;
+        setLives(game.getInitPlayerLives());
+        setTimeToAct(1000); // time for the invulnerability to wear off
     }
 
     public boolean isPlayerVulnerable() {
@@ -109,7 +83,7 @@ public class Player extends Character {
     }
 
     public void loseLife(long now) {
-        lives--;
+        loseLife();
         isInvulnerable = true;
         setLastActionTime(now);
     }
@@ -126,7 +100,6 @@ public class Player extends Character {
                 game.setToChange(true);
                 return false;
             }
-
         }
         return d.isWalkable();
     }
@@ -135,14 +108,13 @@ public class Player extends Character {
     public boolean canMove(Direction direction) {
         World w = super.game.getWorld();
         Position p = direction.nextPosition(super.getPosition());
-        System.out.println(getPosition());
-        System.out.println(direction);
         boolean inMap = w.isInside(p);
         Decor targetPosition = w.get(p);
         boolean isWalkable = targetPosition == null || handleNewPosition(targetPosition, p);
 
         return inMap && isWalkable;
     }
+
 
 
     public void update(long now) {
@@ -157,10 +129,6 @@ public class Player extends Character {
 
     public boolean isWinner() {
         return winner;
-    }
-
-    public boolean isAlive() {
-        return lives > 0;
     }
 
 }

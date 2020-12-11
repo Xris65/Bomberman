@@ -13,4 +13,9 @@ public class Princess extends Bonus{
     public void obtain(Player player) {
         player.wins();
     }
+
+    @Override
+    public boolean isDestroyable() {
+        return false;
+    }
 }

@@ -6,15 +6,37 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
+import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.GameObject;
 
 public class Character extends GameObject implements Movable {
+    private int lives;
     protected boolean moveRequested = false;
     protected Direction direction;
 
     public Character(Game game, Position position, Direction direction) {
         super(game, position);
         this.direction = direction;
+    }
+
+    public void loseLife(){
+        lives--;
+    }
+
+    public void addLife(){
+        lives++;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public boolean isAlive() {
+        return lives > 0;
     }
 
     public void requestMove(Direction direction) {
@@ -32,8 +54,8 @@ public class Character extends GameObject implements Movable {
     public boolean canMove(Direction direction) {
         World world = game.getWorld();
         Position nextPosition = direction.nextPosition(getPosition());
-        Entity entity = world.get(nextPosition);
-        return world.isInside(nextPosition) && (entity == null || entity.isWalkable());
+        Decor decor = world.get(nextPosition);
+        return world.isInside(nextPosition) && (decor == null || decor.isWalkable());
     }
 
     public void doMove(Direction direction) {

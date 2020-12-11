@@ -77,7 +77,7 @@ public final class GameEngine {
         root.getChildren().add(layer);
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
         // Create decor sprites
-        game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+        game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         World w = game.getWorld();
         for (Monster m : w.getMonsters()) {
@@ -124,29 +124,28 @@ public final class GameEngine {
             player.moveBoxIfAble(game.getWorld());
         }
         if (input.isBomb()) {
-            if(!(game.getWorld().get(player.getPosition()) instanceof Bomb)) {
+            if (game.getWorld().get(player.getPosition()) == null) {
                 if (player.getNumberOfBombs() < player.getBombCapacity()) {
 
                     BombObject bomb = new BombObject(game, player.getPosition(), player.getBombRange(), now);
                     game.getWorld().getBombs().add(bomb);
                     spriteBombs.add(new SpriteBomb(layer, bomb));
                     game.getWorld().set(player.getPosition(), new Bomb());
-                    game.getWorld().setChanged(true);
                     //game.createExplosions(explosions,layer,player);
                     player.removeBomb();
                 }
             }
         }
-        if(input.isKey()) {
+        if (input.isKey()) {
             Position playerPos = player.getPosition();
             World world = game.getWorld();
-            for(Direction d : Direction.values()){
-                if(world.get(d.nextPosition(playerPos)) instanceof Door
-                  &&(((Door) world.get(d.nextPosition(playerPos))).isClosed())){
-                    if(player.getNumberOfKeys() > 0){
+            for (Direction d : Direction.values()) {
+                if (world.get(d.nextPosition(playerPos)) instanceof Door
+                        && (((Door) world.get(d.nextPosition(playerPos))).isClosed())) {
+                    if (player.getNumberOfKeys() > 0) {
                         player.removeKey();
                         game.setToChange(true);
-                        world.set(d.nextPosition(playerPos),new Door(false,false));
+                        world.set(d.nextPosition(playerPos), new Door(false, false));
                         game.changeWorld(true);
                         break;
                     }
@@ -155,7 +154,6 @@ public final class GameEngine {
         }
         input.clear();
     }
-
 
 
     private void showMessage(String msg, Color color) {
@@ -186,13 +184,13 @@ public final class GameEngine {
             showMessage("Perdu!", Color.RED);
         }
         Iterator monsterIterator = game.getWorld().getMonsters().iterator();
-        while(monsterIterator.hasNext()){
+        while (monsterIterator.hasNext()) {
             Monster m = (Monster) monsterIterator.next();
-            if(!m.isAlive()){
+            if (!m.isAlive()) {
                 Iterator spriteMonstersIterator = spriteMonsters.iterator();
-                while(spriteMonstersIterator.hasNext()){
+                while (spriteMonstersIterator.hasNext()) {
                     SpriteMonster spriteMonster = (SpriteMonster) spriteMonstersIterator.next();
-                    if(spriteMonster.isToRemove()){
+                    if (spriteMonster.isToRemove()) {
                         spriteMonster.remove();
                         spriteMonstersIterator.remove();
                     }
@@ -205,19 +203,19 @@ public final class GameEngine {
             gameLoop.stop();
             showMessage("Gagné", Color.BLUE);
         }
-        if(game.isToChange()){
+        if (game.isToChange()) {
             game.setToChange(false);
             spriteMonsters.removeIf(Objects::nonNull);
-            initialize(stage,game);
+            initialize(stage, game);
         }
-        for(BombObject b : game.getWorld().getBombs()){
+        for (BombObject b : game.getWorld().getBombs()) {
             b.update(now);
         }
 
         Iterator bombObjectIterator = game.getWorld().getBombs().iterator();
-        while(bombObjectIterator.hasNext()){
+        while (bombObjectIterator.hasNext()) {
             BombObject b = (BombObject) bombObjectIterator.next();
-            if((b.getBombPhase() == 5)){
+            if ((b.getBombPhase() == 5)) {
                 bombObjectIterator.remove();
                 Position p = b.getPosition();
                 game.getWorld().clear(p);
@@ -229,12 +227,16 @@ public final class GameEngine {
     }
 
     private void render() {
-        if( game.getWorld().isChanged()){
+        if (game.getWorld().isChanged()) {
 
             game.getWorld().setChanged(false);
             sprites.forEach(Sprite::remove);
-            sprites.removeIf(self->self.getImageView() == null);
-            game.getWorld().forEach( (pos,d ) -> {if (!(d instanceof Bomb)){ sprites.add(SpriteFactory.createDecor(layer, pos, d)); }} );
+            sprites.removeIf(self -> self.getImageView() == null);
+            game.getWorld().forEach((pos, d) -> {
+                if (!(d instanceof Bomb)) { // Doesn't reload bomb textures (not needed)
+                    sprites.add(SpriteFactory.createDecor(layer, pos, d));
+                }
+            });
         }
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
@@ -244,9 +246,10 @@ public final class GameEngine {
             monster.render();
         }
         spriteMonsters.forEach(self -> {
-            if(self.isToRemove()){
-            self.remove();
-        }});
+            if (self.isToRemove()) {
+                self.remove();
+            }
+        });
         spriteMonsters.removeIf(Sprite::isToRemove);
 
 
@@ -257,7 +260,7 @@ public final class GameEngine {
             }
         }
         for (BombObject bomb : game.getWorld().getBombs()) {
-            if( bomb.getBombPhase() == 5) {
+            if (bomb.getBombPhase() == 5) {
                 game.getWorld().clear(bomb.getPosition());
 
             }
@@ -265,7 +268,8 @@ public final class GameEngine {
         spriteBombs.forEach(self -> {
             if (self.isToRemove()) {
                 self.remove();
-            }});
+            }
+        });
         spriteBombs.removeIf(Sprite::isToRemove);
     }
 
