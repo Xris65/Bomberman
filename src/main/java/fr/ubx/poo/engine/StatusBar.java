@@ -62,8 +62,13 @@ public class StatusBar {
 
     private void updateLevel(int n) {
         if (n != gameLevel) {
+            gameLevel = n;
             level.getChildren().clear();
-            level.getChildren().add(new ImageView(ImageFactory.getInstance().getDigit(n)));
+            Image image = ImageFactory.getInstance().getDigit(n);
+            System.out.println(image.getHeight());
+            System.out.println(image.getWidth());
+            ImageView imageView = new ImageView(image);
+            level.getChildren().add(new ImageView(image));
         }
     }
 
