@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 public class SpriteExplosion extends Sprite {
-    private Position position;
+    private final Position position;
     private boolean rendered = false;
 
     public boolean isRendering() {

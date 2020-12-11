@@ -6,32 +6,58 @@ package fr.ubx.poo.model.go.character;
 
 import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.Entity;
-import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.*;
-import fr.ubx.poo.model.go.BombObject;
-import fr.ubx.poo.model.go.GameObject;
+import fr.ubx.poo.model.decor.Bonus.Bonus;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Player extends Character {
-    private final boolean alive = true;
-    Direction direction;
-    private boolean moveRequested = false;
     private int lives;
     private boolean winner;
     private boolean isInvulnerable = false;
-    private boolean onBonus = false;
+
     private int bombCapacity = 1;
     private int numberOfBombs = 0;
-    private int range = 1;
+    private int bombRange = 1;
+    private int numberOfKeys = 0;
 
-    public void substractKey() {
-        numberOfKeys--;
+    public void wins(){
+        winner = true;
     }
 
-    private int numberOfKeys = 0;
+    public void addBomb(){
+        numberOfBombs--;
+    }
+    public void removeBomb(){
+        numberOfBombs++;
+    }
+
+    public void addBombCapacity(){
+        bombCapacity++;
+    }
+    public void removeBombCapacity(){
+        if (bombCapacity > 1)
+            bombCapacity--;
+    }
+
+    public void removeKey() {
+        numberOfKeys--;
+    }
+    public void addKey() {
+        numberOfKeys++;
+    }
+
+    public void addBombRange(){bombRange++;}
+    public void removeBombRange(){
+        if (bombRange > 1)
+            bombRange--;
+    }
+
+    public void addLife(){
+        lives++;
+    }
 
     public int getNumberOfKeys() {
         return numberOfKeys;
@@ -44,18 +70,10 @@ public class Player extends Character {
     public int getBombCapacity() {
         return bombCapacity;
     }
-    public void addBomb(){
-        numberOfBombs--;
-    }
 
-    public void removeBomb(){
-        numberOfBombs++;
+    public int getBombRange() {
+        return bombRange;
     }
-    public int getRange() {
-        return range;
-    }
-
-
 
     public void moveBoxIfAble(World w){
         Position boxAt = direction.nextPosition(getPosition());
@@ -76,20 +94,10 @@ public class Player extends Character {
         }
     }
 
-
-
-    public boolean isOnBonus() {
-        return onBonus;
-    }
-
-    public void setOnBonus(boolean onBonus) {
-        this.onBonus = onBonus;
-    }
-
     public Player(Game game, Position position) {
-        super(game, position);
-        this.direction = Direction.S;
+        super(game, position, Direction.S);
         this.lives = game.getInitPlayerLives();
+        setTimeToAct(1000);
     }
 
     public int getLives() {
@@ -100,58 +108,19 @@ public class Player extends Character {
         return !isInvulnerable;
     }
 
-    public void loseLife() {
+    public void loseLife(long now) {
         lives--;
         isInvulnerable = true;
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        executor.schedule(() -> isInvulnerable = false, 1, TimeUnit.SECONDS);
-        executor.shutdown();
+        setLastActionTime(now);
     }
 
-    public Direction getDirection() {
-        return direction;
-    }
+    private boolean handleNewPosition(Decor d, Position p) {
+        d.obtain(this);
+        if(d.isToRemove()) {
+            game.getWorld().clear(p);
+        }
 
-    public void requestMove(Direction direction) {
-        if (direction != this.direction) {
-            this.direction = direction;
-        }
-        moveRequested = true;
-    }
-
-    private boolean handleNewPosition(Entity d, Position p) {
-        if (d instanceof Princess) {
-            this.winner = true;
-            return true;
-        }
-        else if (d instanceof Bonus) {
-            Bonus myBonus = (Bonus) d;
-            WorldEntity type = myBonus.getType();
-            if(type == WorldEntity.BombRangeDec){
-                if(range > 1)
-                    range--;
-            }
-            else if(type == WorldEntity.BombRangeInc){
-                range++;
-            }
-            else if(type == WorldEntity.BombNumberDec){
-                if(bombCapacity > 1)
-                    bombCapacity--;
-            }
-            else if(type == WorldEntity.BombNumberInc){
-                bombCapacity++;
-            }
-            else if(type == WorldEntity.Heart){
-                lives++;
-            }
-            else if(type == WorldEntity.Key){
-                numberOfKeys++;
-            }
-            super.game.getWorld().clear(p);
-            onBonus = true;
-            return true;
-        }
-        else if (d instanceof Door){
+        if (d instanceof Door){
             if(!((Door) d).isClosed()){
                 game.changeWorld(!((Door) d).isPrev());
                 game.setToChange(true);
@@ -159,15 +128,17 @@ public class Player extends Character {
             }
 
         }
-        return false;
+        return d.isWalkable();
     }
 
     @Override
     public boolean canMove(Direction direction) {
         World w = super.game.getWorld();
         Position p = direction.nextPosition(super.getPosition());
+        System.out.println(getPosition());
+        System.out.println(direction);
         boolean inMap = w.isInside(p);
-        Entity targetPosition = w.get(p);
+        Decor targetPosition = w.get(p);
         boolean isWalkable = targetPosition == null || handleNewPosition(targetPosition, p);
 
         return inMap && isWalkable;
@@ -175,12 +146,12 @@ public class Player extends Character {
 
 
     public void update(long now) {
-        if (moveRequested) {
-            if (canMove(direction)) {
-                doMove(direction);
-            }
+        if(isInvulnerable){
+            actionIfTime(now, () -> {
+                isInvulnerable = false;
+            });
         }
-        moveRequested = false;
+        super.update(now);
     }
 
 

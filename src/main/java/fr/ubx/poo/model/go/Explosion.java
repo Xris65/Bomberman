@@ -2,25 +2,26 @@ package fr.ubx.poo.model.go;
 
 import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.Entity;
-import fr.ubx.poo.model.decor.Bonus;
+import fr.ubx.poo.model.decor.Bonus.Bonus;
+import fr.ubx.poo.model.decor.Bonus.Key;
 import fr.ubx.poo.model.decor.Box;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Explosion extends GameObject{
     int range;
-    public Explosion(Game game, Position position, int range) {
+    public Explosion(Game game, Position position, int range, long now) {
         super(game, position);
         this.range = range;
-        damageEntities();
+        damageEntities(now);
     }
 
     private boolean isKey(Entity e){
         Bonus b = (Bonus) e;
-        return b.getType() == WorldEntity.Key;
+        return e instanceof Key;
     }
 
-    private void damageEntities(){
+    private void damageEntities(long now){
         World w = game.getWorld();
         for(Direction d : Direction.values()){  // for each direction
             Position initialPosition = getPosition();
@@ -34,7 +35,6 @@ public class Explosion extends GameObject{
                 if(e != null){
                     if(e instanceof Box || (e instanceof Bonus && !isKey(e))){
                         w.clear(initialPosition);
-                        w.setChanged(true);
                     }
 
                     break;
@@ -51,7 +51,7 @@ public class Explosion extends GameObject{
                     break;
                 }
                 if(game.getPlayer().getPosition().equals(initialPosition)){
-                    game.getPlayer().loseLife();
+                    game.getPlayer().loseLife(now);
                     break;
                 }
             }

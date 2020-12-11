@@ -38,8 +38,7 @@ public abstract class GameObject extends Entity {
     }
 
     public void actionIfTime(long now, Runnable runnable){
-        if((now - getLastActionTime()) > (getTimeToAct() * 1000000)){
-            lastActionTime = now;
+        if(getTimeToAct() != 0 && (now - getLastActionTime()) > (getTimeToAct() * 1000000L)){
             runnable.run();
         }
     }

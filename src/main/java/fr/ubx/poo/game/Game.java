@@ -22,8 +22,8 @@ import java.util.Properties;
 public class Game {
 
     private World world;
-    private ArrayList<World> worlds = new ArrayList<>();
-    private WorldManager manager = new WorldManager();
+    private final ArrayList<World> worlds = new ArrayList<>();
+    private final WorldManager manager = new WorldManager();
     private final Player player;
     public int initPlayerLives = 1;
     ArrayList<Monster> monsters;

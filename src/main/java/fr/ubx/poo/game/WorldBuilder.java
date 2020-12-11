@@ -1,7 +1,10 @@
 package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.*;
-import fr.ubx.poo.model.go.character.Monster;
+import fr.ubx.poo.model.decor.Bonus.*;
+import fr.ubx.poo.model.decor.Bonus.BombBonus.BombNumber;
+import fr.ubx.poo.model.decor.Bonus.BombBonus.BombRange;
+import fr.ubx.poo.model.decor.Bonus.Princess;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -30,12 +33,18 @@ public class WorldBuilder {
             case Stone -> new Stone();
             case Tree -> new Tree();
             case Box -> new Box();
-            case BombNumberDec, BombNumberInc, BombRangeDec, BombRangeInc, Heart, Key -> new Bonus(entity);
+            case BombNumberDec -> new BombNumber(false);
+            case BombNumberInc -> new BombNumber(true);
+            case BombRangeDec -> new BombRange(false);
+            case BombRangeInc -> new BombRange(true);
+            case Heart -> new Heart();
+            case Key -> new Key();
             case Princess -> new Princess();
             case DoorNextClosed -> new Door(true,false);
             case DoorNextOpened -> new Door(false,false);
             case DoorPrevOpened -> new Door(false,true);
-            case Bomb -> new Bomb();
+            // no bomb in raw, so this case is useless
+            // case Bomb -> new Bomb();
             default -> null;
         };
     }

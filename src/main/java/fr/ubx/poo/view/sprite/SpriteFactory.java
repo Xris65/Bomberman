@@ -8,6 +8,9 @@ import static fr.ubx.poo.view.image.ImageResource.*;
 
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.*;
+import fr.ubx.poo.model.decor.Bonus.*;
+import fr.ubx.poo.model.decor.Bonus.BombBonus.BombNumber;
+import fr.ubx.poo.model.decor.Bonus.BombBonus.BombRange;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.image.ImageFactory;
@@ -24,13 +27,25 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(TREE), position);
         if(decor instanceof Box)
             return new SpriteDecor(layer, factory.get(BOX), position);
-        if(decor instanceof Bonus)
-            return new SpriteDecor(layer, factory.get( ((Bonus) decor).getImagePath()), position);
+        // BONUS
+        if(decor instanceof Heart)
+            return new SpriteDecor(layer, factory.get(HEART), position);
+        if(decor instanceof BombNumber){
+            BombNumber bombNumber = (BombNumber) decor;
+            return new SpriteDecor(layer, factory.get(((bombNumber.isIncrease()) ? BONUS_BOMB_NB_INC : BONUS_BOMB_NB_DEC)), position);
+        }
+        if(decor instanceof BombRange){
+            BombRange bombRange = (BombRange) decor;
+            return new SpriteDecor(layer, factory.get(((bombRange.isIncrease()) ? BONUS_BOMB_RANGE_INC : BONUS_BOMB_RANGE_DEC)), position);
+        }
         if(decor instanceof Princess)
             return new SpriteDecor(layer, factory.get(PRINCESS), position);
+        if(decor instanceof Key){
+            return new SpriteDecor(layer, factory.get(KEY), position);
+        }
+        //
         if(decor instanceof Door)
             return new SpriteDecor(layer,factory.getDoor(((Door) decor).isClosed()),position);
-        if(decor instanceof Bomb){}
         throw new RuntimeException("Unsupported sprite for decor " + decor);
     }
 

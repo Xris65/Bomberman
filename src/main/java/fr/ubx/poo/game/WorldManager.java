@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class WorldManager {
-    private ArrayList<World> worlds = new ArrayList<>();
+    private final ArrayList<World> worlds = new ArrayList<>();
     private int worldMaxAtteint = 0;
     private int currentWorldIndex = -1;
 
@@ -52,14 +52,14 @@ public class WorldManager {
         }
     }
 
-    public void verifyMonsterCollisionsWithPlayer() {
+    public void verifyMonsterCollisionsWithPlayer(long now) {
         World w = worlds.get(currentWorldIndex);
         for (Monster m : w.getMonsters()) {
             Game game = m.getGame();
             Player player = game.getPlayer();
             if (m.getPosition().equals(game.getPlayer().getPosition()))
                 if (player.isPlayerVulnerable())
-                    player.loseLife();
+                    player.loseLife(now);
         }
     }
     public int getCurrentWorldIndex() {

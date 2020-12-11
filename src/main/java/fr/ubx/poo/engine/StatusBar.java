@@ -19,12 +19,12 @@ import javafx.scene.text.Text;
 
 public class StatusBar {
     public static final int height = 55;
-    private HBox hBox = new HBox();
-    private Text liveValue = new Text();
-    private Text bombsValue = new Text();
-    private Text rangeValue = new Text();
-    private Text keyValue = new Text();
-    private HBox level = new HBox();
+    private final HBox hBox = new HBox();
+    private final Text liveValue = new Text();
+    private final Text bombsValue = new Text();
+    private final Text rangeValue = new Text();
+    private final Text keyValue = new Text();
+    private final HBox level = new HBox();
     private int gameLevel = 1;
     private final Game game;
     private final DropShadow ds = new DropShadow();
@@ -83,7 +83,7 @@ public class StatusBar {
         Player player = game.getPlayer();
         updateLevel(game.getWorldManager().getCurrentWorldIndex()+1);
         liveValue.setText(String.valueOf(player.getLives()));
-        rangeValue.setText(String.valueOf(player.getRange()));
+        rangeValue.setText(String.valueOf(player.getBombRange()));
         bombsValue.setText(String.valueOf(player.getBombCapacity()));
         keyValue.setText(String.valueOf(player.getNumberOfKeys()));
     }

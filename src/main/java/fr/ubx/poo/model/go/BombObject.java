@@ -25,6 +25,7 @@ public class BombObject extends GameObject {
             if(bombPhase <= 4){
                 bombPhase++;
             }
+            setLastActionTime(now);
         });
     }
 

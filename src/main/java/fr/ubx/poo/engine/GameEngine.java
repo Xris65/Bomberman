@@ -38,7 +38,7 @@ public final class GameEngine {
     private final String windowTitle;
     private final Game game;
     private final Player player;
-    private List<Sprite> sprites = new ArrayList<>();
+    private final List<Sprite> sprites = new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
@@ -127,7 +127,7 @@ public final class GameEngine {
             if(!(game.getWorld().get(player.getPosition()) instanceof Bomb)) {
                 if (player.getNumberOfBombs() < player.getBombCapacity()) {
 
-                    BombObject bomb = new BombObject(game, player.getPosition(), player.getRange(), now);
+                    BombObject bomb = new BombObject(game, player.getPosition(), player.getBombRange(), now);
                     game.getWorld().getBombs().add(bomb);
                     spriteBombs.add(new SpriteBomb(layer, bomb));
                     game.getWorld().set(player.getPosition(), new Bomb());
@@ -144,7 +144,7 @@ public final class GameEngine {
                 if(world.get(d.nextPosition(playerPos)) instanceof Door
                   &&(((Door) world.get(d.nextPosition(playerPos))).isClosed())){
                     if(player.getNumberOfKeys() > 0){
-                        player.substractKey();
+                        player.removeKey();
                         game.setToChange(true);
                         world.set(d.nextPosition(playerPos),new Door(false,false));
                         game.changeWorld(true);
@@ -180,7 +180,7 @@ public final class GameEngine {
     private void update(long now) {
         player.update(now);
         game.getWorldManager().updateMonstersOnWorlds(now);
-        game.getWorldManager().verifyMonsterCollisionsWithPlayer();
+        game.getWorldManager().verifyMonsterCollisionsWithPlayer(now);
         if (!player.isAlive()) {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
@@ -221,7 +221,7 @@ public final class GameEngine {
                 bombObjectIterator.remove();
                 Position p = b.getPosition();
                 game.getWorld().clear(p);
-                game.getWorld().getExplosions().add(new Explosion(game, p, b.getRange()));
+                game.getWorld().getExplosions().add(new Explosion(game, p, b.getRange(), now));
                 // add explosion sprites
             }
         }
@@ -229,12 +229,6 @@ public final class GameEngine {
     }
 
     private void render() {
-        if(player.isOnBonus()) {
-            //sprites.get(player.getPosition().x + (player.getPosition().y * game.getWorld().dimension.width)).remove();
-            game.getWorld().clear(player.getPosition());
-            player.setOnBonus(false);
-            game.getWorld().setChanged(true);
-        }
         if( game.getWorld().isChanged()){
 
             game.getWorld().setChanged(false);

@@ -15,13 +15,13 @@ import java.util.*;
 import java.util.function.BiConsumer;
 
 public class World {
-    private Map<Position, Decor> grid;
+    private final Map<Position, Decor> grid;
     private final WorldEntity[][] raw;
     public final Dimension dimension;
     private boolean changed = false;
     private ArrayList<Monster> monsters = new ArrayList<>();
-    private ArrayList<BombObject> bombs = new ArrayList<>();
-    private ArrayList<Explosion> explosions = new ArrayList<>();
+    private final ArrayList<BombObject> bombs = new ArrayList<>();
+    private final ArrayList<Explosion> explosions = new ArrayList<>();
 
     public void setMonsters(ArrayList<Monster> monsters) {
         this.monsters = monsters;
@@ -63,7 +63,7 @@ public class World {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
                 if (raw[y][x] == WorldEntity.Monster) {
-                    monsters.add(new Monster(game, new Position(x,y),1000,this));
+                    monsters.add(new Monster(game, new Position(x,y),1000));
                 }
             }
         }
@@ -81,7 +81,7 @@ public class World {
         throw new PositionNotFoundException("Player");
     }
 
-    public Entity  get(Position position) {
+    public Decor  get(Position position) {
         return grid.get(position);
     }
 
@@ -91,6 +91,7 @@ public class World {
 
     public void clear(Position position) {
         grid.remove(position);
+        changed = true;
     }
 
     public void forEach(BiConsumer<Position, Decor> fn) {

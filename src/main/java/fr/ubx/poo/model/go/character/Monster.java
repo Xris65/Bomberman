@@ -4,19 +4,12 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.World;
-import fr.ubx.poo.model.Entity;
-import fr.ubx.poo.model.Movable;
-import fr.ubx.poo.model.decor.Bonus;
-import fr.ubx.poo.model.go.GameObject;
 
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Monster extends Character {
-
-    Direction direction = Direction.random();
-    private boolean moveRequested = false;
     private int lives = 1;
-    private final World world;
 
     public boolean isAlive() {
         return lives > 0;
@@ -31,36 +24,40 @@ public class Monster extends Character {
     }
 
     // time to move in ms
-    public Monster(Game game, Position position, int timeToMove, World w) {
-        super(game, position);
+    public Monster(Game game, Position position, int timeToMove){
+        super(game, position, Direction.random());
         super.setTimeToAct(timeToMove);
-        this.world = w;
     }
 
-    public boolean isThereAValidMovement() {
-        for (Direction d : Direction.values()) {
-            if (canMove(d))
-                return true;
+    public ArrayList<Direction> validMovements(){
+        ArrayList<Direction> possibleMoveDirections = new ArrayList<>();
+        for(Direction d : Direction.values()) {
+            if(canMove(d)){
+                possibleMoveDirections.add(d);
+            }
         }
-        return false;
+        return possibleMoveDirections;
     }
 
     public void requestMove() {
-        if (!isThereAValidMovement())
-            return;
-        while (!canMove(direction))
-            this.direction = Direction.random();
-        moveRequested = true;
+        // creates a list of possible movements
+        ArrayList<Direction> possibleMoves = validMovements();
+        int movesSize = possibleMoves.size();
+        if(movesSize != 0){ // to prevent out of bound in empty array
+            // gets a random move in possible moves
+            // prevents losing time with random
+            this.direction = possibleMoves.get(new Random().nextInt(movesSize));
+        }
+        this.moveRequested = true;
     }
 
     public void update(long now) {
-        super.actionIfTime(now, this::requestMove);
-        if (moveRequested) {
-            if (canMove(direction)) {
-                doMove(direction);
-            }
-        }
-        moveRequested = false;
+        // Every getTimeToAct(), here 1 s, request a move
+        super.actionIfTime(now, ()->{
+            this.requestMove();
+            setLastActionTime(now);
+        });
+        super.update(now);
     }
 
 
