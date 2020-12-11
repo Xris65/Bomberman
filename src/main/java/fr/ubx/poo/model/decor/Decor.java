@@ -15,7 +15,6 @@ abstract public class Decor extends Entity {
     public void obtain(Player player){
     }
 
-    @Override
     public boolean isWalkable() {
         return false;
     }
@@ -35,6 +34,10 @@ abstract public class Decor extends Entity {
     @Override
     public String toString() {
         return "Decor";
+    }
+
+    public boolean isToRemove(){
+        return false;
     }
 
 }
