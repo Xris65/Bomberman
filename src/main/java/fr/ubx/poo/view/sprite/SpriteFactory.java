@@ -43,6 +43,9 @@ public final class SpriteFactory {
         if(decor instanceof Key){
             return new SpriteDecor(layer, factory.get(KEY), position);
         }
+        if(decor instanceof Bomb){ // how ? this segfaulted randomly, putting this to catch possible error, to debug
+            return new SpriteDecor(layer, factory.get(DIGIT_0), position);
+        }
         //
         if(decor instanceof Door)
             return new SpriteDecor(layer,factory.getDoor(((Door) decor).isClosed()),position);
