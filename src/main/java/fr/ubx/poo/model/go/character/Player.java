@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Player extends GameObject implements Movable {
+public class Player extends Character {
     private final boolean alive = true;
     Direction direction;
     private boolean moveRequested = false;
@@ -60,7 +60,7 @@ public class Player extends GameObject implements Movable {
     public void moveBoxIfAble(World w){
         Position boxAt = direction.nextPosition(getPosition());
         Entity e = w.get(boxAt);
-        if(e != null && e.isBox()){
+        if(e instanceof Box){
             if (w.get(direction.nextPosition(boxAt)) == null && game.getWorld().isInside(direction.nextPosition(boxAt))){
                 // can move
                 for(Monster m : w.getMonsters()){
@@ -120,11 +120,11 @@ public class Player extends GameObject implements Movable {
     }
 
     private boolean handleNewPosition(Entity d, Position p) {
-        if (d.isPrincess()) {
+        if (d instanceof Princess) {
             this.winner = true;
             return true;
         }
-        else if (d.isBonus()) {
+        else if (d instanceof Bonus) {
             Bonus myBonus = (Bonus) d;
             WorldEntity type = myBonus.getType();
             if(type == WorldEntity.BombRangeDec){
@@ -151,7 +151,7 @@ public class Player extends GameObject implements Movable {
             onBonus = true;
             return true;
         }
-        else if (d.isDoor()){
+        else if (d instanceof Door){
             if(!((Door) d).isClosed()){
                 game.changeWorld(!((Door) d).isPrev());
                 game.setToChange(true);
@@ -171,12 +171,6 @@ public class Player extends GameObject implements Movable {
         boolean isWalkable = targetPosition == null || handleNewPosition(targetPosition, p);
 
         return inMap && isWalkable;
-    }
-
-
-    public void doMove(Direction direction) {
-        Position nextPos = direction.nextPosition(getPosition());
-        setPosition(nextPos);
     }
 
 

@@ -11,7 +11,7 @@ import fr.ubx.poo.model.go.GameObject;
 
 import java.util.function.Function;
 
-public class Monster extends GameObject implements Movable {
+public class Monster extends Character {
 
     Direction direction = Direction.random();
     private boolean moveRequested = false;
@@ -63,13 +63,6 @@ public class Monster extends GameObject implements Movable {
         moveRequested = false;
     }
 
-    @Override
-    public boolean canMove(Direction direction) {
-        Position p = direction.nextPosition(super.getPosition());
-        Entity targetPosition = world.get(p);
-        boolean isWalkable = targetPosition == null || targetPosition instanceof Bonus;
-        return world.isInside(p) && isWalkable;
-    }
 
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());

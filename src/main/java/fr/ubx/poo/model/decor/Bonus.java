@@ -20,8 +20,8 @@ public class Bonus extends Decor {
         return type;
     }
 
-    public void setType(char type) {
-        type = type;
+    public void setType(WorldEntity type) {
+        this.type = type;
     }
 
     public ImageResource getImagePath() {
@@ -44,11 +44,6 @@ public class Bonus extends Decor {
 
     @Override
     public boolean isWalkable() {
-        return true;
-    }
-
-    @Override
-    public boolean isBonus() {
         return true;
     }
 

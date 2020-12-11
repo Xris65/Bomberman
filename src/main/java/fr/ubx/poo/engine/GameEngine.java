@@ -81,7 +81,7 @@ public final class GameEngine {
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         World w = game.getWorld();
         for (Monster m : w.getMonsters()) {
-            spriteMonsters.add(new SpriteMonster(layer, m));
+            spriteMonsters.add(SpriteFactory.createMonster(layer, m));
         }
     }
 
@@ -240,7 +240,7 @@ public final class GameEngine {
             game.getWorld().setChanged(false);
             sprites.forEach(Sprite::remove);
             sprites.removeIf(self->self.getImageView() == null);
-            game.getWorld().forEach( (pos,d ) -> {if (!(d.isBomb())){ sprites.add(SpriteFactory.createDecor(layer, pos, d)); }} );
+            game.getWorld().forEach( (pos,d ) -> {if (!(d instanceof Bomb)){ sprites.add(SpriteFactory.createDecor(layer, pos, d)); }} );
         }
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground

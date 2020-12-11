@@ -21,9 +21,4 @@ public class Door extends Decor{
     public boolean isWalkable() {
         return closed;
     }
-
-    @Override
-    public boolean isDoor() {
-        return true;
-    }
 }

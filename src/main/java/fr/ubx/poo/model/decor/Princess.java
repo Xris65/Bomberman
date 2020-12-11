@@ -6,9 +6,4 @@ public class Princess extends Decor{
     public boolean isWalkable() {
         return true;
     }
-
-    @Override
-    public boolean isPrincess() {
-        return true;
-    }
 }

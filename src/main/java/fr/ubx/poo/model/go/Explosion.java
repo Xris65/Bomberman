@@ -3,6 +3,7 @@ package fr.ubx.poo.model.go;
 import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.decor.Bonus;
+import fr.ubx.poo.model.decor.Box;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -31,7 +32,7 @@ public class Explosion extends GameObject{
 
                 Entity e = w.get(initialPosition);
                 if(e != null){
-                    if(e.isBox() || (e.isBonus() && !isKey(e))){
+                    if(e instanceof Box || (e instanceof Bonus && !isKey(e))){
                         w.clear(initialPosition);
                         w.setChanged(true);
                     }
