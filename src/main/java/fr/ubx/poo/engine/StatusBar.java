@@ -64,6 +64,7 @@ public class StatusBar {
         if (n != gameLevel) {
             level.getChildren().clear();
             level.getChildren().add(new ImageView(ImageFactory.getInstance().getDigit(n)));
+            gameLevel=n;
         }
     }
 

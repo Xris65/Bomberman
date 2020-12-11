@@ -3,10 +3,6 @@ package fr.ubx.poo.view.image;
 import javafx.scene.image.Image;
 
 public enum ImageResource {
-    BANNER_BOMB ("banner_bomb.png"),
-    BANNER_RANGE ("banner_range.png"),
-    HEART("heart.png"),
-    KEY("key.png"),
     DIGIT_0 ("banner_0.jpg"),
     DIGIT_1 ("banner_1.jpg"),
     DIGIT_2 ("banner_2.jpg"),
@@ -17,6 +13,10 @@ public enum ImageResource {
     DIGIT_7 ("banner_7.jpg"),
     DIGIT_8 ("banner_8.jpg"),
     DIGIT_9 ("banner_9.jpg"),
+    BANNER_BOMB ("banner_bomb.png"),
+    BANNER_RANGE ("banner_range.png"),
+    HEART("heart.png"),
+    KEY("key.png"),
     PLAYER_DOWN("player_down.png"),
     PLAYER_LEFT("player_left.png"),
     PLAYER_RIGHT("player_right.png"),

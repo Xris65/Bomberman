@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class WorldManager {
     private final ArrayList<World> worlds = new ArrayList<>();
-    private int worldMaxAtteint = 0;
+    private int worldMaxReached = 0;
     private int currentWorldIndex = -1;
 
 
@@ -23,18 +23,18 @@ public class WorldManager {
 
     public void addWorld(World world) {
         worlds.add(world);
-        worldMaxAtteint++;
+        worldMaxReached++;
     }
 
     public World getNextWorld(Game game) {
         // load next world and give it to user
         // and add it to arraylist
         currentWorldIndex++;
-        if (currentWorldIndex < worldMaxAtteint) {
+        if (currentWorldIndex < worldMaxReached) {
             return worlds.get(currentWorldIndex);
         } else {
             World nextWorld;
-            nextWorld = readFromFile(String.format("level%d.txt", worldMaxAtteint + 1));
+            nextWorld = readFromFile(String.format("level%d.txt", worldMaxReached + 1));
             nextWorld.setMonsters(nextWorld.findMonsters(game));
             addWorld(nextWorld);
             return nextWorld;
