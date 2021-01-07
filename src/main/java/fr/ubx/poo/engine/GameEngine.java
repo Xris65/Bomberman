@@ -183,11 +183,11 @@ public final class GameEngine {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
         }
-        Iterator monsterIterator = game.getWorld().getMonsters().iterator();
+        Iterator<Monster> monsterIterator = game.getWorld().getMonsters().iterator();
         while (monsterIterator.hasNext()) {
             Monster m = (Monster) monsterIterator.next();
             if (!m.isAlive()) {
-                Iterator spriteMonstersIterator = spriteMonsters.iterator();
+                Iterator<Sprite> spriteMonstersIterator = spriteMonsters.iterator();
                 while (spriteMonstersIterator.hasNext()) {
                     SpriteMonster spriteMonster = (SpriteMonster) spriteMonstersIterator.next();
                     if (spriteMonster.isToRemove()) {
@@ -212,14 +212,13 @@ public final class GameEngine {
             b.update(now);
         }
 
-        Iterator bombObjectIterator = game.getWorld().getBombs().iterator();
+        Iterator<BombObject> bombObjectIterator = game.getWorld().getBombs().iterator();
         while (bombObjectIterator.hasNext()) {
-            BombObject b = (BombObject) bombObjectIterator.next();
+            BombObject b = bombObjectIterator.next();
             if ((b.getBombPhase() == 5)) {
+                b.explode(now);
                 bombObjectIterator.remove();
-                Position p = b.getPosition();
-                game.getWorld().clear(p);
-                game.getWorld().getExplosions().add(new Explosion(game, p, b.getRange(), now));
+
                 // add explosion sprites
             }
         }

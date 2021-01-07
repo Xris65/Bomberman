@@ -55,7 +55,7 @@ public class Character extends GameObject implements Movable {
         World world = game.getWorld();
         Position nextPosition = direction.nextPosition(getPosition());
         Decor decor = world.get(nextPosition);
-        return world.isInside(nextPosition) && (decor == null || decor.isWalkable());
+        return world.isInside(nextPosition) && (decor == null || decor.isWalkable(this));
     }
 
     public void doMove(Direction direction) {

@@ -78,7 +78,7 @@ public class Player extends Character {
         setTimeToAct(1000); // time for the invulnerability to wear off
     }
 
-    public boolean isPlayerVulnerable() {
+    public boolean isVulnerable() {
         return !isInvulnerable;
     }
 
@@ -101,7 +101,7 @@ public class Player extends Character {
                 return false;
             }
         }
-        return d.isWalkable();
+        return d.isWalkable(this);
     }
 
     @Override

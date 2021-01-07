@@ -58,7 +58,7 @@ public class WorldManager {
             Game game = m.getGame();
             Player player = game.getPlayer();
             if (m.getPosition().equals(game.getPlayer().getPosition()))
-                if (player.isPlayerVulnerable())
+                if (player.isVulnerable())
                     player.loseLife(now);
         }
     }

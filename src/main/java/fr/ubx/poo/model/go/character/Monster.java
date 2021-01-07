@@ -4,6 +4,9 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.World;
+import fr.ubx.poo.model.decor.Bonus.Princess;
+import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.Door;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,19 +20,34 @@ public class Monster extends Character {
         setLives(1);
     }
 
-    public ArrayList<Direction> validMovements(){
+    public boolean canMove(Direction direction, World world) {
+        if(super.canMove(direction)) {
+            Position nextPosition = direction.nextPosition(getPosition());
+            boolean existsMonster = false;
+            for (Monster monster : world.getMonsters()) {
+                if (monster.getPosition().equals(nextPosition)) {
+                    existsMonster = true;
+                    break;
+                }
+            }
+            return !existsMonster;
+        }
+        return false;
+    }
+
+    public ArrayList<Direction> validMovements(World world){
         ArrayList<Direction> possibleMoveDirections = new ArrayList<>();
         for(Direction d : Direction.values()) {
-            if(canMove(d)){
+            if(canMove(d,world)){
                 possibleMoveDirections.add(d);
             }
         }
         return possibleMoveDirections;
     }
 
-    public void requestMove() {
+    public void requestMove(World world) {
         // creates a list of possible movements
-        ArrayList<Direction> possibleMoves = validMovements();
+        ArrayList<Direction> possibleMoves = validMovements(world);
         int movesSize = possibleMoves.size();
         if(movesSize != 0){ // to prevent out of bound in empty array
             // gets a random move in possible moves
@@ -39,10 +57,10 @@ public class Monster extends Character {
         this.moveRequested = true;
     }
 
-    public void update(long now) {
+    public void update(long now, World world) {
         // Every getTimeToAct(), here 1 s, request a move
         super.actionIfTime(now, ()->{
-            this.requestMove();
+            this.requestMove(world);
             setLastActionTime(now);
         });
         super.update(now);

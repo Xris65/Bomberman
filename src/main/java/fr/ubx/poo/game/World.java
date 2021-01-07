@@ -48,7 +48,7 @@ public class World {
     }
 
     public void updateMonsters(long now){
-        monsters.forEach(self -> self.update(now));
+        monsters.forEach(self -> self.update(now, this));
     }
 
 

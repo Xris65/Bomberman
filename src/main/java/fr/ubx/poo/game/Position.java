@@ -35,7 +35,7 @@ public class Position {
 
     @Override
     public String toString() {
-        return "(" + x + "," + y + ")";
+        return "(x:" + x + ", y:" + y + ")";
     }
 
     public boolean inside(Dimension d) {

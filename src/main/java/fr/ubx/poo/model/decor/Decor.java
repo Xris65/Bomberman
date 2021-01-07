@@ -5,6 +5,7 @@
 package fr.ubx.poo.model.decor;
 
 import fr.ubx.poo.model.Entity;
+import fr.ubx.poo.model.go.character.Character;
 import fr.ubx.poo.model.go.character.Player;
 
 /***
@@ -15,7 +16,7 @@ abstract public class Decor extends Entity {
     public void obtain(Player player){
     }
 
-    public boolean isWalkable() {
+    public boolean isWalkable(Character character) {
         return false;
     }
 

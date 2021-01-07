@@ -1,6 +1,8 @@
 package fr.ubx.poo.model.decor;
 
 import fr.ubx.poo.game.Game;
+import fr.ubx.poo.model.go.character.Character;
+import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Door extends Decor {
@@ -26,7 +28,8 @@ public class Door extends Decor {
     }
 
     @Override
-    public boolean isWalkable() {
-        return !closed;
+    public boolean isWalkable(Character character) {
+        return !closed && !(character instanceof Monster);
     }
+
 }
