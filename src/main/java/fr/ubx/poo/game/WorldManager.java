@@ -13,9 +13,11 @@ public class WorldManager {
     private final ArrayList<World> worlds = new ArrayList<>();
     private int worldMaxReached = 0;
     private int currentWorldIndex = -1;
+    private final String worldPath;
 
-
-
+    public WorldManager(String worldPath) {
+        this.worldPath = worldPath;
+    }
 
     private boolean isDiscovered(int worldNumber) {
         return worlds.get(worldNumber - 1) != null;
@@ -67,8 +69,7 @@ public class WorldManager {
     }
 
     private World readFromFile(String filename){
-        // Pretty ugly but needed to work, else "file:" prefix isn't working because of File() not parsing it correctly
-        String path = getClass().getResource("/sample/" + filename).toExternalForm().substring("file:".length());
+        String path = worldPath + '/' + filename;
         WorldEntity[][] read = null;
         try {
             File myObj = new File(path);

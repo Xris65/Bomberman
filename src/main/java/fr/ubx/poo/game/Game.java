@@ -23,7 +23,7 @@ public class Game {
 
     private World world;
     private final ArrayList<World> worlds = new ArrayList<>();
-    private final WorldManager manager = new WorldManager();
+    private final WorldManager manager;
     private final Player player;
     public int initPlayerLives = 1;
     ArrayList<Monster> monsters;
@@ -31,6 +31,7 @@ public class Game {
 
 
     public Game(String worldPath) {
+        manager = new WorldManager(worldPath);
         world = manager.getNextWorld(this);
         loadConfig(worldPath);
         Position positionPlayer;
