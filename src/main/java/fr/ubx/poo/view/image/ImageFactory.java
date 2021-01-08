@@ -22,7 +22,7 @@ public final class ImageFactory {
     };
     private final ImageResource[] doors = new ImageResource[]{
             // Door images
-            DOOR_CLOSED,DOOR_OPENED,
+            DOOR_CLOSED, DOOR_OPENED,
     };
 
     private final ImageResource[] digits = new ImageResource[]{
@@ -64,14 +64,17 @@ public final class ImageFactory {
     public Image getPlayer(Direction direction) {
         return get(directions[direction.ordinal()]);
     }
+
     public Image getMonster(Direction direction) {
-        return get(directions[direction.ordinal()+4]);
+        return get(directions[direction.ordinal() + 4]);
     }
-    public Image getBomb(int phase){
+
+    public Image getBomb(int phase) {
         return get(bombAnimations[phase - 1]);
     }
-    public Image getDoor(boolean closed){
-        if(closed)
+
+    public Image getDoor(boolean closed) {
+        if (closed)
             return get(doors[0]);
         return get(doors[1]);
     }

@@ -45,7 +45,7 @@ public class World {
         this.changed = changed;
     }
 
-    public void updateMonsters(long now){
+    public void updateMonsters(long now) {
         monsters.forEach(self -> self.update(now, this));
     }
 
@@ -61,7 +61,7 @@ public class World {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
                 if (raw[y][x] == WorldEntity.Monster) {
-                    monsters.add(new Monster(game, new Position(x,y),1000));
+                    monsters.add(new Monster(game, new Position(x, y), 1000));
                 }
             }
         }
@@ -79,7 +79,7 @@ public class World {
         throw new PositionNotFoundException("Player");
     }
 
-    public Decor  get(Position position) {
+    public Decor get(Position position) {
         return grid.get(position);
     }
 

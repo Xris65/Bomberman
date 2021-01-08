@@ -16,21 +16,23 @@ public class Player extends Character {
     private int bombRange = 1;
     private int numberOfKeys = 0;
 
-    public void wins(){
+    public void wins() {
         winner = true;
     }
 
-    public void addBomb(){
+    public void addBomb() {
         numberOfBombs--;
     }
-    public void removeBomb(){
+
+    public void removeBomb() {
         numberOfBombs++;
     }
 
-    public void addBombCapacity(){
+    public void addBombCapacity() {
         bombCapacity++;
     }
-    public void removeBombCapacity(){
+
+    public void removeBombCapacity() {
         if (bombCapacity > 1)
             bombCapacity--;
     }
@@ -38,12 +40,16 @@ public class Player extends Character {
     public void removeKey() {
         numberOfKeys--;
     }
+
     public void addKey() {
         numberOfKeys++;
     }
 
-    public void addBombRange(){bombRange++;}
-    public void removeBombRange(){
+    public void addBombRange() {
+        bombRange++;
+    }
+
+    public void removeBombRange() {
         if (bombRange > 1)
             bombRange--;
     }
@@ -64,10 +70,10 @@ public class Player extends Character {
         return bombRange;
     }
 
-    public void moveBoxIfAble(World w){
+    public void moveBoxIfAble(World w) {
         Position boxAt = direction.nextPosition(getPosition());
         Decor decor = w.get(boxAt);
-        if(decor != null) {
+        if (decor != null) {
             decor.move(this);
         }
     }
@@ -90,12 +96,12 @@ public class Player extends Character {
 
     private boolean handleNewPosition(Decor d, Position p) {
         d.obtain(this);
-        if(d.isToRemove()) {
+        if (d.isToRemove()) {
             game.getWorld().clear(p);
         }
 
-        if (d instanceof Door){
-            if(!((Door) d).isClosed()){
+        if (d instanceof Door) {
+            if (!((Door) d).isClosed()) {
                 game.changeWorld(!((Door) d).isPrev());
                 game.setToChange(true);
                 return false;
@@ -116,9 +122,8 @@ public class Player extends Character {
     }
 
 
-
     public void update(long now) {
-        if(isInvulnerable){
+        if (isInvulnerable) {
             actionIfTime(now, () -> isInvulnerable = false);
         }
         super.update(now);

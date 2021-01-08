@@ -14,8 +14,8 @@ public abstract class BombBonus extends Bonus {
         this.increase = increase;
     }
 
-    public void obtainWithRunnable(Runnable runnableTrue, Runnable runnableFalse){
-        if(increase){
+    public void obtainWithRunnable(Runnable runnableTrue, Runnable runnableFalse) {
+        if (increase) {
             runnableTrue.run();
         } else {
             runnableFalse.run();

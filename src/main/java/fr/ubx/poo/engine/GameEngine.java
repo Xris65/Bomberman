@@ -206,12 +206,12 @@ public final class GameEngine {
         }
 
         for (World gameWorld : game.getWorldManager().getWorlds()) {
-            for(BombObject bomb : gameWorld.getBombs()) {
+            for (BombObject bomb : gameWorld.getBombs()) {
                 bomb.update(now);
                 if (bomb.getBombPhase() == 5) {
                     ArrayList<Position> zone = bomb.getBombZone();
                     bomb.explode(now, zone);
-                    for(Position position : zone) {
+                    for (Position position : zone) {
                         // add to arraylist explosions
                         spriteExplosions.add(new SpriteExplosion(layer, position, bomb.getWorld()));
                     }
@@ -261,7 +261,7 @@ public final class GameEngine {
         }
         for (World gameWorld : game.getWorldManager().getWorlds()) {
             Iterator<BombObject> bombObjectIterator = gameWorld.getBombs().iterator();
-            while(bombObjectIterator.hasNext()) {
+            while (bombObjectIterator.hasNext()) {
                 BombObject bomb = bombObjectIterator.next();
                 if (bomb.getBombPhase() == 5) {
                     gameWorld.clear(bomb.getPosition());
@@ -283,7 +283,7 @@ public final class GameEngine {
                 self.remove();
             }
             System.out.println("" + self.getWorld() + " == " + game.getWorld() + " -> " + self.getWorld().equals(game.getWorld()));
-            if(self.getWorld().equals(game.getWorld())) {
+            if (self.getWorld().equals(game.getWorld())) {
                 self.render();
                 System.out.println("I am not called");
                 self.adjustOpacity();

@@ -4,7 +4,7 @@ import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.layout.Pane;
 
-public class SpriteMonster extends SpriteGameObject{
+public class SpriteMonster extends SpriteGameObject {
 
     public SpriteMonster(Pane layer, Monster monster) {
         super(layer, null, monster);
@@ -14,7 +14,7 @@ public class SpriteMonster extends SpriteGameObject{
     @Override
     public void updateImage() {
         Monster monster = (Monster) go;
-        if(!monster.isAlive()){
+        if (!monster.isAlive()) {
             setToRemove(true);
         }
         setImage(ImageFactory.getInstance().getMonster(monster.getDirection()));

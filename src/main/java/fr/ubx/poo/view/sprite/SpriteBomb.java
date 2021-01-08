@@ -4,7 +4,7 @@ import fr.ubx.poo.model.go.BombObject;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.layout.Pane;
 
-public class SpriteBomb extends SpriteGameObject{
+public class SpriteBomb extends SpriteGameObject {
 
     public SpriteBomb(Pane layer, BombObject bomb) {
         super(layer, null, bomb);
@@ -15,7 +15,7 @@ public class SpriteBomb extends SpriteGameObject{
     @Override
     public void updateImage() {
         BombObject bomb = (BombObject) super.go;
-        if(bomb.getBombPhase() >= 5){
+        if (bomb.getBombPhase() >= 5) {
             super.setToRemove(true);
         } else {
             setImage(ImageFactory.getInstance().getBomb(bomb.getBombPhase()));

@@ -13,22 +13,22 @@ import fr.ubx.poo.model.go.character.Player;
  */
 abstract public class Decor extends Entity {
 
-    public void obtain(Player player){
+    public void obtain(Player player) {
     }
 
     public boolean isWalkable(Character character) {
         return false;
     }
 
-    public boolean stopsBombExplosion(){
+    public boolean stopsBombExplosion() {
         return true;
     }
 
-    public void move(Player player){
+    public void move(Player player) {
 
     }
 
-    public boolean isDestroyable(){
+    public boolean isDestroyable() {
         return false;
     }
 
@@ -37,7 +37,7 @@ abstract public class Decor extends Entity {
         return "Decor";
     }
 
-    public boolean isToRemove(){
+    public boolean isToRemove() {
         return false;
     }
 

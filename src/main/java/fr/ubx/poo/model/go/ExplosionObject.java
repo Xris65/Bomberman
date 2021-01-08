@@ -24,14 +24,14 @@ public class ExplosionObject extends GameObject {
         // checks if player is on top of the bomb
         Player player = game.getPlayer();
 
-        for(Position position : bombZone) {
+        for (Position position : bombZone) {
             // Player case
-            if(player.getPosition().equals(position) && player.isVulnerable()) {
+            if (player.getPosition().equals(position) && player.isVulnerable()) {
                 player.loseLife(now);
             }
             // Monster case
             for (Monster monster : bombWorld.getMonsters()) {
-                if(monster.getPosition().equals(position)) {
+                if (monster.getPosition().equals(position)) {
                     monster.loseLife();
                 }
             }
@@ -44,7 +44,7 @@ public class ExplosionObject extends GameObject {
             }
 
             // Bomb case
-            for(BombObject bomb : bombWorld.getBombs()){
+            for (BombObject bomb : bombWorld.getBombs()) {
                 bomb.setBombPhase(5);
             }
 

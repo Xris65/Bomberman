@@ -33,8 +33,8 @@ public abstract class GameObject extends Entity {
         this.timeToAct = timeToAct;
     }
 
-    public void actionIfTime(long now, Runnable runnable){
-        if(getTimeToAct() != 0 && (now - getLastActionTime()) > (getTimeToAct() * 1000000L)){
+    public void actionIfTime(long now, Runnable runnable) {
+        if (getTimeToAct() != 0 && (now - getLastActionTime()) > (getTimeToAct() * 1000000L)) {
             runnable.run();
         }
     }
@@ -55,7 +55,8 @@ public abstract class GameObject extends Entity {
         this.game = game;
         this.position = position;
     }
-    public Game getGame(){
+
+    public Game getGame() {
         return game;
     }
 }

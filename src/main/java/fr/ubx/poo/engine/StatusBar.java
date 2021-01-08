@@ -29,7 +29,6 @@ public class StatusBar {
     private final DropShadow ds = new DropShadow();
 
 
-
     public StatusBar(Group root, int sceneWidth, int sceneHeight) {
         // Status bar
 
@@ -79,7 +78,7 @@ public class StatusBar {
     }
 
     public void update(Game game) {
-        updateLevel(game.getWorldManager().getCurrentWorldIndex()+1);
+        updateLevel(game.getWorldManager().getCurrentWorldIndex() + 1);
         Player player = game.getPlayer();
         liveValue.setText(String.valueOf(player.getLives()));
         rangeValue.setText(String.valueOf(player.getBombRange()));

@@ -25,9 +25,9 @@ public class SpritePlayer extends SpriteGameObject {
     public void updatePlayerTransparency() {
         Player player = (Player) go;
         ImageView imageView = getImageView();
-        if(!player.isVulnerable()){
+        if (!player.isVulnerable()) {
             imageView.setOpacity(0.5);
-        } else if (player.isVulnerable()){
+        } else if (player.isVulnerable()) {
             imageView.setOpacity(1.0);
         }
     }

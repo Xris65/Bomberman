@@ -46,7 +46,7 @@ public class WorldManager {
             return worlds.get(currentWorldIndex);
         } else if (currentWorldIndex >= maxLevel) {
             currentWorldIndex--;
-        }else {
+        } else {
             World nextWorld;
             nextWorld = readFromFile(String.format("%s%d.txt", prefix, worldMaxReached + 1));
             nextWorld.setMonsters(nextWorld.findMonsters(game));

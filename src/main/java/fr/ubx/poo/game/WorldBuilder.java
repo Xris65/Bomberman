@@ -40,9 +40,9 @@ public class WorldBuilder {
             case Heart -> new Heart();
             case Key -> new Key();
             case Princess -> new Princess();
-            case DoorNextClosed -> new Door(true,false);
-            case DoorNextOpened -> new Door(false,false);
-            case DoorPrevOpened -> new Door(false,true);
+            case DoorNextClosed -> new Door(true, false);
+            case DoorNextOpened -> new Door(false, false);
+            case DoorPrevOpened -> new Door(false, true);
             // no bomb in raw, so this case is useless
             // case Bomb -> new Bomb();
             default -> null;

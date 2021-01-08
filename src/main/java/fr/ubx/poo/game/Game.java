@@ -38,23 +38,23 @@ public class Game {
     }
 
     public void changeWorld(boolean goingUp) {
-        if(goingUp){
+        if (goingUp) {
             World nextWorld = manager.getNextWorld(this);
-            if(nextWorld == null) {
+            if (nextWorld == null) {
                 return;
             } else {
                 world = nextWorld;
             }
         } else {
-                world = manager.getPreviousWorld();
-            }
+            world = manager.getPreviousWorld();
+        }
         Dimension dimension = world.dimension;
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
                 if (world.get(new Position(x, y)) instanceof Door)
                     if (!((Door) world.get(new Position(x, y))).isClosed()) {
                         if ((goingUp && ((Door) world.get(new Position(x, y))).isPrev())
-                           || !(goingUp) && !(((Door) world.get(new Position(x, y))).isPrev())){ //Si c'est la bonne porte
+                                || !(goingUp) && !(((Door) world.get(new Position(x, y))).isPrev())) { //Si c'est la bonne porte
                             player.setPosition(new Position(x, y));
                             break;
                         }

@@ -32,7 +32,7 @@ public class SpriteExplosion extends Sprite {
 
     public void adjustOpacity() {
         ImageView imageView = getImageView();
-        opacity = opacity - 1.0/60;
+        opacity = opacity - 1.0 / 60;
         imageView.setOpacity(opacity);
     }
 

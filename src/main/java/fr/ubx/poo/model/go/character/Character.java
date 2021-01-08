@@ -18,11 +18,11 @@ public class Character extends GameObject implements Movable {
         this.direction = direction;
     }
 
-    public void loseLife(){
+    public void loseLife() {
         lives--;
     }
 
-    public void addLife(){
+    public void addLife() {
         lives++;
     }
 

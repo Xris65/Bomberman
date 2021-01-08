@@ -4,7 +4,7 @@ import fr.ubx.poo.model.go.character.Character;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 
-public class Princess extends Bonus{
+public class Princess extends Bonus {
 
     @Override
     public boolean isToRemove() {

@@ -25,7 +25,7 @@ public enum WorldEntity {
     BombNumberInc('+'),
     BombNumberDec('-'),
     Bomb('.'),
-        ;
+    ;
 
 
     private char getCode() {
@@ -40,7 +40,7 @@ public enum WorldEntity {
 
     public static Optional<WorldEntity> fromCode(char code) {
         return Arrays.stream(values())
-                .filter(e->e.acceptCode(code))
+                .filter(e -> e.acceptCode(code))
                 .findFirst();
     }
 
@@ -50,6 +50,6 @@ public enum WorldEntity {
 
     @Override
     public String toString() {
-        return ""+code;
+        return "" + code;
     }
 }
