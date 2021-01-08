@@ -6,8 +6,8 @@ package fr.ubx.poo.engine;
 import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.decor.Bomb;
 import fr.ubx.poo.model.decor.Door;
+import fr.ubx.poo.model.decor.Explosion;
 import fr.ubx.poo.model.go.BombObject;
-import fr.ubx.poo.model.go.Explosion;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.sprite.*;
@@ -23,13 +23,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 
 public final class GameEngine {
@@ -208,17 +205,18 @@ public final class GameEngine {
             spriteMonsters.removeIf(Objects::nonNull);
             initialize(stage, game);
         }
-        for (BombObject b : game.getWorld().getBombs()) {
-            b.update(now);
-        }
-
         Iterator<BombObject> bombObjectIterator = game.getWorld().getBombs().iterator();
         while (bombObjectIterator.hasNext()) {
             BombObject b = bombObjectIterator.next();
+            b.update(now);
             if ((b.getBombPhase() == 5)) {
-                b.explode(now);
                 bombObjectIterator.remove();
-
+                ArrayList<Position> zone = b.getBombZone();
+                b.explode(now, zone);
+                System.out.println(zone.size());
+                for(Position position : zone) {
+                    b.getWorld().set(position, new Explosion());
+                }
                 // add explosion sprites
             }
         }

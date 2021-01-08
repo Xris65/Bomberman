@@ -4,13 +4,11 @@
 
 package fr.ubx.poo.game;
 
-import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.BombObject;
-import fr.ubx.poo.model.go.Explosion;
+import fr.ubx.poo.model.go.ExplosionObject;
 import fr.ubx.poo.model.go.character.Monster;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.BiConsumer;
 
@@ -21,7 +19,7 @@ public class World {
     private boolean changed = false;
     private ArrayList<Monster> monsters = new ArrayList<>();
     private final ArrayList<BombObject> bombs = new ArrayList<>();
-    private final ArrayList<Explosion> explosions = new ArrayList<>();
+    private final ArrayList<ExplosionObject> explosions = new ArrayList<>();
 
     public void setMonsters(ArrayList<Monster> monsters) {
         this.monsters = monsters;
@@ -31,7 +29,7 @@ public class World {
         return bombs;
     }
 
-    public ArrayList<Explosion> getExplosions() {
+    public ArrayList<ExplosionObject> getExplosions() {
         return explosions;
     }
 

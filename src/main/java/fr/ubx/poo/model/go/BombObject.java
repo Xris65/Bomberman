@@ -5,21 +5,16 @@ import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.go.character.Monster;
-import fr.ubx.poo.model.go.character.Player;
-import fr.ubx.poo.view.image.ImageFactory;
-import fr.ubx.poo.view.sprite.Sprite;
-import fr.ubx.poo.view.sprite.SpriteExplosion;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class BombObject extends GameObject {
     int range;
-    private World world;
+    private final World world;
+
+    public World getWorld() {
+        return world;
+    }
 
     private int bombPhase = 1;
 
@@ -49,10 +44,10 @@ public class BombObject extends GameObject {
         super.setLastActionTime(now);
     }
 
-    public void explode(long now) {
+    public void explode(long now, ArrayList<Position> bombZone) {
         Position p = getPosition();
         game.getWorld().clear(p);
-        game.getWorld().getExplosions().add(new Explosion(game, p, getRange(), now, getBombZone(), world));
+        game.getWorld().getExplosions().add(new ExplosionObject(game, p, getRange(), now, bombZone, world));
     }
 
     public ArrayList<Position> getBombZone() {
@@ -64,12 +59,21 @@ public class BombObject extends GameObject {
                 initialPosition = d.nextPosition(initialPosition);
                 Decor decor = world.get(initialPosition);
                 if(decor!= null){
-                    if (!decor.stopsBombExplosion() || (decor.stopsBombExplosion() && decor.stopsBombExplosion())) {
+                    if(decor.stopsBombExplosion()){
+                        if(decor.isDestroyable()) {
+                            System.out.println("This is a box, it stops at direction " + d);
+                            positionArrayList.add(initialPosition);
+                            break;
+                        }
+                        System.out.println("Stops explosion at direction " + d);
+                        break;
+                    } else {
+                        System.out.println("Doesn't stop explosion at direction " + d);
                         positionArrayList.add(initialPosition);
                     }
-                    if (decor.stopsBombExplosion()) {
-                        break;
-                    }
+                } else {
+                    System.out.println("Empty");
+                    positionArrayList.add(initialPosition);
                 }
             }
         }

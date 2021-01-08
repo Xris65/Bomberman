@@ -73,10 +73,9 @@ public class WorldManager {
         WorldEntity[][] read = null;
         try {
             File myObj = new File(path);
-            Scanner myReader = new Scanner(myObj);
             Scanner measuresReader = new Scanner(myObj);
 
-            // Get map height and width
+            // Get map height and width from file
             int height = 0;
             int width = -1;
             for(; measuresReader.hasNextLine(); height++){
@@ -92,6 +91,9 @@ public class WorldManager {
                 throw new RuntimeException("Can't read empty file");
             }
             measuresReader.close();
+
+            // Get map content
+            Scanner myReader = new Scanner(myObj);
 
             read = new WorldEntity[height][width];
             String line;

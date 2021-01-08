@@ -13,11 +13,11 @@ import javafx.geometry.Pos;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Explosion extends GameObject {
+public class ExplosionObject extends GameObject {
     int range;
 
 
-    public Explosion(Game game, Position position, int range, long now, ArrayList<Position> bombZone,World bombWorld) {
+    public ExplosionObject(Game game, Position position, int range, long now, ArrayList<Position> bombZone, World bombWorld) {
         super(game, position);
         this.range = range;
         damageEntities(now, bombZone, bombWorld);

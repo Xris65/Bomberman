@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /***
- * A GameObject can acces the game and knows its position in the grid.
+ * A GameObject can access the game and knows its position in the grid.
  */
 public abstract class GameObject extends Entity {
     protected final Game game;
