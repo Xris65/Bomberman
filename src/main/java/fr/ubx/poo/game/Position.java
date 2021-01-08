@@ -37,8 +37,4 @@ public class Position {
     public String toString() {
         return "(x:" + x + ", y:" + y + ")";
     }
-
-    public boolean inside(Dimension d) {
-        return x >= 0 && x < d.width && y >= 0 && y < d.height;
-    }
 }

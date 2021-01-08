@@ -1,17 +1,13 @@
 package fr.ubx.poo.model.go;
 
-import fr.ubx.poo.game.*;
-import fr.ubx.poo.model.Entity;
-import fr.ubx.poo.model.decor.Bomb;
-import fr.ubx.poo.model.decor.Bonus.Bonus;
-import fr.ubx.poo.model.decor.Bonus.Key;
+import fr.ubx.poo.game.Game;
+import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
-import javafx.geometry.Pos;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ExplosionObject extends GameObject {
     int range;
@@ -46,6 +42,12 @@ public class ExplosionObject extends GameObject {
                     bombWorld.clear(position);
                 }
             }
+
+            // Bomb case
+            for(BombObject bomb : bombWorld.getBombs()){
+                bomb.setBombPhase(5);
+            }
+
 
         }
     }

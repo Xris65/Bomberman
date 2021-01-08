@@ -4,18 +4,19 @@
 
 package fr.ubx.poo.view.sprite;
 
-import static fr.ubx.poo.view.image.ImageResource.*;
-
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.*;
-import fr.ubx.poo.model.decor.Bonus.*;
 import fr.ubx.poo.model.decor.Bonus.BombBonus.BombNumber;
 import fr.ubx.poo.model.decor.Bonus.BombBonus.BombRange;
-import fr.ubx.poo.model.go.ExplosionObject;
+import fr.ubx.poo.model.decor.Bonus.Heart;
+import fr.ubx.poo.model.decor.Bonus.Key;
+import fr.ubx.poo.model.decor.Bonus.Princess;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.layout.Pane;
+
+import static fr.ubx.poo.view.image.ImageResource.*;
 
 
 public final class SpriteFactory {
@@ -50,8 +51,6 @@ public final class SpriteFactory {
         if (decor instanceof Door)
             return new SpriteDecor(layer, factory.getDoor(((Door) decor).isClosed()), position);
 
-        if (decor instanceof Explosion)
-            return new SpriteDecor(layer, factory.get(EXPLOSION), position);
         throw new RuntimeException("Unsupported sprite for decor " + decor);
     }
 

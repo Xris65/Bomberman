@@ -4,9 +4,6 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.World;
-import fr.ubx.poo.model.decor.Bonus.Princess;
-import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.decor.Door;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,7 +18,7 @@ public class Monster extends Character {
     }
 
     public boolean canMove(Direction direction, World world) {
-        if(super.canMove(direction)) {
+        if(super.canMove(direction, world)) {
             Position nextPosition = direction.nextPosition(getPosition());
             boolean existsMonster = false;
             for (Monster monster : world.getMonsters()) {

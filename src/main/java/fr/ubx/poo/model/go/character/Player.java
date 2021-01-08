@@ -75,7 +75,7 @@ public class Player extends Character {
     public Player(Game game, Position position) {
         super(game, position, Direction.S);
         setLives(game.getInitPlayerLives());
-        setTimeToAct(1000); // time for the invulnerability to wear off
+        setTimeToAct(2500); // time for the invulnerability to wear off
     }
 
     public boolean isVulnerable() {
@@ -119,9 +119,7 @@ public class Player extends Character {
 
     public void update(long now) {
         if(isInvulnerable){
-            actionIfTime(now, () -> {
-                isInvulnerable = false;
-            });
+            actionIfTime(now, () -> isInvulnerable = false);
         }
         super.update(now);
     }

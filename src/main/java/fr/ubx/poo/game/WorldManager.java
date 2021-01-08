@@ -14,13 +14,23 @@ public class WorldManager {
     private int worldMaxReached = 0;
     private int currentWorldIndex = -1;
     private final String worldPath;
+    private String prefix;
+    private int maxLevel;
+
+    public ArrayList<World> getWorlds() {
+        return worlds;
+    }
+
+    public void setMaxLevel(int maxLevel) {
+        this.maxLevel = maxLevel;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
 
     public WorldManager(String worldPath) {
         this.worldPath = worldPath;
-    }
-
-    private boolean isDiscovered(int worldNumber) {
-        return worlds.get(worldNumber - 1) != null;
     }
 
     public void addWorld(World world) {
@@ -34,13 +44,16 @@ public class WorldManager {
         currentWorldIndex++;
         if (currentWorldIndex < worldMaxReached) {
             return worlds.get(currentWorldIndex);
-        } else {
+        } else if (currentWorldIndex >= maxLevel) {
+            currentWorldIndex--;
+        }else {
             World nextWorld;
-            nextWorld = readFromFile(String.format("level%d.txt", worldMaxReached + 1));
+            nextWorld = readFromFile(String.format("%s%d.txt", prefix, worldMaxReached + 1));
             nextWorld.setMonsters(nextWorld.findMonsters(game));
             addWorld(nextWorld);
             return nextWorld;
         }
+        return null;
     }
 
     public World getPreviousWorld() {
@@ -64,13 +77,14 @@ public class WorldManager {
                     player.loseLife(now);
         }
     }
+
     public int getCurrentWorldIndex() {
         return currentWorldIndex;
     }
 
-    private World readFromFile(String filename){
+    private World readFromFile(String filename) {
         String path = worldPath + '/' + filename;
-        WorldEntity[][] read = null;
+        WorldEntity[][] read;
         try {
             File myObj = new File(path);
             Scanner measuresReader = new Scanner(myObj);
@@ -78,16 +92,16 @@ public class WorldManager {
             // Get map height and width from file
             int height = 0;
             int width = -1;
-            for(; measuresReader.hasNextLine(); height++){
+            for (; measuresReader.hasNextLine(); height++) {
                 int tmp = measuresReader.nextLine().length();
-                if(width != -1){
-                    if(tmp != width){
+                if (width != -1) {
+                    if (tmp != width) {
                         throw new RuntimeException("Map width is not consistent");
                     }
                 }
                 width = tmp;
             }
-            if(height == 0){
+            if (height == 0) {
                 throw new RuntimeException("Can't read empty file");
             }
             measuresReader.close();
@@ -97,11 +111,11 @@ public class WorldManager {
 
             read = new WorldEntity[height][width];
             String line;
-            for(int y = 0; myReader.hasNextLine(); y++){
+            for (int y = 0; myReader.hasNextLine(); y++) {
                 line = myReader.nextLine();
-                for(int x = 0; x < line.length(); x++){
+                for (int x = 0; x < line.length(); x++) {
                     Optional<WorldEntity> readInFileToWorldEntity = WorldEntity.fromCode(line.charAt(x));
-                    if(readInFileToWorldEntity.isPresent()){
+                    if (readInFileToWorldEntity.isPresent()) {
                         read[y][x] = readInFileToWorldEntity.get();
                     } else {
                         throw new RuntimeException(String.format("Character %c is invalid\n", line.charAt(x)));

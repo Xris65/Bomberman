@@ -4,7 +4,6 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.World;
-import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.GameObject;
@@ -50,12 +49,15 @@ public class Character extends GameObject implements Movable {
         return direction;
     }
 
-    @Override
-    public boolean canMove(Direction direction) {
-        World world = game.getWorld();
+    public boolean canMove(Direction direction, World world) {
         Position nextPosition = direction.nextPosition(getPosition());
         Decor decor = world.get(nextPosition);
         return world.isInside(nextPosition) && (decor == null || decor.isWalkable(this));
+    }
+
+    @Override
+    public boolean canMove(Direction direction) {
+        return canMove(direction, game.getWorld());
     }
 
     public void doMove(Direction direction) {

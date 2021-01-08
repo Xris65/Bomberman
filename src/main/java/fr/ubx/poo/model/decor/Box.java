@@ -13,7 +13,6 @@ public class Box extends Decor {
         Direction direction = player.getDirection();
         Position boxAt = direction.nextPosition(player.getPosition());
         World world = player.getGame().getWorld();
-        Decor decor = world.get(boxAt);
 
         if (world.get(direction.nextPosition(boxAt)) == null && world.isInside(direction.nextPosition(boxAt))) {
             // can move

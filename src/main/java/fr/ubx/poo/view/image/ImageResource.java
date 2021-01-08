@@ -1,7 +1,5 @@
 package fr.ubx.poo.view.image;
 
-import javafx.scene.image.Image;
-
 public enum ImageResource {
     DIGIT_0 ("banner_0.jpg"),
     DIGIT_1 ("banner_1.jpg"),

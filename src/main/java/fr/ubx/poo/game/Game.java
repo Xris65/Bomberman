@@ -5,35 +5,28 @@
 package fr.ubx.poo.game;
 
 
-import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.decor.Door;
-import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
-import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Properties;
 
 public class Game {
 
     private World world;
-    private final ArrayList<World> worlds = new ArrayList<>();
     private final WorldManager manager;
     private final Player player;
     public int initPlayerLives = 1;
-    ArrayList<Monster> monsters;
     private boolean toChange = false;
 
 
     public Game(String worldPath) {
         manager = new WorldManager(worldPath);
-        world = manager.getNextWorld(this);
         loadConfig(worldPath);
+        world = manager.getNextWorld(this);
         Position positionPlayer;
         try {
             positionPlayer = world.findPlayer();
@@ -45,7 +38,16 @@ public class Game {
     }
 
     public void changeWorld(boolean goingUp) {
-        world = (goingUp) ? manager.getNextWorld(this) : manager.getPreviousWorld();
+        if(goingUp){
+            World nextWorld = manager.getNextWorld(this);
+            if(nextWorld == null) {
+                return;
+            } else {
+                world = nextWorld;
+            }
+        } else {
+                world = manager.getPreviousWorld();
+            }
         Dimension dimension = world.dimension;
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
@@ -72,6 +74,8 @@ public class Game {
             // load the configuration file
             prop.load(input);
             initPlayerLives = Integer.parseInt(prop.getProperty("lives", "3"));
+            manager.setPrefix(prop.getProperty("prefix", "level"));
+            manager.setMaxLevel(Integer.parseInt(prop.getProperty("levels", "3")));
         } catch (IOException ex) {
             System.err.println("Error loading configuration");
         }
@@ -92,10 +96,6 @@ public class Game {
 
     public void setToChange(boolean toChange) {
         this.toChange = toChange;
-    }
-
-    public ArrayList<World> getWorlds() {
-        return worlds;
     }
 
 

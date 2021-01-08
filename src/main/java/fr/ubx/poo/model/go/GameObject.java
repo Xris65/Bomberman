@@ -4,13 +4,9 @@
 
 package fr.ubx.poo.model.go;
 
-import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.Game;
+import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Entity;
-
-import javax.swing.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /***
  * A GameObject can access the game and knows its position in the grid.

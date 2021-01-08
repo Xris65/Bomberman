@@ -18,6 +18,10 @@ public class BombObject extends GameObject {
 
     private int bombPhase = 1;
 
+    public void setBombPhase(int bombPhase) {
+        this.bombPhase = bombPhase;
+    }
+
     @Override
     public void update(long now) {
         super.actionIfTime(now, () -> {
@@ -57,22 +61,21 @@ public class BombObject extends GameObject {
             Position initialPosition = getPosition();
             for (int i = 0; i < range; i++) { // a la distance i
                 initialPosition = d.nextPosition(initialPosition);
+                if (!world.isInside(initialPosition)) {
+                    break;
+                }
                 Decor decor = world.get(initialPosition);
-                if(decor!= null){
-                    if(decor.stopsBombExplosion()){
-                        if(decor.isDestroyable()) {
-                            System.out.println("This is a box, it stops at direction " + d);
+                if (decor != null) {
+                    if (decor.stopsBombExplosion()) {
+                        if (decor.isDestroyable()) {
                             positionArrayList.add(initialPosition);
                             break;
                         }
-                        System.out.println("Stops explosion at direction " + d);
                         break;
                     } else {
-                        System.out.println("Doesn't stop explosion at direction " + d);
                         positionArrayList.add(initialPosition);
                     }
                 } else {
-                    System.out.println("Empty");
                     positionArrayList.add(initialPosition);
                 }
             }

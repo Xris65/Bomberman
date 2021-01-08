@@ -1,43 +1,39 @@
 package fr.ubx.poo.view.sprite;
 
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.model.go.BombObject;
-import fr.ubx.poo.model.go.character.Player;
+import fr.ubx.poo.game.World;
 import fr.ubx.poo.view.image.ImageFactory;
-import javafx.scene.image.Image;
+import fr.ubx.poo.view.image.ImageResource;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
-import java.util.ArrayList;
 
 public class SpriteExplosion extends Sprite {
     private final Position position;
-    private boolean rendered = false;
+    private final World world;
+    private double opacity = 1.0;
 
-    public boolean isRendering() {
-        return isRendering;
+    public World getWorld() {
+        return world;
     }
 
-    public void setRendering(boolean rendering) {
-        isRendering = rendering;
-    }
-
-    private boolean isRendering = false;
-
-
-    public SpriteExplosion(Pane layer, Image explosionImage, Position position) {
-        super(layer, explosionImage);
+    public SpriteExplosion(Pane layer, Position position, World world) {
+        super(layer, ImageFactory.getInstance().get(ImageResource.EXPLOSION));
         this.position = position;
+        this.world = world;
         updateImage();
-    }
-    public void setRendered(boolean rendered){
-        this.rendered = rendered;
-    }
-    public boolean isRendered(){
-        return rendered;
     }
 
     @Override
     public void updateImage() {
+        if (opacity <= 0) {
+            setToRemove(true);
+        }
+    }
+
+    public void adjustOpacity() {
+        ImageView imageView = getImageView();
+        opacity = opacity - 1.0/60;
+        imageView.setOpacity(opacity);
     }
 
     @Override

@@ -8,7 +8,6 @@ import fr.ubx.poo.engine.GameEngine;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.stage.Stage;
 
 public class Main extends Application {

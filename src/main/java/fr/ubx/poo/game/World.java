@@ -97,15 +97,8 @@ public class World {
         grid.forEach(fn);
     }
 
-    public Collection<Decor> values() {
-        return grid.values();
-    }
-
     public boolean isInside(Position p) {
         return ((p.x >= 0) && (p.x < dimension.width) && (p.y >= 0) && (p.y < dimension.height));
     }
 
-    public boolean isEmpty(Position position) {
-        return grid.get(position) == null;
-    }
 }

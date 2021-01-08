@@ -26,14 +26,12 @@ public class StatusBar {
     private final Text keyValue = new Text();
     private final HBox level = new HBox();
     private int gameLevel = 1;
-    private final Game game;
     private final DropShadow ds = new DropShadow();
 
 
 
-    public StatusBar(Group root, int sceneWidth, int sceneHeight, Game game) {
+    public StatusBar(Group root, int sceneWidth, int sceneHeight) {
         // Status bar
-        this.game = game;
 
         level.getStyleClass().add("level");
         level.getChildren().add(new ImageView(ImageFactory.getInstance().getDigit(gameLevel)));
@@ -87,10 +85,6 @@ public class StatusBar {
         rangeValue.setText(String.valueOf(player.getBombRange()));
         bombsValue.setText(String.valueOf(player.getBombCapacity()));
         keyValue.setText(String.valueOf(player.getNumberOfKeys()));
-    }
-
-    public void setGameLevel(int gameLevel) {
-        this.gameLevel = gameLevel;
     }
 
 

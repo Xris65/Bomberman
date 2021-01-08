@@ -1,6 +1,5 @@
 package fr.ubx.poo.model.decor;
 
-import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.go.character.Character;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;

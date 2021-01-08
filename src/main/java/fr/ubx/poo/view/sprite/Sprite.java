@@ -4,15 +4,10 @@
 
 package fr.ubx.poo.view.sprite;
 
-import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.model.go.character.Player;
-import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
-import java.util.ArrayList;
 
 public abstract class Sprite {
 
