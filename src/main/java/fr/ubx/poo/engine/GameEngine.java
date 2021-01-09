@@ -215,8 +215,6 @@ public final class GameEngine {
                         // add to arraylist explosions
                         spriteExplosions.add(new SpriteExplosion(layer, position, bomb.getWorld()));
                     }
-                    // add explosion sprites
-
                 }
             }
         }
