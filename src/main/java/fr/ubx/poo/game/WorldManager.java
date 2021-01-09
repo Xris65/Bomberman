@@ -83,10 +83,9 @@ public class WorldManager {
     }
 
     private World readFromFile(String filename) {
-        String path = worldPath + '/' + filename;
         WorldEntity[][] read;
         try {
-            File myObj = new File(path);
+            File myObj = new File(worldPath, filename);
             Scanner measuresReader = new Scanner(myObj);
 
             // Get map height and width from file
@@ -125,7 +124,7 @@ public class WorldManager {
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(String.format("File %s not found, its path: %s\n", filename, path));
+            throw new RuntimeException(String.format("File %s not found, its path: %s\n", filename, worldPath + '/' + filename));
         }
         return new World(read);
     }
