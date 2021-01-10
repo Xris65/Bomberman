@@ -144,7 +144,7 @@ public class Player extends Character {
     }
 
     /**
-     *
+     * Move a box if a box is the decor the player is walking into
      * @param world
      */
     public void moveBoxIfAble(World world) {
