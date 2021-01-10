@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 public class SpriteBomb extends SpriteGameObject {
 
     /**
-     * Instantiates a new Sprite bomb.
+     * Instantiates a new bomb sprite.
      *
      * @param layer the layer
      * @param bomb  the bomb

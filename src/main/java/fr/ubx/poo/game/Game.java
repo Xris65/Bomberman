@@ -49,9 +49,9 @@ public class Game {
     }
 
     /**
-     * Change world.
+     * Changes world.
      *
-     * @param goingUp the going up
+     * @param goingUp boolean that confirms if we go to next or previous world.
      */
     public void changeWorld(boolean goingUp) {
         if (goingUp) {
@@ -89,6 +89,10 @@ public class Game {
         return initPlayerLives;
     }
 
+    /**
+     * Loads the configuration from the given path.
+     * @param path the path.
+     */
     private void loadConfig(String path) {
         try (InputStream input = new FileInputStream(new File(path, "config.properties"))) {
             Properties prop = new Properties();
@@ -122,18 +126,18 @@ public class Game {
 
 
     /**
-     * Is to change boolean.
+     * Confirms if the world has changed or not since last iteration.
      *
-     * @return the boolean
+     * @return true if the world has changed, false if not.
      */
     public boolean isToChange() {
         return toChange;
     }
 
     /**
-     * Sets to change.
+     * Sets if the world has changed or not.
      *
-     * @param toChange the to change
+     * @param toChange boolean if the world has changed or not.
      */
     public void setToChange(boolean toChange) {
         this.toChange = toChange;
@@ -141,9 +145,9 @@ public class Game {
 
 
     /**
-     * Gets world manager.
+     * Gets the world manager.
      *
-     * @return the world manager
+     * @return the world manager.
      */
     public WorldManager getWorldManager() {
         return manager;

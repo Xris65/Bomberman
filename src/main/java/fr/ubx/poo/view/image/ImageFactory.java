@@ -14,24 +14,35 @@ import static fr.ubx.poo.view.image.ImageResource.*;
  */
 public final class ImageFactory {
     private final Image[] images;
-
+    /**
+     * Array containing all possible direction images for both player and monsters.
+     */
     private final ImageResource[] directions = new ImageResource[]{
             // Direction { N, E, S, W }
             PLAYER_UP, PLAYER_RIGHT, PLAYER_DOWN, PLAYER_LEFT, MONSTER_UP, MONSTER_RIGHT, MONSTER_DOWN, MONSTER_LEFT,
     };
+    /**
+     * Array containing all possible Bomb animation images.
+     */
     private final ImageResource[] bombAnimations = new ImageResource[]{
             // Bomb animations
             BOMB_1, BOMB_2, BOMB_3, BOMB_4,
     };
+    /**
+     * Array containing all possible door state images.
+     */
     private final ImageResource[] doors = new ImageResource[]{
             // Door images
             DOOR_CLOSED, DOOR_OPENED,
     };
-
+    /**
+     * Array containing all possible level digit images.
+     */
     private final ImageResource[] digits = new ImageResource[]{
             DIGIT_0, DIGIT_1, DIGIT_2, DIGIT_3, DIGIT_4,
             DIGIT_5, DIGIT_6, DIGIT_7, DIGIT_8, DIGIT_9,
     };
+
 
     private ImageFactory() {
         images = new Image[ImageResource.values().length];
@@ -46,12 +57,17 @@ public final class ImageFactory {
         return Holder.instance;
     }
 
+    /**
+     * Loads the image contained by the given filename.
+     * @param file the filename.
+     * @return the image.
+     */
     private Image loadImage(String file) {
         return new Image(getClass().getResource("/images/" + file).toExternalForm());
     }
 
     /**
-     * Load.
+     * Loads an image.
      */
     public void load() {
         for (ImageResource img : ImageResource.values()) {
@@ -60,9 +76,9 @@ public final class ImageFactory {
     }
 
     /**
-     * Get image.
+     * Gets an image.
      *
-     * @param img the img
+     * @param img the image resource name
      * @return the image
      */
     public Image get(ImageResource img) {
@@ -70,10 +86,10 @@ public final class ImageFactory {
     }
 
     /**
-     * Gets digit.
+     * Gets a digit image.
      *
-     * @param i the
-     * @return the digit
+     * @param i the digit number
+     * @return the digit image
      */
     public Image getDigit(int i) {
         if (i < 0 || i > 9)
@@ -82,29 +98,29 @@ public final class ImageFactory {
     }
 
     /**
-     * Gets player.
+     * Gets player direction image.
      *
-     * @param direction the direction
-     * @return the player
+     * @param direction the direction resource name
+     * @return the player image
      */
     public Image getPlayer(Direction direction) {
         return get(directions[direction.ordinal()]);
     }
 
     /**
-     * Gets monster.
+     * Gets monster direction image.
      *
-     * @param direction the direction
-     * @return the monster
+     * @param direction the direction resource name
+     * @return the monster image
      */
     public Image getMonster(Direction direction) {
         return get(directions[direction.ordinal() + 4]);
     }
 
     /**
-     * Gets boomb Image.
+     * Gets bomb Image.
      *
-     * @param phase the phase
+     * @param phase the phase of the bomb
      * @return the bomb Image corresponding to the phase it's in
      */
     public Image getBomb(int phase) {
@@ -112,10 +128,10 @@ public final class ImageFactory {
     }
 
     /**
-     * Gets door.
+     * Gets door image.
      *
-     * @param closed the closed
-     * @return the door
+     * @param closed boolean, true if door is closed, false if open.
+     * @return the door image
      */
     public Image getDoor(boolean closed) {
         if (closed)

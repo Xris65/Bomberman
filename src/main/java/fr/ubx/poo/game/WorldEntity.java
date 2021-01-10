@@ -60,34 +60,31 @@ public enum WorldEntity {
      */
     Princess('W'),
     /**
-     * Bomb range inc world entity.
+     * Bomb range increment bonus world entity.
      */
     BombRangeInc('>'),
     /**
-     * Bomb range dec world entity.
+     * Bomb range decrement world bonus entity.
      */
     BombRangeDec('<'),
     /**
-     * Bomb number inc world entity.
+     * Bomb number increment world bonus entity.
      */
     BombNumberInc('+'),
     /**
-     * Bomb number dec world entity.
+     * Bomb number decrement world bonus entity.
      */
     BombNumberDec('-'),
-    /**
-     * Bomb world entity.
-     */
-    Bomb('.'),
     ;
-
-
-    private char getCode() {
-        return code;
-    }
-
+    /**
+     * Character code of an Entity.
+      */
     private final char code;
 
+    /**
+     * Instantiates a World Entity
+     * @param code
+     */
     WorldEntity(char code) {
         this.code = code;
     }

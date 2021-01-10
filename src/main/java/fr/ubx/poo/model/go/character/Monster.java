@@ -23,10 +23,10 @@ public class Monster extends Character {
     }
 
     /**
-     *
-     * @param direction the direction
-     * @param world     the world
-     * @return
+     * Checks if the monster can move on the given direction in the given world.
+     * @param direction the direction.
+     * @param world     the world.
+     * @return true if monster can move with given direction, false if not.
      */
     public boolean canMove(Direction direction, World world) {
         if (super.canMove(direction, world)) {
@@ -43,6 +43,11 @@ public class Monster extends Character {
         return false;
     }
 
+    /**
+     * Returns an array list containing the valid movements from current position in the given world.
+     * @param world the world.
+     * @return an array list containing the valid movements.
+     */
     public ArrayList<Direction> validMovements(World world) {
         ArrayList<Direction> possibleMoveDirections = new ArrayList<>();
         for (Direction d : Direction.values()) {
@@ -53,6 +58,10 @@ public class Monster extends Character {
         return possibleMoveDirections;
     }
 
+    /**
+     * Requests a monster to move if it can.
+     * @param world the world.
+     */
     public void requestMove(World world) {
         // creates a list of possible movements
         ArrayList<Direction> possibleMoves = validMovements(world);
@@ -65,6 +74,11 @@ public class Monster extends Character {
         this.moveRequested = true;
     }
 
+    /**
+     * Updates the position of the monster, ensuring it moves every (timeToMove) time.
+     * @param now actual time.
+     * @param world the world.
+     */
     public void update(long now, World world) {
         // Every getTimeToAct(), here 1 s, request a move
         super.actionIfTime(now, () -> {
@@ -74,6 +88,10 @@ public class Monster extends Character {
         super.update(now);
     }
 
+    /**
+     * Returns the current direction of the monster.
+     * @return the direction
+     */
     public Direction getDirection() {
         return direction;
     }

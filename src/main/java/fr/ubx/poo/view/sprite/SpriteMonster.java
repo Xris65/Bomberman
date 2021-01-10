@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 public class SpriteMonster extends SpriteGameObject {
 
     /**
-     * Instantiates a new Sprite monster.
+     * Instantiates a new monster sprite.
      *
      * @param layer   the layer
      * @param monster the monster

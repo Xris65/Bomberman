@@ -25,7 +25,7 @@ public class SpriteExplosion extends Sprite {
     }
 
     /**
-     * Instantiates a new Sprite explosion.
+     * Instantiates a new explosion sprite.
      *
      * @param layer    the layer
      * @param position the position
@@ -46,7 +46,7 @@ public class SpriteExplosion extends Sprite {
     }
 
     /**
-     * Adjust opacity.
+     * Adjusts the sprite's opacity.
      */
     public void adjustOpacity() {
         ImageView imageView = getImageView();

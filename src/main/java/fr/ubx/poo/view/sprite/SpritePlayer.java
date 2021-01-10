@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 public class SpritePlayer extends SpriteGameObject {
 
     /**
-     * Instantiates a new Sprite player.
+     * Instantiates a new player sprite.
      *
      * @param layer  the layer
      * @param player the player
@@ -32,7 +32,7 @@ public class SpritePlayer extends SpriteGameObject {
     }
 
     /**
-     * Update player transparency.
+     * Updates player transparency.
      */
     public void updatePlayerTransparency() {
         Player player = (Player) go;

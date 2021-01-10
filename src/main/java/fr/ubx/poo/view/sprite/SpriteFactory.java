@@ -61,12 +61,11 @@ public final class SpriteFactory {
         }
         if (decor instanceof Door)
             return new SpriteDecor(layer, factory.getDoor(((Door) decor).isClosed()), position);
-
         throw new RuntimeException("Unsupported sprite for decor " + decor);
     }
 
     /**
-     * Create player sprite.
+     * Creates player sprite.
      *
      * @param layer  the layer
      * @param player the player
@@ -77,7 +76,7 @@ public final class SpriteFactory {
     }
 
     /**
-     * Create monster sprite.
+     * Creates monster sprite.
      *
      * @param layer   the layer
      * @param monster the monster

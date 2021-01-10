@@ -12,7 +12,7 @@ public class SpriteDecor extends Sprite {
     private final Position position;
 
     /**
-     * Instantiates a new Sprite decor.
+     * Instantiates a new decor sprite.
      *
      * @param layer    the layer
      * @param image    the image

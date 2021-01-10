@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class WorldManager {
     private final ArrayList<World> worlds = new ArrayList<>();
-    private int worldMaxReached = 0;
+    private int maxWorldsReached = 0;
     private int currentWorldIndex = -1;
     private final String worldPath;
     private String prefix;
@@ -39,7 +39,7 @@ public class WorldManager {
     }
 
     /**
-     * Sets prefix.
+     * Sets prefix of the world file.
      *
      * @param prefix the prefix
      */
@@ -57,13 +57,13 @@ public class WorldManager {
     }
 
     /**
-     * Add world.
+     * Adds a world to the worlds array, increasing the value of max worlds reached.
      *
      * @param world the world
      */
     public void addWorld(World world) {
         worlds.add(world);
-        worldMaxReached++;
+        maxWorldsReached++;
     }
 
     /**
@@ -76,13 +76,13 @@ public class WorldManager {
         // load next world and give it to user
         // and add it to arraylist
         currentWorldIndex++;
-        if (currentWorldIndex < worldMaxReached) {
+        if (currentWorldIndex < maxWorldsReached) {
             return worlds.get(currentWorldIndex);
         } else if (currentWorldIndex >= maxLevel) {
             currentWorldIndex--;
         } else {
             World nextWorld;
-            nextWorld = readFromFile(String.format("%s%d.txt", prefix, worldMaxReached + 1));
+            nextWorld = readFromFile(String.format("%s%d.txt", prefix, maxWorldsReached + 1));
             nextWorld.setMonsters(nextWorld.findMonsters(game));
             addWorld(nextWorld);
             return nextWorld;
@@ -101,9 +101,9 @@ public class WorldManager {
     }
 
     /**
-     * Update monsters on worlds.
+     * Updates monsters on all worlds.
      *
-     * @param now the now
+     * @param now the actual time.
      */
     public void updateMonstersOnWorlds(long now) {
         for (World w : worlds) {
@@ -114,7 +114,7 @@ public class WorldManager {
     /**
      * Verify monster collisions with player.
      *
-     * @param now the now
+     * @param now the actual time.
      */
     public void verifyMonsterCollisionsWithPlayer(long now) {
         World w = worlds.get(currentWorldIndex);
@@ -184,9 +184,9 @@ public class WorldManager {
     }
 
     /**
-     * Get world number int.
+     * Gets the current world number.
      *
-     * @return the int
+     * @return the number of the world
      */
     public int getWorldNumber(){
         return getCurrentWorldIndex() + 1;

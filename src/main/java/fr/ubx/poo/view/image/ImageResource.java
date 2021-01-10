@@ -105,19 +105,19 @@ public enum ImageResource {
      */
     BOX("box.png"),
     /**
-     * Bonus bomb nb dec image resource.
+     * Bonus bomb number decrement image resource.
      */
     BONUS_BOMB_NB_DEC("bonus_bomb_nb_dec.png"),
     /**
-     * Bonus bomb nb inc image resource.
+     * Bonus bomb number increment image resource.
      */
     BONUS_BOMB_NB_INC("bonus_bomb_nb_inc.png"),
     /**
-     * Bonus bomb range dec image resource.
+     * Bonus bomb range decrement image resource.
      */
     BONUS_BOMB_RANGE_DEC("bonus_bomb_range_dec.png"),
     /**
-     * Bonus bomb range inc image resource.
+     * Bonus bomb range increment image resource.
      */
     BONUS_BOMB_RANGE_INC("bonus_bomb_range_inc.png"),
     /**
@@ -125,19 +125,19 @@ public enum ImageResource {
      */
     PRINCESS("bomberwoman.png"),
     /**
-     * Bomb 1 image resource.
+     * Bomb phase 1 image resource.
      */
     BOMB_1("bomb4.png"),
     /**
-     * Bomb 2 image resource.
+     * Bomb phase 2 image resource.
      */
     BOMB_2("bomb3.png"),
     /**
-     * Bomb 3 image resource.
+     * Bomb phase 3 image resource.
      */
     BOMB_3("bomb2.png"),
     /**
-     * Bomb 4 image resource.
+     * Bomb phase 4 image resource.
      */
     BOMB_4("bomb1.png"),
     /**
@@ -145,11 +145,11 @@ public enum ImageResource {
      */
     EXPLOSION("explosion.png"),
     /**
-     * Door closed image resource.
+     * Closed door image resource.
      */
     DOOR_CLOSED("door_closed.png"),
     /**
-     * Door opened image resource.
+     * Opened door image resource.
      */
     DOOR_OPENED("door_opened.png"),
     ;
