@@ -81,14 +81,13 @@ public abstract class GameObject extends Entity {
         }
     }
 
-    /**
-     * Update.
-     *
-     * @param now the now
-     */
-    public void update(long now) {
 
-    }
+    /**
+     * Update the gameObject each frame.
+     * @param now the time of the frame.
+     */
+    public void update(long now){}
+
 
     /**
      * Gets position.
@@ -112,7 +111,7 @@ public abstract class GameObject extends Entity {
      * Instantiates a new Game object.
      *
      * @param game     the game
-     * @param position the position
+     * @param position the position the gameObject spawns at.
      */
     public GameObject(Game game, Position position) {
         this.game = game;

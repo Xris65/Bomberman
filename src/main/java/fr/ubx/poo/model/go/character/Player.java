@@ -144,7 +144,7 @@ public class Player extends Character {
     }
 
     /**
-     * Move a box if a box is the decor the player is walking into
+     * Move a box if a box is the decor the player is walking into.
      */
     public void moveBoxIfAble() {
         Position boxAt = direction.nextPosition(getPosition());
@@ -155,9 +155,9 @@ public class Player extends Character {
     }
 
     /**
-     *
-      * @param game
-     * @param position
+     * Instantiate a new Player.
+      * @param game the game.
+     * @param position the starting position of the player.
      */
     public Player(Game game, Position position) {
         super(game, position, Direction.S);
@@ -165,16 +165,33 @@ public class Player extends Character {
         setTimeToAct(2500); // time for the invulnerability to wear off
     }
 
+    /**
+     * if player is vulnerable.
+     * @return player state of vulnerability.
+     */
     public boolean isVulnerable() {
         return !isInvulnerable;
     }
 
+    /**
+     * This 'loseLife' method makes the player invulnerable,
+     * unlike loseLife().
+     * The player just loses a life.
+     * @param now the time the player lost a life to manage invulnerability.
+     */
     public void loseLife(long now) {
         loseLife();
         isInvulnerable = true;
         setLastActionTime(now);
     }
 
+    /**
+     * Execute actions based on the player walking on the decor d
+     * at the position p.
+     * @param d the decor the player is walking on.
+     * @param p the position the player is going to be at.
+     * @return true if the newPosition is walkable or not.
+     */
     private boolean handleNewPosition(Decor d, Position p) {
         d.obtain(this);
         if (d.isToRemove()) {
@@ -191,6 +208,12 @@ public class Player extends Character {
         return d.isWalkable(this);
     }
 
+    /**
+     * Almost the same as the can move from character,
+     * but this one handles the new position with handleNewPosition().
+     * @param direction the direction the player is trying to move at.
+     * @return if the player can move at the given direction.
+     */
     @Override
     public boolean canMove(Direction direction) {
         World w = super.game.getWorld();
@@ -203,6 +226,10 @@ public class Player extends Character {
     }
 
 
+    /**
+     * Update the player state on each frame.
+     * @param now time of the frame.
+     */
     public void update(long now) {
         if (isInvulnerable) {
             actionIfTime(now, () -> isInvulnerable = false);
@@ -211,10 +238,18 @@ public class Player extends Character {
     }
 
 
+    /**
+     * Player is winner.
+     * @return true if the player won the game.
+     */
     public boolean isWinner() {
         return winner;
     }
 
+    /**
+     * This version uses moveBoxIfAble()
+     * @param direction the direction the player is trying to go to.
+     */
     @Override
     public void requestMove(Direction direction) {
         super.requestMove(direction);

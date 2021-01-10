@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class ExplosionObject extends GameObject {
     /**
-     * The Range.
+     * The Range of the bomb.
      */
     int range;
 
@@ -23,11 +23,11 @@ public class ExplosionObject extends GameObject {
      * Instantiates a new Explosion object.
      *
      * @param game      the game
-     * @param position  the position
-     * @param range     the range
-     * @param now       the now
-     * @param bombZone  the bomb zone
-     * @param bombWorld the bomb world
+     * @param position  the position of the explosion.
+     * @param range     the range of the bomb.
+     * @param now       the time of the frame.
+     * @param bombZone  the bomb zone to interact with entities in this zone.
+     * @param bombWorld the world the bomb was dropped in (not necessarily the current world)
      */
     public ExplosionObject(Game game, Position position, int range, long now, ArrayList<Position> bombZone, World bombWorld) {
         super(game, position);
@@ -35,9 +35,14 @@ public class ExplosionObject extends GameObject {
         damageEntities(now, bombZone, bombWorld);
     }
 
+    /**
+     * Damage entities present in the bombZone
+     * @param now the time of the frame.
+     * @param bombZone the bomb zone to interact with entities in this zone.
+     * @param bombWorld the world the bomb was dropped in (not necessarily the current world).
+     */
     private void damageEntities(long now, ArrayList<Position> bombZone, World bombWorld) {
 
-        // checks if player is on top of the bomb
         Player player = game.getPlayer();
 
         for (Position position : bombZone) {
@@ -65,8 +70,6 @@ public class ExplosionObject extends GameObject {
                     bomb.setBombPhase(5);
                 }
             }
-
-
         }
     }
 }

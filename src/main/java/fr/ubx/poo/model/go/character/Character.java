@@ -112,22 +112,29 @@ public class Character extends GameObject implements Movable {
         Decor decor = world.get(nextPosition);
         return world.isInside(nextPosition) && (decor == null || decor.isWalkable(this));
     }
-
+    /**
+     * Can move boolean.
+     *
+     * @param direction the direction
+     */
     @Override
     public boolean canMove(Direction direction) {
         return canMove(direction, game.getWorld());
     }
 
     /**
-     * Can move boolean.
-     *
-     * @param direction the direction
+     * Moves to the given direction.
+     * @param direction the direction to move at.
      */
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
     }
 
+    /**
+     * Update the character on each frame of the game.
+     * @param now the time of the frame.
+     */
     @Override
     public void update(long now) {
         if (moveRequested) {
