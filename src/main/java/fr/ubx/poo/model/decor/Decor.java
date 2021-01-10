@@ -13,25 +13,56 @@ import fr.ubx.poo.model.go.character.Player;
  */
 abstract public class Decor extends Entity {
 
+    /**
+     * Obtain.
+     *
+     * @param player the player
+     */
     public void obtain(Player player) {
     }
 
+    /**
+     * Is walkable boolean.
+     *
+     * @param character the character
+     * @return the boolean
+     */
     public boolean isWalkable(Character character) {
         return false;
     }
 
+    /**
+     * Stops bomb explosion boolean.
+     *
+     * @return the boolean
+     */
     public boolean stopsBombExplosion() {
         return true;
     }
 
+    /**
+     * Move.
+     *
+     * @param player the player
+     */
     public void move(Player player) {
 
     }
 
+    /**
+     * Is destroyable boolean.
+     *
+     * @return the boolean
+     */
     public boolean isDestroyable() {
         return false;
     }
 
+    /**
+     * Is to remove boolean.
+     *
+     * @return the boolean
+     */
     public boolean isToRemove() {
         return false;
     }

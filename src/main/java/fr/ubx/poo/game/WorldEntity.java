@@ -7,23 +7,77 @@ package fr.ubx.poo.game;
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+ * The enum World entity.
+ */
 public enum WorldEntity {
+    /**
+     * Empty world entity.
+     */
     Empty('_'),
+    /**
+     * Box world entity.
+     */
     Box('B'),
+    /**
+     * Heart world entity.
+     */
     Heart('H'),
+    /**
+     * Key world entity.
+     */
     Key('K'),
+    /**
+     * Monster world entity.
+     */
     Monster('M'),
+    /**
+     * Door prev opened world entity.
+     */
     DoorPrevOpened('V'),
+    /**
+     * Door next opened world entity.
+     */
     DoorNextOpened('N'),
+    /**
+     * Door next closed world entity.
+     */
     DoorNextClosed('n'),
+    /**
+     * Player world entity.
+     */
     Player('P'),
+    /**
+     * Stone world entity.
+     */
     Stone('S'),
+    /**
+     * Tree world entity.
+     */
     Tree('T'),
+    /**
+     * Princess world entity.
+     */
     Princess('W'),
+    /**
+     * Bomb range inc world entity.
+     */
     BombRangeInc('>'),
+    /**
+     * Bomb range dec world entity.
+     */
     BombRangeDec('<'),
+    /**
+     * Bomb number inc world entity.
+     */
     BombNumberInc('+'),
+    /**
+     * Bomb number dec world entity.
+     */
     BombNumberDec('-'),
+    /**
+     * Bomb world entity.
+     */
     Bomb('.'),
     ;
 
@@ -38,6 +92,12 @@ public enum WorldEntity {
         this.code = code;
     }
 
+    /**
+     * From code optional.
+     *
+     * @param code the code
+     * @return the optional
+     */
     public static Optional<WorldEntity> fromCode(char code) {
         return Arrays.stream(values())
                 .filter(e -> e.acceptCode(code))

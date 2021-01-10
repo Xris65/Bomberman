@@ -13,6 +13,9 @@ import java.util.BitSet;
 
 import static javafx.scene.input.KeyCode.*;
 
+/**
+ * The type Input.
+ */
 public final class Input {
 
     /**
@@ -30,6 +33,11 @@ public final class Input {
     };
     private final Scene scene;
 
+    /**
+     * Instantiates a new Input.
+     *
+     * @param scene the scene
+     */
     public Input(Scene scene) {
         this.scene = scene;
         /**
@@ -45,6 +53,9 @@ public final class Input {
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
     }
 
+    /**
+     * Clear.
+     */
     public void clear() {
         keyboardBitSet.clear();
     }
@@ -59,30 +70,65 @@ public final class Input {
     // direction isn't handled.
     // -------------------------------------------------
 
+    /**
+     * Is move up boolean.
+     *
+     * @return the boolean
+     */
     public boolean isMoveUp() {
         return is(UP) && !is(DOWN);
     }
 
+    /**
+     * Is move down boolean.
+     *
+     * @return the boolean
+     */
     public boolean isMoveDown() {
         return is(DOWN) && !is(UP);
     }
 
+    /**
+     * Is move left boolean.
+     *
+     * @return the boolean
+     */
     public boolean isMoveLeft() {
         return is(LEFT) && !is(RIGHT);
     }
 
+    /**
+     * Is move right boolean.
+     *
+     * @return the boolean
+     */
     public boolean isMoveRight() {
         return is(RIGHT) && !is(LEFT);
     }
 
+    /**
+     * Is bomb boolean.
+     *
+     * @return the boolean
+     */
     public boolean isBomb() {
         return is(SPACE);
     }
 
+    /**
+     * Is key boolean.
+     *
+     * @return the boolean
+     */
     public boolean isKey() {
         return is(ENTER);
     }
 
+    /**
+     * Is exit boolean.
+     *
+     * @return the boolean
+     */
     public boolean isExit() {
         return is(ESCAPE);
     }

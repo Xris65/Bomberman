@@ -6,6 +6,9 @@ import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 
+/**
+ * The type Box.
+ */
 public class Box extends Decor {
 
     @Override

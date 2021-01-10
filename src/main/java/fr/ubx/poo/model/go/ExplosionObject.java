@@ -9,10 +9,26 @@ import fr.ubx.poo.model.go.character.Player;
 
 import java.util.ArrayList;
 
+/**
+ * The type Explosion object.
+ */
 public class ExplosionObject extends GameObject {
+    /**
+     * The Range.
+     */
     int range;
 
 
+    /**
+     * Instantiates a new Explosion object.
+     *
+     * @param game      the game
+     * @param position  the position
+     * @param range     the range
+     * @param now       the now
+     * @param bombZone  the bomb zone
+     * @param bombWorld the bomb world
+     */
     public ExplosionObject(Game game, Position position, int range, long now, ArrayList<Position> bombZone, World bombWorld) {
         super(game, position);
         this.range = range;

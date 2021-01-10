@@ -4,6 +4,9 @@ import fr.ubx.poo.model.go.character.Character;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 
+/**
+ * The type Princess.
+ */
 public class Princess extends Bonus {
 
     @Override

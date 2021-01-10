@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
 
+/**
+ * The type World manager.
+ */
 public class WorldManager {
     private final ArrayList<World> worlds = new ArrayList<>();
     private int worldMaxReached = 0;
@@ -17,27 +20,58 @@ public class WorldManager {
     private String prefix;
     private int maxLevel;
 
+    /**
+     * Gets worlds.
+     *
+     * @return the worlds
+     */
     public ArrayList<World> getWorlds() {
         return worlds;
     }
 
+    /**
+     * Sets max level.
+     *
+     * @param maxLevel the max level
+     */
     public void setMaxLevel(int maxLevel) {
         this.maxLevel = maxLevel;
     }
 
+    /**
+     * Sets prefix.
+     *
+     * @param prefix the prefix
+     */
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
 
+    /**
+     * Instantiates a new World manager.
+     *
+     * @param worldPath the world path
+     */
     public WorldManager(String worldPath) {
         this.worldPath = worldPath;
     }
 
+    /**
+     * Add world.
+     *
+     * @param world the world
+     */
     public void addWorld(World world) {
         worlds.add(world);
         worldMaxReached++;
     }
 
+    /**
+     * Gets next world.
+     *
+     * @param game the game
+     * @return the next world
+     */
     public World getNextWorld(Game game) {
         // load next world and give it to user
         // and add it to arraylist
@@ -56,17 +90,32 @@ public class WorldManager {
         return null;
     }
 
+    /**
+     * Gets previous world.
+     *
+     * @return the previous world
+     */
     public World getPreviousWorld() {
         currentWorldIndex--;
         return worlds.get(currentWorldIndex);
     }
 
+    /**
+     * Update monsters on worlds.
+     *
+     * @param now the now
+     */
     public void updateMonstersOnWorlds(long now) {
         for (World w : worlds) {
             w.updateMonsters(now);
         }
     }
 
+    /**
+     * Verify monster collisions with player.
+     *
+     * @param now the now
+     */
     public void verifyMonsterCollisionsWithPlayer(long now) {
         World w = worlds.get(currentWorldIndex);
         for (Monster m : w.getMonsters()) {
@@ -78,6 +127,11 @@ public class WorldManager {
         }
     }
 
+    /**
+     * Gets current world index.
+     *
+     * @return the current world index
+     */
     public int getCurrentWorldIndex() {
         return currentWorldIndex;
     }
@@ -129,6 +183,11 @@ public class WorldManager {
         return new World(read);
     }
 
+    /**
+     * Get world number int.
+     *
+     * @return the int
+     */
     public int getWorldNumber(){
         return getCurrentWorldIndex() + 1;
     }

@@ -9,8 +9,17 @@ import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+/**
+ * The type Sprite player.
+ */
 public class SpritePlayer extends SpriteGameObject {
 
+    /**
+     * Instantiates a new Sprite player.
+     *
+     * @param layer  the layer
+     * @param player the player
+     */
     public SpritePlayer(Pane layer, Player player) {
         super(layer, null, player);
         updateImage();
@@ -22,6 +31,9 @@ public class SpritePlayer extends SpriteGameObject {
         setImage(ImageFactory.getInstance().getPlayer(player.getDirection()));
     }
 
+    /**
+     * Update player transparency.
+     */
     public void updatePlayerTransparency() {
         Player player = (Player) go;
         ImageView imageView = getImageView();

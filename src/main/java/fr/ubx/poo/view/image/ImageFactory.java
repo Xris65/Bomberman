@@ -9,6 +9,9 @@ import javafx.scene.image.Image;
 
 import static fr.ubx.poo.view.image.ImageResource.*;
 
+/**
+ * The type Image factory.
+ */
 public final class ImageFactory {
     private final Image[] images;
 
@@ -18,7 +21,7 @@ public final class ImageFactory {
     };
     private final ImageResource[] bombAnimations = new ImageResource[]{
             // Bomb animations
-            BOMB_1, BOMB_2, BOMB_3, BOMB_4, EXPLOSION,
+            BOMB_1, BOMB_2, BOMB_3, BOMB_4,
     };
     private final ImageResource[] doors = new ImageResource[]{
             // Door images
@@ -36,6 +39,8 @@ public final class ImageFactory {
 
     /**
      * Point d'accès pour l'instance unique du singleton
+     *
+     * @return the instance
      */
     public static ImageFactory getInstance() {
         return Holder.instance;
@@ -45,34 +50,73 @@ public final class ImageFactory {
         return new Image(getClass().getResource("/images/" + file).toExternalForm());
     }
 
+    /**
+     * Load.
+     */
     public void load() {
         for (ImageResource img : ImageResource.values()) {
             images[img.ordinal()] = loadImage(img.getFileName());
         }
     }
 
+    /**
+     * Get image.
+     *
+     * @param img the img
+     * @return the image
+     */
     public Image get(ImageResource img) {
         return images[img.ordinal()];
     }
 
+    /**
+     * Gets digit.
+     *
+     * @param i the
+     * @return the digit
+     */
     public Image getDigit(int i) {
         if (i < 0 || i > 9)
             throw new IllegalArgumentException();
         return get(digits[i]);
     }
 
+    /**
+     * Gets player.
+     *
+     * @param direction the direction
+     * @return the player
+     */
     public Image getPlayer(Direction direction) {
         return get(directions[direction.ordinal()]);
     }
 
+    /**
+     * Gets monster.
+     *
+     * @param direction the direction
+     * @return the monster
+     */
     public Image getMonster(Direction direction) {
         return get(directions[direction.ordinal() + 4]);
     }
 
+    /**
+     * Gets boomb Image.
+     *
+     * @param phase the phase
+     * @return the bomb Image corresponding to the phase it's in
+     */
     public Image getBomb(int phase) {
         return get(bombAnimations[phase - 1]);
     }
 
+    /**
+     * Gets door.
+     *
+     * @param closed the closed
+     * @return the door
+     */
     public Image getDoor(boolean closed) {
         if (closed)
             return get(doors[0]);

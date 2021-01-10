@@ -14,15 +14,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * The type Game.
+ */
 public class Game {
 
     private World world;
     private final WorldManager manager;
     private final Player player;
+    /**
+     * The Init player lives.
+     */
     public int initPlayerLives = 1;
     private boolean toChange = false;
 
 
+    /**
+     * Instantiates a new Game.
+     *
+     * @param worldPath the world path
+     */
     public Game(String worldPath) {
         manager = new WorldManager(worldPath);
         loadConfig(worldPath);
@@ -37,6 +48,11 @@ public class Game {
         }
     }
 
+    /**
+     * Change world.
+     *
+     * @param goingUp the going up
+     */
     public void changeWorld(boolean goingUp) {
         if (goingUp) {
             World nextWorld = manager.getNextWorld(this);
@@ -64,6 +80,11 @@ public class Game {
         world.setChanged(true);
     }
 
+    /**
+     * Gets init player lives.
+     *
+     * @return the init player lives
+     */
     public int getInitPlayerLives() {
         return initPlayerLives;
     }
@@ -81,24 +102,49 @@ public class Game {
         }
     }
 
+    /**
+     * Gets world.
+     *
+     * @return the world
+     */
     public World getWorld() {
         return world;
     }
 
+    /**
+     * Gets player.
+     *
+     * @return the player
+     */
     public Player getPlayer() {
         return this.player;
     }
 
 
+    /**
+     * Is to change boolean.
+     *
+     * @return the boolean
+     */
     public boolean isToChange() {
         return toChange;
     }
 
+    /**
+     * Sets to change.
+     *
+     * @param toChange the to change
+     */
     public void setToChange(boolean toChange) {
         this.toChange = toChange;
     }
 
 
+    /**
+     * Gets world manager.
+     *
+     * @return the world manager
+     */
     public WorldManager getWorldManager() {
         return manager;
     }

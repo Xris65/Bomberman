@@ -9,12 +9,22 @@ import fr.ubx.poo.model.decor.Bonus.Princess;
 import java.util.Hashtable;
 import java.util.Map;
 
+/**
+ * The type World builder.
+ */
 public class WorldBuilder {
     private final Map<Position, Decor> grid = new Hashtable<>();
 
     private WorldBuilder() {
     }
 
+    /**
+     * Build map.
+     *
+     * @param raw       the raw
+     * @param dimension the dimension
+     * @return the map
+     */
     public static Map<Position, Decor> build(WorldEntity[][] raw, Dimension dimension) {
         WorldBuilder builder = new WorldBuilder();
         for (int x = 0; x < dimension.width; x++) {

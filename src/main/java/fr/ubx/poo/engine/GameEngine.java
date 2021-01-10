@@ -28,6 +28,9 @@ import java.util.List;
 import java.util.Objects;
 
 
+/**
+ * The type Game engine.
+ */
 public final class GameEngine {
 
     private static AnimationTimer gameLoop;
@@ -45,6 +48,13 @@ public final class GameEngine {
     private final ArrayList<SpriteExplosion> spriteExplosions = new ArrayList<>();
 
 
+    /**
+     * Instantiates a new Game engine.
+     *
+     * @param windowTitle the window title
+     * @param game        the game
+     * @param stage       the stage
+     */
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
         this.game = game;
@@ -81,6 +91,9 @@ public final class GameEngine {
         }
     }
 
+    /**
+     * Build and set game loop.
+     */
     protected final void buildAndSetGameLoop() {
         gameLoop = new AnimationTimer() {
             public void handle(long now) {
@@ -291,6 +304,9 @@ public final class GameEngine {
         spriteExplosions.removeIf(Sprite::isToRemove);
     }
 
+    /**
+     * Start.
+     */
     public void start() {
         gameLoop.start();
     }

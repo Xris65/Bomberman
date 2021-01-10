@@ -8,16 +8,29 @@ import fr.ubx.poo.model.decor.Decor;
 
 import java.util.ArrayList;
 
+/**
+ * The type Bomb object.
+ */
 public class BombObject extends GameObject {
     int range;
     private final World world;
 
+    /**
+     * Gets world.
+     *
+     * @return the world
+     */
     public World getWorld() {
         return world;
     }
 
     private int bombPhase = 1;
 
+    /**
+     * Sets bomb phase.
+     *
+     * @param bombPhase the bomb phase
+     */
     public void setBombPhase(int bombPhase) {
         this.bombPhase = bombPhase;
     }
@@ -32,10 +45,20 @@ public class BombObject extends GameObject {
         });
     }
 
+    /**
+     * Gets bomb phase.
+     *
+     * @return the bomb phase
+     */
     public int getBombPhase() {
         return bombPhase;
     }
 
+    /**
+     * Gets range.
+     *
+     * @return the range
+     */
     public int getRange() {
         return range;
     }

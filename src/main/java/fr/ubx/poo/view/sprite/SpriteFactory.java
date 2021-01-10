@@ -19,8 +19,19 @@ import javafx.scene.layout.Pane;
 import static fr.ubx.poo.view.image.ImageResource.*;
 
 
+/**
+ * The type Sprite factory.
+ */
 public final class SpriteFactory {
 
+    /**
+     * Create decor sprite.
+     *
+     * @param layer    the layer
+     * @param position the position
+     * @param decor    the decor
+     * @return the sprite
+     */
     public static Sprite createDecor(Pane layer, Position position, Decor decor) {
         ImageFactory factory = ImageFactory.getInstance();
         if (decor instanceof Stone)
@@ -54,10 +65,24 @@ public final class SpriteFactory {
         throw new RuntimeException("Unsupported sprite for decor " + decor);
     }
 
+    /**
+     * Create player sprite.
+     *
+     * @param layer  the layer
+     * @param player the player
+     * @return the sprite
+     */
     public static Sprite createPlayer(Pane layer, Player player) {
         return new SpritePlayer(layer, player);
     }
 
+    /**
+     * Create monster sprite.
+     *
+     * @param layer   the layer
+     * @param monster the monster
+     * @return the sprite
+     */
     public static Sprite createMonster(Pane layer, Monster monster) {
         return new SpriteMonster(layer, monster);
     }

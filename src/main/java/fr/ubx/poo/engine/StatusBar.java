@@ -17,7 +17,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+/**
+ * The type Status bar.
+ */
 public class StatusBar {
+    /**
+     * The constant height.
+     */
     public static final int height = 55;
     private final HBox hBox = new HBox();
     private final Text liveValue = new Text();
@@ -29,6 +35,13 @@ public class StatusBar {
     private final DropShadow ds = new DropShadow();
 
 
+    /**
+     * Instantiates a new Status bar.
+     *
+     * @param root        the root
+     * @param sceneWidth  the scene width
+     * @param sceneHeight the scene height
+     */
     public StatusBar(Group root, int sceneWidth, int sceneHeight) {
         // Status bar
 
@@ -77,6 +90,11 @@ public class StatusBar {
         return group;
     }
 
+    /**
+     * Update.
+     *
+     * @param game the game
+     */
     public void update(Game game) {
         updateLevel(game.getWorldManager().getWorldNumber());
         Player player = game.getPlayer();

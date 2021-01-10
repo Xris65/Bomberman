@@ -3,6 +3,9 @@ package fr.ubx.poo.model.decor.Bonus;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.character.Character;
 
+/**
+ * The type Bonus.
+ */
 abstract public class Bonus extends Decor {
     @Override
     public boolean isWalkable(Character character) {
