@@ -45,7 +45,9 @@ public class ExplosionObject extends GameObject {
 
             // Bomb case
             for (BombObject bomb : bombWorld.getBombs()) {
-                bomb.setBombPhase(5);
+                if( bomb.getPosition().equals(position)) {
+                    bomb.setBombPhase(5);
+                }
             }
 
 
