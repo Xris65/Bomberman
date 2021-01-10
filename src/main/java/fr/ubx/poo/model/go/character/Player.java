@@ -145,11 +145,10 @@ public class Player extends Character {
 
     /**
      * Move a box if a box is the decor the player is walking into
-     * @param world
      */
-    public void moveBoxIfAble(World world) {
+    public void moveBoxIfAble() {
         Position boxAt = direction.nextPosition(getPosition());
-        Decor decor = world.get(boxAt);
+        Decor decor = game.getWorld().get(boxAt);
         if (decor != null) {
             decor.move(this);
         }
@@ -219,6 +218,6 @@ public class Player extends Character {
     @Override
     public void requestMove(Direction direction) {
         super.requestMove(direction);
-        moveBoxIfAble(game.getWorld());
+        moveBoxIfAble();
     }
 }
