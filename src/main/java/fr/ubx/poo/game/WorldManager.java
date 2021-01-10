@@ -129,5 +129,9 @@ public class WorldManager {
         return new World(read);
     }
 
+    public int getWorldNumber(){
+        return getCurrentWorldIndex() + 1;
+    }
+
 }
 
