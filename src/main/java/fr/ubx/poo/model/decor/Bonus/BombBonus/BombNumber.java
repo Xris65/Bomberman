@@ -15,6 +15,10 @@ public class BombNumber extends BombBonus {
         super(increase);
     }
 
+    /**
+     * addBombCapacity if BombNumber is a bonus, else removeBombCapacity.
+     * @param player the player affected by the bonus.
+     */
     @Override
     public void obtain(Player player) {
         super.obtainWithRunnable(player::addBombCapacity, player::removeBombCapacity);

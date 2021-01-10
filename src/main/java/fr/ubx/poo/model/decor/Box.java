@@ -11,6 +11,10 @@ import fr.ubx.poo.model.go.character.Player;
  */
 public class Box extends Decor {
 
+    /**
+     * Moves the box in the direction of the player.
+     * @param player the player that moves the box.
+     */
     @Override
     public void move(Player player) {
         Direction direction = player.getDirection();
@@ -29,6 +33,10 @@ public class Box extends Decor {
         }
     }
 
+    /**
+     * A box is destroyable by a bomb.
+     * @return true
+     */
     @Override
     public boolean isDestroyable() {
         return true;

@@ -13,7 +13,7 @@ public class Door extends Decor {
 
     /**
      * Is closed boolean.
-     *
+     * returns true if door is closed.
      * @return the boolean
      */
     public boolean isClosed() {
@@ -22,7 +22,8 @@ public class Door extends Decor {
 
     /**
      * Is prev boolean.
-     *
+     * If door goes to a previous world, prev is true.
+     * if door goes to next world, prev is false.
      * @return the boolean
      */
     public boolean isPrev() {
@@ -33,18 +34,21 @@ public class Door extends Decor {
     /**
      * Instantiates a new Door.
      *
-     * @param closed the closed
-     * @param prev   the prev
+     * @param closed if door is closed.
+     * @param prev   if door goes to a previous world.
      */
     public Door(boolean closed, boolean prev) {
         this.closed = closed;
         this.prev = prev;
     }
 
-    @Override
-    public void obtain(Player player) {
-    }
-
+    /**
+     * Is Walkable by a character.
+     * Only Player can walk on a door, and only if the door is open.
+     * @param character the character
+     * @return true if character is a player and door is opened.
+     *         else false.
+     */
     @Override
     public boolean isWalkable(Character character) {
         return !closed && !(character instanceof Monster);

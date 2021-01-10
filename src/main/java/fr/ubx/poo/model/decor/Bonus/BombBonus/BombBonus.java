@@ -8,13 +8,12 @@ import fr.ubx.poo.model.go.character.Player;
  */
 public abstract class BombBonus extends Bonus {
     /**
-     * The Increase.
+     * If the bombBonus is a bonus or a malus.
      */
     boolean increase;
 
     /**
-     * Is increase boolean.
-     *
+     * Returns true if the bomb is a bonus, else a malus
      * @return the boolean
      */
     public boolean isIncrease() {
@@ -31,10 +30,11 @@ public abstract class BombBonus extends Bonus {
     }
 
     /**
-     * Obtain with runnable.
-     *
-     * @param runnableTrue  the runnable true
-     * @param runnableFalse the runnable false
+     * This functions executes runnableTrue if increase is true, else
+     * executes runnableFalse.
+     * It is very versatile, so it can be used in BombNumber and in BombRange.
+     * @param runnableTrue  the runnable to execute if increase is true
+     * @param runnableFalse the runnable to execute if increase is false
      */
     public void obtainWithRunnable(Runnable runnableTrue, Runnable runnableFalse) {
         if (increase) {

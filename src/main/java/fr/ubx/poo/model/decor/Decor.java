@@ -14,16 +14,15 @@ import fr.ubx.poo.model.go.character.Player;
 abstract public class Decor extends Entity {
 
     /**
-     * Obtain.
-     *
-     * @param player the player
+     * This function's behavior changes depending on the decor.
+     * @param player the player obtaining the decor.
      */
     public void obtain(Player player) {
     }
 
     /**
      * Is walkable boolean.
-     *
+     * By default a decor isn't walkable.
      * @param character the character
      * @return the boolean
      */
@@ -33,7 +32,7 @@ abstract public class Decor extends Entity {
 
     /**
      * Stops bomb explosion boolean.
-     *
+     * By default a decor stops bomb explosion.
      * @return the boolean
      */
     public boolean stopsBombExplosion() {
@@ -42,8 +41,8 @@ abstract public class Decor extends Entity {
 
     /**
      * Move.
-     *
-     * @param player the player
+     * A decor doesn't move by default.
+     * @param player the player that moves the decor.
      */
     public void move(Player player) {
 
@@ -51,7 +50,7 @@ abstract public class Decor extends Entity {
 
     /**
      * Is destroyable boolean.
-     *
+     * By default a decor isn't destroyable by a bomb.
      * @return the boolean
      */
     public boolean isDestroyable() {
@@ -60,7 +59,7 @@ abstract public class Decor extends Entity {
 
     /**
      * Is to remove boolean.
-     *
+     * By default a decor should not be removed if a player walks on it.
      * @return the boolean
      */
     public boolean isToRemove() {

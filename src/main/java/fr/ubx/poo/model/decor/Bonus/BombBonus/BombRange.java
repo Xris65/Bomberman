@@ -15,6 +15,10 @@ public class BombRange extends BombBonus {
         super(increase);
     }
 
+    /**
+     * addBombRange if BombRange is a bonus, else removeBombRange.
+     * @param player the player affected by the bonus.
+     */
     @Override
     public void obtain(Player player) {
         super.obtainWithRunnable(player::addBombRange, player::removeBombRange);
