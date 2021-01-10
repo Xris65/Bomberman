@@ -32,13 +32,14 @@ abstract public class Decor extends Entity {
         return false;
     }
 
+    public boolean isToRemove() {
+        return false;
+    }
+
     @Override
     public String toString() {
         return "Decor";
     }
 
-    public boolean isToRemove() {
-        return false;
-    }
 
 }

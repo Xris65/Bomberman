@@ -120,7 +120,8 @@ public final class GameEngine {
             player.moveBoxIfAble(game.getWorld());
         }
         if (input.isBomb()) {
-            if (game.getWorld().get(player.getPosition()) == null) {
+            World world = game.getWorld();
+            if (world.get(player.getPosition()) == null && !world.isThereAMonsterAt(player.getPosition())) {
                 if (player.getNumberOfBombs() < player.getBombCapacity()) {
 
                     BombObject bomb = new BombObject(game, player.getPosition(), player.getBombRange(), now);
@@ -280,10 +281,8 @@ public final class GameEngine {
             if (self.isToRemove()) {
                 self.remove();
             }
-            System.out.println("" + self.getWorld() + " == " + game.getWorld() + " -> " + self.getWorld().equals(game.getWorld()));
             if (self.getWorld().equals(game.getWorld())) {
                 self.render();
-                System.out.println("I am not called");
                 self.adjustOpacity();
             }
 

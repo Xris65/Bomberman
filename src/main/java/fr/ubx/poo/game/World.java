@@ -101,4 +101,13 @@ public class World {
         return ((p.x >= 0) && (p.x < dimension.width) && (p.y >= 0) && (p.y < dimension.height));
     }
 
+    public boolean isThereAMonsterAt(Position position) {
+        for (Monster monster : getMonsters()) {
+            if (monster.getPosition().equals(position)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
