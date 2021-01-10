@@ -138,6 +138,7 @@ public final class GameEngine {
             World world = game.getWorld();
             for (Direction d : Direction.values()) {
                 if (world.get(d.nextPosition(playerPos)) instanceof Door
+                        && d == player.getDirection()
                         && (((Door) world.get(d.nextPosition(playerPos))).isClosed())) {
                     if (player.getNumberOfKeys() > 0) {
                         player.removeKey();
