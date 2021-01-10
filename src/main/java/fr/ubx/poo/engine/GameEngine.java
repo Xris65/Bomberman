@@ -118,19 +118,15 @@ public final class GameEngine {
         }
         if (input.isMoveDown()) {
             player.requestMove(Direction.S);
-            player.moveBoxIfAble(game.getWorld());
         }
         if (input.isMoveLeft()) {
             player.requestMove(Direction.W);
-            player.moveBoxIfAble(game.getWorld());
         }
         if (input.isMoveRight()) {
             player.requestMove(Direction.E);
-            player.moveBoxIfAble(game.getWorld());
         }
         if (input.isMoveUp()) {
             player.requestMove(Direction.N);
-            player.moveBoxIfAble(game.getWorld());
         }
         if (input.isBomb()) {
             World world = game.getWorld();

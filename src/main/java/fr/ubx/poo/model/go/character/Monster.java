@@ -10,13 +10,24 @@ import java.util.Random;
 
 public class Monster extends Character {
 
-    // time to move in ms
+    /**
+     * Instantiates a new Monster.
+     * @param game the game.
+     * @param position spawn position.
+     * @param timeToMove time period of monsters' every movement.
+     */
     public Monster(Game game, Position position, int timeToMove) {
         super(game, position, Direction.random());
         super.setTimeToAct(timeToMove);
         setLives(1);
     }
 
+    /**
+     *
+     * @param direction the direction
+     * @param world     the world
+     * @return
+     */
     public boolean canMove(Direction direction, World world) {
         if (super.canMove(direction, world)) {
             Position nextPosition = direction.nextPosition(getPosition());

@@ -12,7 +12,7 @@ import fr.ubx.poo.model.decor.*;
  */
 public class Player extends Character {
     /**
-     * If player is the winner.
+     * If player has won.
      */
     private boolean winner;
 
@@ -216,4 +216,9 @@ public class Player extends Character {
         return winner;
     }
 
+    @Override
+    public void requestMove(Direction direction) {
+        super.requestMove(direction);
+        moveBoxIfAble(game.getWorld());
+    }
 }
