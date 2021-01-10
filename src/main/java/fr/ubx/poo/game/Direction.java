@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public enum Direction {
     /**
-     * The N.
+     * The North.
      */
     N {
         @Override
@@ -20,7 +20,7 @@ public enum Direction {
         }
     },
     /**
-     * The E.
+     * The East.
      */
     E {
         @Override
@@ -29,7 +29,7 @@ public enum Direction {
         }
     },
     /**
-     * The S.
+     * The South.
      */
     S {
         @Override
@@ -38,7 +38,7 @@ public enum Direction {
         }
     },
     /**
-     * The W.
+     * The West.
      */
     W {
         @Override
@@ -60,18 +60,18 @@ public enum Direction {
 
 
     /**
-     * Next position position.
+     * Next position.
      *
-     * @param pos   the pos
+     * @param pos   the position
      * @param delta the delta
      * @return the position
      */
     public abstract Position nextPosition(Position pos, int delta);
 
     /**
-     * Next position position.
+     * Next position.
      *
-     * @param pos the pos
+     * @param pos the position
      * @return the position
      */
     final public Position nextPosition(Position pos) {

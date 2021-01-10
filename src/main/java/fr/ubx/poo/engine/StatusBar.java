@@ -70,6 +70,10 @@ public class StatusBar {
         root.getChildren().add(hBox);
     }
 
+    /**
+     * Updates the game level digit image everytime the game level is changed
+     * @param n game level
+     */
     private void updateLevel(int n) {
         if (n != gameLevel) {
             gameLevel = n;
@@ -91,7 +95,7 @@ public class StatusBar {
     }
 
     /**
-     * Update.
+     * Updates the status bar every frame.
      *
      * @param game the game
      */

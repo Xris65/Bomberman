@@ -24,6 +24,10 @@ public class Dimension {
         this.width = width;
     }
 
+    /**
+     * Used for printing the dimension values.
+     * @return string that contains the dimension values.
+     */
     @Override
     public String toString() {
         return "Dimension{" +

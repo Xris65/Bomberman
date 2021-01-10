@@ -18,24 +18,36 @@ public abstract class Sprite {
      * The constant size.
      */
     public static final int size = 40;
+    /**
+     * The layer.
+     */
     private final Pane layer;
+    /**
+     * The image view.
+     */
     private ImageView imageView;
+    /**
+     * The image.
+     */
     private Image image;
+    /**
+     * Confirms if a sprite is to remove or not.
+     */
     private boolean toRemove = false;
 
     /**
      * Is to remove boolean.
      *
-     * @return the boolean
+     * @return true if sprite is to be removed, false if not.
      */
     public boolean isToRemove() {
         return toRemove;
     }
 
     /**
-     * Sets to remove.
+     * Sets to remove boolean value.
      *
-     * @param toRemove the to remove
+     * @param toRemove true if sprite should be removed, false if not.
      */
     public void setToRemove(boolean toRemove) {
         this.toRemove = toRemove;
@@ -43,7 +55,7 @@ public abstract class Sprite {
 
 
     /**
-     * Gets image view.
+     * Gets the image view.
      *
      * @return the image view
      */
@@ -75,19 +87,19 @@ public abstract class Sprite {
     }
 
     /**
-     * Update image.
+     * Updates the image.
      */
     public abstract void updateImage();
 
     /**
-     * Gets position.
+     * Gets position of the sprite.
      *
      * @return the position
      */
     public abstract Position getPosition();
 
     /**
-     * Render.
+     * Renders the sprite.
      */
     public final void render() {
         if (imageView != null) {
@@ -101,7 +113,7 @@ public abstract class Sprite {
     }
 
     /**
-     * Remove.
+     * Removes sprite image and sets it up for delete.
      */
     public final void remove() {
         layer.getChildren().remove(imageView);

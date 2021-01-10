@@ -19,10 +19,10 @@ public class WorldBuilder {
     }
 
     /**
-     * Build map.
+     * Builds the map.
      *
-     * @param raw       the raw
-     * @param dimension the dimension
+     * @param raw       the raw version of the map
+     * @param dimension the dimension of the map
      * @return the map
      */
     public static Map<Position, Decor> build(WorldEntity[][] raw, Dimension dimension) {
@@ -38,6 +38,11 @@ public class WorldBuilder {
         return builder.grid;
     }
 
+    /**
+     * Processes the given entity into the corresponding Decor.
+     * @param entity the entity.
+     * @return the corresponding decor.
+     */
     private static Decor processEntity(WorldEntity entity) {
         return switch (entity) {
             case Stone -> new Stone();

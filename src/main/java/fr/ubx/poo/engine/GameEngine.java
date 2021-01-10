@@ -63,6 +63,11 @@ public final class GameEngine {
         buildAndSetGameLoop();
     }
 
+    /**
+     * Initializes the environment of the game, including scene,status bar,sprites,etc.
+     * @param stage the stage.
+     * @param game the game.
+     */
     private void initialize(Stage stage, Game game) {
         this.stage = stage;
         Group root = new Group();
@@ -92,7 +97,7 @@ public final class GameEngine {
     }
 
     /**
-     * Build and set game loop.
+     * Builds and set game loop.
      */
     protected final void buildAndSetGameLoop() {
         gameLoop = new AnimationTimer() {
@@ -110,6 +115,10 @@ public final class GameEngine {
         };
     }
 
+    /**
+     * Processes the keyboard input of the player.
+     * @param now actual time
+     */
     private void processInput(long now) {
         if (input.isExit()) {
             gameLoop.stop();
@@ -162,7 +171,6 @@ public final class GameEngine {
         input.clear();
     }
 
-
     private void showMessage(String msg, Color color) {
         Text waitingForKey = new Text(msg);
         waitingForKey.setTextAlignment(TextAlignment.CENTER);
@@ -182,6 +190,11 @@ public final class GameEngine {
         }.start();
     }
 
+    /**
+     * Updates the game environment, including monsters,player position and status,game map and status,etc.
+     *
+     * @param now actual time.
+     */
     private void update(long now) {
         player.update(now);
         game.getWorldManager().updateMonstersOnWorlds(now);
@@ -233,6 +246,9 @@ public final class GameEngine {
 
     }
 
+    /**
+     * Renders the graphical interface of the game, including the world,monsters,decorations,player,bombs,etc.
+     */
     private void render() {
         if (game.getWorld().isChanged()) {
 
@@ -301,7 +317,7 @@ public final class GameEngine {
     }
 
     /**
-     * Start.
+     * Starts the game loop.
      */
     public void start() {
         gameLoop.start();

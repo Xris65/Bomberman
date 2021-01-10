@@ -22,9 +22,21 @@ public class World {
      * The Dimension.
      */
     public final Dimension dimension;
+    /**
+     * Confirms if the world has changed or not.
+     */
     private boolean changed = false;
+    /**
+     * Array list containing monsters on this specific world.
+     */
     private ArrayList<Monster> monsters = new ArrayList<>();
+    /**
+     * Array list containing bombs on this specific world.
+     */
     private final ArrayList<BombObject> bombs = new ArrayList<>();
+    /**
+     * Array list containing bomb explosions on this specific world.
+     */
     private final ArrayList<ExplosionObject> explosions = new ArrayList<>();
 
     /**
@@ -39,7 +51,7 @@ public class World {
     /**
      * Gets bombs.
      *
-     * @return the bombs
+     * @return the bombs' array list
      */
     public ArrayList<BombObject> getBombs() {
         return bombs;
@@ -48,7 +60,7 @@ public class World {
     /**
      * Gets explosions.
      *
-     * @return the explosions
+     * @return the explosions' array list
      */
     public ArrayList<ExplosionObject> getExplosions() {
         return explosions;
@@ -57,34 +69,34 @@ public class World {
     /**
      * Gets monsters.
      *
-     * @return the monsters
+     * @return the monsters' array list
      */
     public ArrayList<Monster> getMonsters() {
         return monsters;
     }
 
     /**
-     * Is changed boolean.
+     * Confirms if the world has changed or not.
      *
-     * @return the boolean
+     * @return true if the world has changed, false if not.
      */
     public boolean isChanged() {
         return changed;
     }
 
     /**
-     * Sets changed.
+     * Sets changed boolean.
      *
-     * @param changed the changed
+     * @param changed the changed boolean
      */
     public void setChanged(boolean changed) {
         this.changed = changed;
     }
 
     /**
-     * Update monsters.
+     * Updates monsters.
      *
-     * @param now the now
+     * @param now the actual time.
      */
     public void updateMonsters(long now) {
         monsters.forEach(self -> self.update(now, this));
@@ -94,7 +106,7 @@ public class World {
     /**
      * Instantiates a new World.
      *
-     * @param raw the raw
+     * @param raw the raw world.
      */
     public World(WorldEntity[][] raw) {
         this.raw = raw;
@@ -103,10 +115,10 @@ public class World {
     }
 
     /**
-     * Find monsters array list.
+     * Find monsters in the current world.
      *
      * @param game the game
-     * @return the array list
+     * @return the array list containing all monsters in this world.
      */
     public ArrayList<Monster> findMonsters(Game game) {
         ArrayList<Monster> monsters = new ArrayList<>();
@@ -121,10 +133,10 @@ public class World {
     }
 
     /**
-     * Find player position.
+     * Finds player position.
      *
-     * @return the position
-     * @throws PositionNotFoundException the position not found exception
+     * @return the player position.
+     * @throws PositionNotFoundException the position not found exception.
      */
     public Position findPlayer() throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
@@ -138,20 +150,20 @@ public class World {
     }
 
     /**
-     * Get decor.
+     * Get the decor in the given position of the map.
      *
-     * @param position the position
-     * @return the decor
+     * @param position the position.
+     * @return the decor at the given position.
      */
     public Decor get(Position position) {
         return grid.get(position);
     }
 
     /**
-     * Set.
+     * Sets the content of the given position of the map to the given decor.
      *
-     * @param position the position
-     * @param decor    the decor
+     * @param position the position.
+     * @param decor    the decor.
      */
     public void set(Position position, Decor decor) {
         grid.put(position, decor);
@@ -159,9 +171,9 @@ public class World {
     }
 
     /**
-     * Clear.
+     * Clears the given position on that map position.
      *
-     * @param position the position
+     * @param position the position.
      */
     public void clear(Position position) {
         grid.remove(position);
@@ -169,29 +181,29 @@ public class World {
     }
 
     /**
-     * For each.
+     * Applies the function given to every element of the list.
      *
-     * @param fn the fn
+     * @param fn the function.
      */
     public void forEach(BiConsumer<Position, Decor> fn) {
         grid.forEach(fn);
     }
 
     /**
-     * Is inside boolean.
+     * Checks if the given position is inside the map or not.
      *
-     * @param p the p
-     * @return the boolean
+     * @param p the position.
+     * @return true if the position is inside, false if not.
      */
     public boolean isInside(Position p) {
         return ((p.x >= 0) && (p.x < dimension.width) && (p.y >= 0) && (p.y < dimension.height));
     }
 
     /**
-     * Is there a monster at boolean.
+     * Checks if there is a monster at the given position or not.
      *
-     * @param position the position
-     * @return the boolean
+     * @param position the position.
+     * @return true if there is a monster at that position, false if not.
      */
     public boolean isThereAMonsterAt(Position position) {
         for (Monster monster : getMonsters()) {

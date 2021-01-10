@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
  */
 public abstract class SpriteGameObject extends Sprite {
     /**
-     * The Go.
+     * The game object.
      */
     protected final GameObject go;
 
@@ -20,7 +20,7 @@ public abstract class SpriteGameObject extends Sprite {
 
 
     /**
-     * Instantiates a new Sprite game object.
+     * Instantiates a new game object sprite.
      *
      * @param layer the layer
      * @param image the image
