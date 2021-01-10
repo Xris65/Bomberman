@@ -20,6 +20,9 @@ import java.util.Properties;
 public class Game {
 
     private World world;
+
+
+
     private final WorldManager manager;
     private final Player player;
     /**
@@ -48,37 +51,10 @@ public class Game {
         }
     }
 
-    /**
-     * Changes world.
-     *
-     * @param goingUp boolean that confirms if we go to next or previous world.
-     */
-    public void changeWorld(boolean goingUp) {
-        if (goingUp) {
-            World nextWorld = manager.getNextWorld(this);
-            if (nextWorld == null) {
-                return;
-            } else {
-                world = nextWorld;
-            }
-        } else {
-            world = manager.getPreviousWorld();
-        }
-        Dimension dimension = world.dimension;
-        for (int x = 0; x < dimension.width; x++) {
-            for (int y = 0; y < dimension.height; y++) {
-                if (world.get(new Position(x, y)) instanceof Door)
-                    if (!((Door) world.get(new Position(x, y))).isClosed()) {
-                        if ((goingUp && ((Door) world.get(new Position(x, y))).isPrev())
-                                || !(goingUp) && !(((Door) world.get(new Position(x, y))).isPrev())) { //Si c'est la bonne porte
-                            player.setPosition(new Position(x, y));
-                            break;
-                        }
-                    }
-            }
-        }
-        world.setChanged(true);
+    public void setWorld(World world) {
+        this.world = world;
     }
+
 
     /**
      * Gets init player lives.

@@ -91,6 +91,7 @@ public final class GameEngine {
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         World w = game.getWorld();
+        // Create the monsters of the world
         for (Monster m : w.getMonsters()) {
             spriteMonsters.add(SpriteFactory.createMonster(layer, m));
         }
@@ -162,7 +163,7 @@ public final class GameEngine {
                         player.removeKey();
                         game.setToChange(true);
                         world.set(d.nextPosition(playerPos), new Door(false, false));
-                        game.changeWorld(true);
+                        game.getWorldManager().changeWorld(true,game);
                         break;
                     }
                 }
@@ -229,6 +230,8 @@ public final class GameEngine {
             initialize(stage, game);
         }
 
+        // For every bomb in every world, check if any is at bombphase 5 (ready to explode)
+        // if any, make them explode.
         for (World gameWorld : game.getWorldManager().getWorlds()) {
             for (BombObject bomb : gameWorld.getBombs()) {
                 bomb.update(now);
@@ -236,14 +239,24 @@ public final class GameEngine {
                     ArrayList<Position> zone = bomb.getBombZone();
                     bomb.explode(now, zone);
                     for (Position position : zone) {
-                        // add to arraylist explosions
+                        // For each position the bomb exploded, add an explosion sprite
                         spriteExplosions.add(new SpriteExplosion(layer, position, bomb.getWorld()));
                     }
                 }
             }
         }
 
-
+        // For every world, clear bombs that are phase 5
+        for (World gameWorld : game.getWorldManager().getWorlds()) {
+            Iterator<BombObject> bombObjectIterator = gameWorld.getBombs().iterator();
+            while (bombObjectIterator.hasNext()) {
+                BombObject bomb = bombObjectIterator.next();
+                if (bomb.getBombPhase() == 5) {
+                    gameWorld.clear(bomb.getPosition());
+                    bombObjectIterator.remove();
+                }
+            }
+        }
     }
 
     /**
@@ -282,25 +295,10 @@ public final class GameEngine {
             bomb.render();
             if (bomb.isToRemove()) {
                 player.addBomb();
-            }
-        }
-        for (World gameWorld : game.getWorldManager().getWorlds()) {
-            Iterator<BombObject> bombObjectIterator = gameWorld.getBombs().iterator();
-            while (bombObjectIterator.hasNext()) {
-                BombObject bomb = bombObjectIterator.next();
-                if (bomb.getBombPhase() == 5) {
-                    gameWorld.clear(bomb.getPosition());
-                    System.out.println("cleared");
-                    bombObjectIterator.remove();
-                }
+                bomb.remove();
             }
         }
 
-        spriteBombs.forEach(self -> {
-            if (self.isToRemove()) {
-                self.remove();
-            }
-        });
         spriteBombs.removeIf(Sprite::isToRemove);
 
         spriteExplosions.forEach(self -> {

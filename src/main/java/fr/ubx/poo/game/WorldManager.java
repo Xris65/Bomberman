@@ -1,5 +1,6 @@
 package fr.ubx.poo.game;
 
+import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 
@@ -98,6 +99,42 @@ public class WorldManager {
     public World getPreviousWorld() {
         currentWorldIndex--;
         return worlds.get(currentWorldIndex);
+    }
+
+
+    /**
+     * Changes world.
+     *
+     * @param goingUp boolean that confirms if we go to next or previous world.
+     */
+    public void changeWorld(boolean goingUp, Game game) {
+        if (goingUp) {
+            World nextWorld = getNextWorld(game);
+            if (nextWorld == null) {
+                return;
+            } else {
+                game.setWorld(nextWorld);
+            }
+        } else {
+            game.setWorld(getPreviousWorld());
+        }
+        World world = game.getWorld();
+        Dimension dimension = world.dimension;
+        for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (world.get(new Position(x, y)) instanceof Door) {
+                    Door door = (Door) world.get(new Position(x, y));
+                    if (!door.isClosed()) {
+                        if ((goingUp && door.isPrev())
+                                || !(goingUp) && !(door.isPrev())) { //Si c'est la bonne porte
+                            game.getPlayer().setPosition(new Position(x, y));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        world.setChanged(true);
     }
 
     /**

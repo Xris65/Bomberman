@@ -193,19 +193,17 @@ public class Player extends Character {
      * @return true if the newPosition is walkable or not.
      */
     private boolean handleNewPosition(Decor d, Position p) {
-        d.obtain(this);
-        if (d.isToRemove()) {
-            game.getWorld().clear(p);
-        }
-
-        if (d instanceof Door) {
-            if (!((Door) d).isClosed()) {
-                game.changeWorld(!((Door) d).isPrev());
-                game.setToChange(true);
+        if(d.isWalkable(this)){
+            d.obtain(this);
+            if(d instanceof Door)
                 return false;
+            if (d.isToRemove()) {
+                game.getWorld().clear(p);
             }
+
+            return d.isWalkable(this);
         }
-        return d.isWalkable(this);
+        return false;
     }
 
     /**
