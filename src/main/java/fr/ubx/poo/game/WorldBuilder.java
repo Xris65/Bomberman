@@ -40,27 +40,42 @@ public class WorldBuilder {
 
     /**
      * Processes the given entity into the corresponding Decor.
+     *
      * @param entity the entity.
      * @return the corresponding decor.
      */
     private static Decor processEntity(WorldEntity entity) {
-        return switch (entity) {
-            case Stone -> new Stone();
-            case Tree -> new Tree();
-            case Box -> new Box();
-            case BombNumberDec -> new BombNumber(false);
-            case BombNumberInc -> new BombNumber(true);
-            case BombRangeDec -> new BombRange(false);
-            case BombRangeInc -> new BombRange(true);
-            case Heart -> new Heart();
-            case Key -> new Key();
-            case Princess -> new Princess();
-            case DoorNextClosed -> new Door(true, false);
-            case DoorNextOpened -> new Door(false, false);
-            case DoorPrevOpened -> new Door(false, true);
+        switch (entity) {
+            case Stone:
+                return new Stone();
+            case Tree:
+                return new Tree();
+            case Box:
+                return new Box();
+            case BombNumberDec:
+                return new BombNumber(false);
+            case BombNumberInc:
+                return new BombNumber(true);
+            case BombRangeDec:
+                return new BombRange(false);
+            case BombRangeInc:
+                return new BombRange(true);
+            case Heart:
+                return new Heart();
+            case Key:
+                return new Key();
+            case Princess:
+                return new Princess();
+            case DoorNextClosed:
+                return new Door(true, false);
+            case DoorNextOpened:
+                return new Door(false, false);
+            case DoorPrevOpened:
+                return new Door(false, true);
             // no bomb in raw, so this case is useless
             // case Bomb -> new Bomb();
-            default -> null;
-        };
+            default:
+                return null;
+        }
     }
 }
